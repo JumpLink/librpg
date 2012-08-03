@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriteset version="1.0" name="hase" width="4" height="3" spritewidth="32" spriteheight="32">
+ <layer name="hase" type="base" width="4" height="3" spritewidth="32" spriteheight="32">
+  <image source="NPC - Hase.png" trans="000000" width="128" height="96"/>
+ </layer>
+ <animation name="stay" direction="south" repeat="false">
+  <data>
+   <sprite gid="9" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="stay" direction="west" repeat="false">
+  <data>
+   <sprite gid="5" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="stay" direction="east" repeat="false">
+  <data>
+   <sprite gid="5" mirror="vertical"/>
+  </data>
+ </animation>
+ <animation name="stay" direction="north" repeat="false">
+  <data>
+   <sprite gid="1" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="go" direction="south" repeat="true">
+  <data>
+   <sprite gid="10" mirror="none"/>
+   <sprite gid="11" mirror="none"/>
+   <sprite gid="12" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="go" direction="west" repeat="true">
+  <data>
+   <sprite gid="6" mirror="none"/>
+   <sprite gid="7" mirror="none"/>
+   <sprite gid="8" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="go" direction="east" repeat="true">
+  <data>
+   <sprite gid="6" mirror="vertical"/>
+   <sprite gid="7" mirror="vertical"/>
+   <sprite gid="8" mirror="vertical"/>
+  </data>
+ </animation>
+ <animation name="go" direction="north" repeat="true">
+  <data>
+   <sprite gid="2" mirror="none"/>
+   <sprite gid="3" mirror="none"/>
+   <sprite gid="4" mirror="none"/>
+  </data>
+ </animation>
+</spriteset>

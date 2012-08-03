@@ -1,0 +1,20 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Compiled C files
+*.c
+
+# Binary Output folders
+bin
+doc
+tmp

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriteset version="1.0" name="Hero" width="11" height="41" spritewidth="64" spriteheight="64">
+ <layer name="Player 1" type="base" width="11" height="41" spritewidth="64" spriteheight="64">
+  <image source="player1.png" trans="000000" width="704" height="2624"/>
+ </layer>
+ <animation name="stay" direction="south" repeat="false">
+  <data>
+   <sprite gid="1" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="stay" direction="west" repeat="false">
+  <data>
+   <sprite gid="2" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="stay" direction="east" repeat="false">
+  <data>
+   <sprite gid="2" mirror="vertical"/>
+  </data>
+ </animation>
+ <animation name="stay" direction="north" repeat="false">
+  <data>
+   <sprite gid="3" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="go" direction="south" repeat="true">
+  <data>
+   <sprite gid="12" mirror="none"/>
+   <sprite gid="1" mirror="none"/>
+   <sprite gid="23" mirror="none"/>
+   <sprite gid="1" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="go" direction="west" repeat="true">
+  <data>
+   <sprite gid="13" mirror="none"/>
+   <sprite gid="2" mirror="none"/>
+   <sprite gid="24" mirror="none"/>
+   <sprite gid="2" mirror="none"/>
+  </data>
+ </animation>
+ <animation name="go" direction="east" repeat="true">
+  <data>
+   <sprite gid="13" mirror="vertical"/>
+   <sprite gid="2" mirror="vertical"/>
+   <sprite gid="24" mirror="vertical"/>
+   <sprite gid="2" mirror="vertical"/>
+  </data>
+ </animation>
+ <animation name="go" direction="north" repeat="true">
+  <data>
+   <sprite gid="14" mirror="none"/>
+   <sprite gid="3" mirror="none"/>
+   <sprite gid="25" mirror="none"/>
+   <sprite gid="3" mirror="none"/>
+  </data>
+ </animation>
+</spriteset>
