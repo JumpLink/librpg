@@ -14,22 +14,22 @@
  *	Patrick König <knuffi@gmail.com>
  */
 
-using HMP;
+using Hmwd;
 
-namespace HMP {
+namespace Hmwd {
 	/**
 	 * Klasse zur Speicherung einer TileSet Referenz.
 	 * Jede Map hat eine oder mehrere Tiles die aber vom TileManager verwaltet werden.
 	 * Daher dient diese Klasse fuer Maps zur Speicherung der Referenzdaten und Zusatzinformatioen.
-	 * @see HMP.Map
-	 * @see HMP.TileSet
-	 * @see HMP.TileSetManager
+	 * @see Hmwd.Map
+	 * @see Hmwd.TileSet
+	 * @see Hmwd.TileSetManager
 	 */
 	public class TileSetReference {
 		/**
 		 * Quelle des TileSets.
 		 */
-		public HMP.TileSet source;
+		public Hmwd.TileSet source;
 		/**
 		 * The first global tile ID of this tileset (this global ID maps to the first tile in this tileset).
 		 */
@@ -39,7 +39,7 @@ namespace HMP {
 		 * @param firstgid Die erste gid die von diesem diesem TileSet verwendet wird
 		 * @param source TileSet-Quelle als Referenzangabe.
 		 */
-		public TileSetReference(uint firstgid, HMP.TileSet source) {
+		public TileSetReference(uint firstgid, Hmwd.TileSet source) {
 
 			this.firstgid = firstgid;
 			this.source = source;

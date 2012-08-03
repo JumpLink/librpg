@@ -16,8 +16,8 @@
 using Gee;
 using GLib;
 
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse fuer TileSetManager
 	 */
@@ -49,10 +49,10 @@ namespace HMP {
 		 * @param folder der Ordnername aus dem gelesen werden soll.
 		 */
 		private void loadAllFromFolder(string folder = "./data/tileset/") {
-			Gee.List<string> files = HMP.File.loadAllFromFolder(folder, ".tsx");
+			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tsx");
 			foreach (string filename in files) {
 				print("Dateiname: %s\n\n", filename);
-				tileset.add(new HMP.TileSet.fromPath(folder, filename));
+				tileset.add(new Hmwd.TileSet.fromPath(folder, filename));
 			}
 		}
 		/**

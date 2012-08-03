@@ -15,14 +15,14 @@
  */
 using Gee;
 using GLib;
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse fuer den MapManager, mit dieser Klasse werden alle Maps im Spiel verwaltet.
 	 * Sie kann beispielsweise alle Maps aus einem angegebenen Verzeichnis Laden.
 	 */
 	public class MapManager {
-		Gee.List<HMP.Map> map;
+		Gee.List<Hmwd.Map> map;
 		/**
 		 * Konstruktor mit uebergebenem Ordner fuer das Map-Verzeichnis.
 		 * @param folder Verzeichnis der Maps, default ist: "./data/map/".
@@ -31,7 +31,7 @@ namespace HMP {
 		requires (TILESETMANAGER != null)
 		{
 			print("Erstelle MapManager\n");
-			map = new Gee.ArrayList<HMP.Map>();
+			map = new Gee.ArrayList<Hmwd.Map>();
 			loadAllFromFolder(folder);
 		}
 		/**
@@ -52,9 +52,9 @@ namespace HMP {
 		 */
 		private void loadAllFromFolder(string folder) {
 			//print("Fuehre MapManager.loadAllFromPath mit folder %s aus.\n", folder);
-			Gee.List<string> files = HMP.File.loadAllFromFolder(folder, ".tmx");
+			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tmx");
 			foreach (string filename in files) {
-				map.add(new HMP.Map.fromPath(folder, filename));
+				map.add(new Hmwd.Map.fromPath(folder, filename));
 			}
 		}
 
@@ -64,21 +64,21 @@ namespace HMP {
 		 * @param filename Dateiname der gesuchten Map
 		 * @return Bei Erfolg die gefundene Map, sonst ein neues Objekt Map
 		 */
-		public HMP.Map getFromFilename(string filename) {
-			foreach (HMP.Map m in map)
+		public Hmwd.Map getFromFilename(string filename) {
+			foreach (Hmwd.Map m in map)
 					if (m.filename == filename) {
 						print("Map gefunden!\n");
 						return m;
 					}
 						
-			return new HMP.Map();
+			return new Hmwd.Map();
 		}
 		/**
 		 * Gibt die Werte aller Maps in der Liste aus.
 		 */
 		public void printAll() {
 			print("=====ALL MAPS====\n");
-			foreach (HMP.Map m in map) {
+			foreach (Hmwd.Map m in map) {
 					m.printAll();
 	   		}
 		}
@@ -87,7 +87,7 @@ namespace HMP {
 		 * Altert alle Maps um einen Tag.
 		 */
 		// public void age () {
-		// 	foreach (HMP.Map m in map)
+		// 	foreach (Hmwd.Map m in map)
 		// 		m.age();
 		// }
 	}

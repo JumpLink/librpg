@@ -15,9 +15,9 @@
  */
 
 using GLib;
-using HMP;
+using Hmwd;
 using Clutter;
-namespace HMP {
+namespace Hmwd {
 	/**
 	 * Klasse zur Speicherung einer Textur und um diese an OpenGL zu binden.
 	 */
@@ -31,8 +31,8 @@ namespace HMP {
 		// 	get {return cogl_tex.get_height ();}
 		// 	//set {cogl_tex.set_height ((float)value);}
 		// }
-		// public  HMP.Colorspace colorspace {
-		// 	get { return HMP.Colorspace.fromCogl(cogl_tex.pixel_format); }
+		// public  Hmwd.Colorspace colorspace {
+		// 	get { return Hmwd.Colorspace.fromCogl(cogl_tex.pixel_format); }
 		// }
 
 		// public CoglTexture() {
@@ -58,14 +58,14 @@ namespace HMP {
 		// 	// 								(int)base.width,
 		// 	// 								(int)base.height,
 		// 	// 								pixbuf.get_rowstride(),
-		// 	// 								HMP.Colorspace.fromGdkPixbuf(pixbuf).to_channel(),
+		// 	// 								Hmwd.Colorspace.fromGdkPixbuf(pixbuf).to_channel(),
 		// 	// 								Clutter.TextureFlags.NONE
 		// 	// 							   );
 		// }
 		// /**
 		//  *
 		//  */
-		// // public override void draw( int x, int y, double zoff, Mirror mirror = HMP.Mirror.NONE) {
+		// // public override void draw( int x, int y, double zoff, Mirror mirror = Hmwd.Mirror.NONE) {
 		// // 	print("TODO");
 		// // }
 	}

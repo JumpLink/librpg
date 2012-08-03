@@ -15,10 +15,10 @@
  */
 
 using GLib;
-using HMP;
+using Hmwd;
 using GtkClutter;
 using Gdk;
-namespace HMP {
+namespace Hmwd {
 	/**
 	 * Klasse zur Speicherung einer Textur und um diese an OpenGL zu binden.
 	 */
@@ -61,7 +61,7 @@ namespace HMP {
 		/**
 		 *
 		 */
-		// public override void draw( int x, int y, double zoff, Mirror mirror = HMP.Mirror.NONE) {
+		// public override void draw( int x, int y, double zoff, Mirror mirror = Hmwd.Mirror.NONE) {
 		// 	//TODO
 		// 	print("TODO");
 		// }

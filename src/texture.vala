@@ -15,15 +15,15 @@
  */
 
 using GLib;
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse zur Speicherung einer Textur und um diese an OpenGL zu binden.
 	 */
 	public interface Texture {
 		public abstract double width {get;set;}
 		public abstract double height {get;set;}
-		public abstract HMP.Colorspace colorspace {get;}
+		public abstract Hmwd.Colorspace colorspace {get;}
 		public abstract void* pixels {get;}
 		public abstract bool has_alpha {get;}
 		/**
@@ -38,7 +38,7 @@ namespace HMP {
 		/**
 		 *
 		 */
-		//public abstract void draw( int x, int y, double zoff, Mirror mirror = HMP.Mirror.NONE);
+		//public abstract void draw( int x, int y, double zoff, Mirror mirror = Hmwd.Mirror.NONE);
 
 		/**
 		 * Gibt die Werte der Textur auf der Konsole aus.

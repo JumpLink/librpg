@@ -10,18 +10,18 @@
  *	Pascal Garber <pascal.garber@gmail.com>
  */
 
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	public class GdkTextureFactory {
 		public GdkTextureFactory() {
 
 		}
-		public HMP.GdkTexture empty () {
+		public Hmwd.GdkTexture empty () {
 			return new OpenGLTexture();
 			//return new ClutterTexture();
 		}
-		public HMP.GdkTexture fromPixbuf(Gdk.Pixbuf pixbuf) {
-			HMP.GdkTexture tex = this.empty();
+		public Hmwd.GdkTexture fromPixbuf(Gdk.Pixbuf pixbuf) {
+			Hmwd.GdkTexture tex = this.empty();
 			tex.loadFromPixbuf(pixbuf);
 			return tex;
 		}

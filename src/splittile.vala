@@ -13,8 +13,8 @@
  *	Ole Lorenzen <ole.lorenzen@gmx.net>
  *	Patrick König <knuffi@gmail.com>
  */
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse fuer unterteilte Tiles
 	 */
@@ -34,7 +34,7 @@ namespace HMP {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see HMP.Tile.printValues
+			 * @see Hmwd.Tile.printValues
 			 */
 			public override void printValues (){
 				print("ich bin ein reftile: ");
@@ -42,7 +42,7 @@ namespace HMP {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see HMP.Tile.calcEdges
+			 * @see Hmwd.Tile.calcEdges
 			 */
 			public override void calcEdges (TileType[] neighbours) {
 				assert (neighbours.length == 8);

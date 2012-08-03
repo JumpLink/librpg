@@ -18,3 +18,7 @@
 bin
 doc
 tmp
+lib
+
+# Node
+node_modules

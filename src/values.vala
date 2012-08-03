@@ -13,10 +13,10 @@
  *	Ole Lorenzen <ole.lorenzen@gmx.net>
  *	Patrick König <knuffi@gmail.com>
  */
-using HMP;
+using Hmwd;
 using GL;
 using Cogl;
-namespace HMP {
+namespace Hmwd {
 	const int TIMER_CALLS_PS = 30;
 
 	/**
@@ -116,13 +116,13 @@ namespace HMP {
 
 		public string to_string () {
 			switch (this) {
-				case HMP.Direction.NORTH:
+				case Hmwd.Direction.NORTH:
 					return "north";
-				case HMP.Direction.EAST:
+				case Hmwd.Direction.EAST:
 					return "east";
-				case HMP.Direction.WEST:
+				case Hmwd.Direction.WEST:
 					return "west";
-				case HMP.Direction.SOUTH:
+				case Hmwd.Direction.SOUTH:
 					return "south";
 				default:
 					assert_not_reached();
@@ -131,13 +131,13 @@ namespace HMP {
 		public static Direction parse (string str) {
 			switch (str) {
 				case "north":
-					return HMP.Direction.NORTH;
+					return Hmwd.Direction.NORTH;
 				case "east":
-					return HMP.Direction.EAST;
+					return Hmwd.Direction.EAST;
 				case "west":
-					return HMP.Direction.WEST;
+					return Hmwd.Direction.WEST;
 				case "south":
-					return HMP.Direction.SOUTH;
+					return Hmwd.Direction.SOUTH;
 				default:
 					assert_not_reached();
 			}
@@ -221,10 +221,10 @@ namespace HMP {
 		public static SpriteLayerType parse (string str) {
 			switch (str) {
 				case "item":
-					return HMP.SpriteLayerType.ITEM;
+					return Hmwd.SpriteLayerType.ITEM;
 				case "base":
 				default:
-					return HMP.SpriteLayerType.BASE;
+					return Hmwd.SpriteLayerType.BASE;
 			}
 		}
 	}
@@ -273,11 +273,11 @@ namespace HMP {
 
 		public string to_string () {
 			switch (this) {
-				case HMP.Mirror.VERTICAL:
+				case Hmwd.Mirror.VERTICAL:
 					return "vertical";
-				case  HMP.Mirror.HORIZONTAL:
+				case  Hmwd.Mirror.HORIZONTAL:
 					return "horizontal";
-				case HMP.Mirror.NONE:
+				case Hmwd.Mirror.NONE:
 					return "none";
 				default:
 					assert_not_reached();
@@ -288,13 +288,13 @@ namespace HMP {
 			switch (str) {
 				case "vertical":
 				case "VERTICAL":
-					return HMP.Mirror.VERTICAL;
+					return Hmwd.Mirror.VERTICAL;
 				case "horizontal":
 				case "HORIZONTAL":
-					return HMP.Mirror.HORIZONTAL;
+					return Hmwd.Mirror.HORIZONTAL;
 				case "none":
 				case "NONE":
-					return HMP.Mirror.NONE;
+					return Hmwd.Mirror.NONE;
 				default:
 					assert_not_reached();
 			}
@@ -305,40 +305,40 @@ namespace HMP {
 		RGBA;
 		public GLenum to_opengl () {
 			switch (this) {
-				case HMP.Colorspace.RGB:
+				case Hmwd.Colorspace.RGB:
 					return GL.GL_RGB;
-				case  HMP.Colorspace.RGBA:
+				case  Hmwd.Colorspace.RGBA:
 					return GL.GL_RGBA;
 				default:
 					assert_not_reached();
 			}
 		}
-		public static HMP.Colorspace fromGdkPixbuf (Gdk.Pixbuf pixbuf) {
+		public static Hmwd.Colorspace fromGdkPixbuf (Gdk.Pixbuf pixbuf) {
 			if(pixbuf.colorspace == Gdk.Colorspace.RGB) {
 				if (pixbuf.has_alpha) {
-					return HMP.Colorspace.RGBA;
+					return Hmwd.Colorspace.RGBA;
 				} else {
-					return HMP.Colorspace.RGB;
+					return Hmwd.Colorspace.RGB;
 				}
 			} else {
 				assert_not_reached();
 			}
 		}
-		public static HMP.Colorspace fromCogl (Cogl.PixelFormat format) {
+		public static Hmwd.Colorspace fromCogl (Cogl.PixelFormat format) {
 			switch (format) {
 				case Cogl.PixelFormat.RGB_888:
-					return HMP.Colorspace.RGB;
+					return Hmwd.Colorspace.RGB;
 				case Cogl.PixelFormat.RGBA_8888:
-					return HMP.Colorspace.RGBA;
+					return Hmwd.Colorspace.RGBA;
 				default:
 					assert_not_reached();
 			}
 		}
 		public int to_channel () {
 			switch (this) {
-				case HMP.Colorspace.RGB:
+				case Hmwd.Colorspace.RGB:
 					return 3;
-				case  HMP.Colorspace.RGBA:
+				case  Hmwd.Colorspace.RGBA:
 					return 4;
 				default:
 					assert_not_reached();
@@ -346,9 +346,9 @@ namespace HMP {
 		}
 		public bool has_alpha () {
 			switch (this) {
-				case HMP.Colorspace.RGB:
+				case Hmwd.Colorspace.RGB:
 					return false;
-				case  HMP.Colorspace.RGBA:
+				case  Hmwd.Colorspace.RGBA:
 					return true;
 				default:
 					assert_not_reached();
@@ -376,15 +376,15 @@ namespace HMP {
 				case "same":
 				case "Same":
 				case "SAME":
-					return HMP.DrawLevel.SAME;
+					return Hmwd.DrawLevel.SAME;
 				case "over":
 				case "Over":
 				case "OVER":
-					return HMP.DrawLevel.OVER;
+					return Hmwd.DrawLevel.OVER;
 				case "under":
 				case "Under":
 				case "UNDER":
-					return HMP.DrawLevel.UNDER;
+					return Hmwd.DrawLevel.UNDER;
 				default:
 					assert_not_reached();
 			}

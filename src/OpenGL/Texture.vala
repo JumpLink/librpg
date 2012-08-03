@@ -12,8 +12,8 @@
 
 using GL;
 using GLib;
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse zur Speicherung einer Textur und um diese an OpenGL zu binden.
 	 */
@@ -78,26 +78,26 @@ namespace HMP {
 		/**
 		 *
 		 */
-		// public override void draw( int x, int y, double zoff, Mirror mirror = HMP.Mirror.NONE) {
+		// public override void draw( int x, int y, double zoff, Mirror mirror = Hmwd.Mirror.NONE) {
 		// 	draw_direct(x,y,zoff,mirror);
 		// }
 		/**
 		 *
 		 */
-		// private void draw_list( int x, int y, double zoff, Mirror mirror = HMP.Mirror.NONE) {
+		// private void draw_list( int x, int y, double zoff, Mirror mirror = Hmwd.Mirror.NONE) {
 		// 	/* Ueberpruefung ob zu zeichnender Bereich innerhalb des Fensters liegt */
 		// 	if (y < VIEW.window_height && x < VIEW.window_width) {
 		// 		glPushMatrix();
 		// 			glTranslatef((GL.GLfloat)x,(GL.GLfloat)y,(GL.GLfloat)zoff);
 		// 			bindTexture();
 		// 			switch (mirror) {
-		// 				case HMP.Mirror.NONE:
+		// 				case Hmwd.Mirror.NONE:
 		// 					glCallList(displaylistID);
 		// 				break;
-		// 				case HMP.Mirror.VERTICAL:
+		// 				case Hmwd.Mirror.VERTICAL:
 		// 					glCallList(displaylistID);
 		// 				break;
-		// 				case HMP.Mirror.HORIZONTAL:
+		// 				case Hmwd.Mirror.HORIZONTAL:
 		// 					glCallList(displaylistID);
 		// 				break;
 		// 			}
@@ -108,11 +108,11 @@ namespace HMP {
 		/**
 		 *
 		 */
-		// private void draw_direct( int x, int y, double zoff, Mirror mirror = HMP.Mirror.NONE) {
+		// private void draw_direct( int x, int y, double zoff, Mirror mirror = Hmwd.Mirror.NONE) {
 		// 	/* Ueberpruefung ob zu zeichnender Bereich innerhalb des Fensters liegt */
 		// 	if (y < VIEW.window_height && x < VIEW.window_width) {
 		// 		switch (mirror) {
-		// 			case HMP.Mirror.NONE:
+		// 			case Hmwd.Mirror.NONE:
 		// 				bindTexture();
 		// 				glBegin (GL_QUADS);
 		// 					glTexCoord2d(0,0);
@@ -125,7 +125,7 @@ namespace HMP {
 		// 						glVertex3d ( x + width, y, zoff);
 		// 				glEnd ();
 		// 			break;
-		// 			case HMP.Mirror.VERTICAL:
+		// 			case Hmwd.Mirror.VERTICAL:
 		// 				bindTexture();
 		// 				glBegin (GL_QUADS);
 		// 					glTexCoord2d(1,0);
@@ -138,7 +138,7 @@ namespace HMP {
 		// 						glVertex3d ( x + width, y, zoff);
 		// 				glEnd ();
 		// 			break;
-		// 			case HMP.Mirror.HORIZONTAL:
+		// 			case Hmwd.Mirror.HORIZONTAL:
 		// 				bindTexture();
 		// 				glBegin (GL_QUADS);
 		// 					glTexCoord2d(0,1);

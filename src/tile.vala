@@ -13,9 +13,9 @@
  *	Ole Lorenzen <ole.lorenzen@gmx.net>
  *	Patrick König <knuffi@gmail.com>
  */
-using HMP;
+using Hmwd;
 using Gdk;
-namespace HMP {
+namespace Hmwd {
 	/**
 	 * Allgemeine Klasse fuer Tiles
 	 */

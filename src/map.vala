@@ -14,7 +14,7 @@
  *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
-namespace HMP {
+namespace Hmwd {
 	/**
 	 * Klasse fuer Maps.
 	 * Diese Klasse dient zur Speicherung von Mapinformationen.
@@ -64,7 +64,7 @@ namespace HMP {
 		/**
 		 * Tilesets die für auf der Map verwendet werden
 		 */
-		public Gee.List<HMP.TileSetReference> tileset = new Gee.ArrayList<TileSetReference>();
+		public Gee.List<Hmwd.TileSetReference> tileset = new Gee.ArrayList<TileSetReference>();
 		/**
 		 * Layer der Map ueber dem Helden
 		 */
@@ -128,9 +128,9 @@ namespace HMP {
 		 * @param gid Die zu der das passende TileSet gesucht werden soll.
 		 * @return Das gefundene TileSetReference.
 		 */
-		public static TileSetReference getTileSetRefFromGid(Gee.List<HMP.TileSetReference> tilesetrefs, uint gid) {	
-			HMP.TileSetReference found = tilesetrefs[0];
-			foreach (HMP.TileSetReference tsr in tilesetrefs) {
+		public static TileSetReference getTileSetRefFromGid(Gee.List<Hmwd.TileSetReference> tilesetrefs, uint gid) {	
+			Hmwd.TileSetReference found = tilesetrefs[0];
+			foreach (Hmwd.TileSetReference tsr in tilesetrefs) {
 				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
 					found = tsr;
 			}
@@ -229,17 +229,17 @@ namespace HMP {
 		{
 			print("====ALL LAYERS FROM MAP %s====\n", filename);
 			print("under ");
-			foreach (HMP.Layer l in layers_under) {
+			foreach (Hmwd.Layer l in layers_under) {
 				l.printValues();
 				l.printTiles();
 			}
 			print("same ");
-			foreach (HMP.Layer l in layers_same) {
+			foreach (Hmwd.Layer l in layers_same) {
 				l.printValues();
 				l.printTiles();
 			}
 			print("over ");
-			foreach (HMP.Layer l in layers_over) {
+			foreach (Hmwd.Layer l in layers_over) {
 				l.printValues();
 				l.printTiles();
 			}
@@ -251,7 +251,7 @@ namespace HMP {
 		requires (tileset != null)
 		{
 			print("====ALL TILESETS FROM MAP %s====\n", filename);
-			foreach (HMP.TileSetReference tsr in tileset) {
+			foreach (Hmwd.TileSetReference tsr in tileset) {
 				tsr.printValues();
 			}
 		}

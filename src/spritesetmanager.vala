@@ -16,8 +16,8 @@
 using Gee;
 using GLib;
 
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse fuer SpriteSetManager
 	 */
@@ -47,10 +47,10 @@ namespace HMP {
 		 * @param folder Ordnername aus dem gelesen werden soll.
 		 */
 		private void loadAllFromFolder(string folder = "./data/spriteset/") {
-			Gee.List<string> files = HMP.File.loadAllFromFolder(folder, ".ssx");
+			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".ssx");
 			foreach (string filename in files) {
 				print("Dateiname: %s\n\n", filename);
-				spriteset.add(new HMP.SpriteSet.fromPath(folder, filename));
+				spriteset.add(new Hmwd.SpriteSet.fromPath(folder, filename));
 			}
 		}
 		/**

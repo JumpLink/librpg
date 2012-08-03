@@ -13,8 +13,8 @@
  *	Ole Lorenzen <ole.lorenzen@gmx.net>
  *	Patrick König <knuffi@gmail.com>
  */
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse fuer Subtiles, ein Tile kann auch aus mehreren Subtiles bestehen.
 	 * Sie wird fuer zusammengesetzte Tiles verwendet um beispielsweise Wegkanten
@@ -31,7 +31,7 @@ namespace HMP {
 	 	}
 	 	/**
 		 * Aehnlich wie: 
-		 * {@link HMP.Tile.calcEdges}
+		 * {@link Hmwd.Tile.calcEdges}
 		 */
 	 	public void calcEdge (TileType [] neighbours, TileType type, uint location) {
 	 		assert (neighbours.length == 3);

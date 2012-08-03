@@ -15,8 +15,8 @@
  */
 using Gee;
 using Gdk;	
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse fuer SpriteSets
 	 */
@@ -123,7 +123,7 @@ namespace HMP {
 		requires (spritelayers != null)
 		{
 			foreach (SpriteLayer sl in spritelayers) {
-				if (sl.type == HMP.SpriteLayerType.BASE)
+				if (sl.type == Hmwd.SpriteLayerType.BASE)
 					return sl;
 				else return null;
 			}

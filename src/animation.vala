@@ -15,8 +15,8 @@
  */
 using Gee;
 using Gdk;	
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Allgemeine Klasse fuer Sprites
 	 */

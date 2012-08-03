@@ -15,8 +15,8 @@
  */
 using Gee;
 using Gdk;	
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Allgemeine Klasse fuer Sprites
 	 */
@@ -73,7 +73,7 @@ namespace HMP {
 						Pixbuf split = new Pixbuf(Gdk.Colorspace.RGB, pxb.get_has_alpha(), pxb.get_bits_per_sample(), (int) spritewidth, (int) spriteheight);
 						//print("y: %i x:%i spritewidth:%u spriteheight:%u count %i", y, x, spritewidth, spriteheight, count);
 						pxb.copy_area((int) spritewidth*x, (int) spriteheight*y, (int) spritewidth, (int) spriteheight, split, 0, 0);
-						sprites[y,x] = new HMP.Sprite(split);
+						sprites[y,x] = new Hmwd.Sprite(split);
 						//count++;
 						//tile[y,x].printValues();
 					}

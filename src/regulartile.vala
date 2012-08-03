@@ -14,20 +14,20 @@
  *	Patrick König <knuffi@gmail.com>
  */
 using Gdk;
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse fuer nicht unterteilte Tiles
 	 */
 		public class RegularTile : Tile {
 			/**
-			 * Konstruktor erzeugt standardmaessig ein Tile vom Typ HMP.TileType.NO_TILE
+			 * Konstruktor erzeugt standardmaessig ein Tile vom Typ Hmwd.TileType.NO_TILE
 			 * mit einer leeren Textur
-			 * @see HMP.TileType.EMPTY_TILE
+			 * @see Hmwd.TileType.EMPTY_TILE
 			 */
 			public RegularTile () {
 				tex = TEXTUREFACTORY.empty();
-				type = HMP.TileType.NO_TILE;
+				type = Hmwd.TileType.NO_TILE;
 			}
 			/**
 			 * Konstruktor mit uebergabe eines bereits existierenden und zu verwendenen Pixbuf.
@@ -35,11 +35,11 @@ namespace HMP {
 			 */
 			public RegularTile.fromPixbuf (Pixbuf pixbuf) {
 				tex = TEXTUREFACTORY.fromPixbuf(pixbuf);
-				type = HMP.TileType.EMPTY_TILE;
+				type = Hmwd.TileType.EMPTY_TILE;
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see HMP.Tile.printValues
+			 * @see Hmwd.Tile.printValues
 			 */
 			public override void printValues (){
 				print("ich bin ein RegularTile: ");
@@ -51,7 +51,7 @@ namespace HMP {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see HMP.Tile.calcEdges
+			 * @see Hmwd.Tile.calcEdges
 			 */
 			public override void calcEdges (TileType[] neighbours) {
 				//nichts

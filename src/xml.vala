@@ -22,8 +22,8 @@ using Xml;
 using Xml.XPath;
 using Gee;
 
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
     /**
      * Klasse fuer XML-Operationen
      */
@@ -145,7 +145,7 @@ namespace HMP {
 	/**
 	 * Unterklasse zum Spiechern von Dialogbaeumen.
 	 */
-	class DTX : HMP.XML {
+	class DTX : Hmwd.XML {
 		public DTX (string path) {
 			base (path);
 		}
@@ -159,13 +159,13 @@ namespace HMP {
 	 * Wir verwenden dafuer das Dateiformat von "Tiled", einem Mapeditor
 	 * der hier zu finden ist: [[http://www.mapeditor.org/|mapeditor.org]]<<BR>>
 	 * Derzeit werden noch keine komprimierten Dateien unterstuetzt.
-	 * Die zu ladenden Maps werden fuer gewoehnlich von der Klasse HMP.MapManager
+	 * Die zu ladenden Maps werden fuer gewoehnlich von der Klasse Hmwd.MapManager
 	 * uebernommen.<<BR>>
 	 * Die definitionen des Kartenformats sind [[https://github.com/bjorn/tiled/wiki/TMX-Map-Format|hier]] zu finden.
 	 *
-	 * @see HMP.MapManager
+	 * @see Hmwd.MapManager
 	 */
-	class TMX : HMP.XML {
+	class TMX : Hmwd.XML {
 		/**
 		 * Konstrukter der internen XML-Klasse.
 		 * Hier wird der Parser initialisiert und die uebergebene Datei vorbereitet.
@@ -215,8 +215,8 @@ namespace HMP {
 		 *
 		 * @return Liste mit allen gefundenen TileSets
 		 */
-		public Gee.List<HMP.TileSetReference> loadTileSets () {
-			Gee.List<HMP.TileSetReference> tileset = new Gee.ArrayList<HMP.TileSetReference>(); //Speichert diie TileSets in einer Liste
+		public Gee.List<Hmwd.TileSetReference> loadTileSets () {
+			Gee.List<Hmwd.TileSetReference> tileset = new Gee.ArrayList<Hmwd.TileSetReference>(); //Speichert diie TileSets in einer Liste
 			//XPath-Expression ausfuehren
 			unowned Xml.XPath.Object obj = ctx.eval_expression("/map/tileset");
 			if(obj==null) print("failed to evaluate xpath\n");
@@ -227,9 +227,9 @@ namespace HMP {
 				//Parst dessen properties
 				Gee.HashMap<string, string> properties = loadProperties(node);
 				//string zerschneiden um den Dateinamen zu bekommen
-				string filename = HMP.File.PathToFilename((string) properties.get ("source"));
+				string filename = Hmwd.File.PathToFilename((string) properties.get ("source"));
 				//Speichert die geparsten properties
-				HMP.TileSet source = TILESETMANAGER.getFromFilename(filename);
+				Hmwd.TileSet source = TILESETMANAGER.getFromFilename(filename);
 				int firstgid = int.parse(properties.get ("firstgid"));
 				//Den zusammengestellten neuen TileSet in die Liste einfuegen
 				tileset.add( new TileSetReference(firstgid, source));
@@ -242,11 +242,11 @@ namespace HMP {
 		 * In der XML sind dies die properties und die Kinder des layer-Tags.
 		 * Eine Karte kann mehrere Layer beinhalten, daher wird mit einer Liste von Layern gearbeitet.
 		 *
-		 * @return Gee.ArrayList vom Typ HMP.Layer aller Layer
-		 * @see HMP.Layer
+		 * @return Gee.ArrayList vom Typ Hmwd.Layer aller Layer
+		 * @see Hmwd.Layer
 		 * @see Gee.ArrayList
 		 */
-		public void loadLayers (Gee.List<HMP.TileSetReference> tilesetrefs, out Gee.List<Layer> layer_under, out Gee.List<Layer> layer_same, out Gee.List<Layer> layer_over) {
+		public void loadLayers (Gee.List<Hmwd.TileSetReference> tilesetrefs, out Gee.List<Layer> layer_under, out Gee.List<Layer> layer_same, out Gee.List<Layer> layer_over) {
 			//Gee.List<Layer> layer = new Gee.ArrayList<Layer>(); //Speichert die Layers
 			Xml.Node* node;
 			Gee.HashMap<string, string> properties;
@@ -354,17 +354,17 @@ namespace HMP {
 		 *
 		 * @return Array mit den geparsten Tiles
 		 */
-		public Tile[,] loadTiles (uint layer_number, uint width, uint height, Gee.List<HMP.TileSetReference> tilesetrefs) {
+		public Tile[,] loadTiles (uint layer_number, uint width, uint height, Gee.List<Hmwd.TileSetReference> tilesetrefs) {
 			//TODO: height und width vertauscht? -> Nein ist gewollt, erst y dann x.
-			HMP.Tile[,] tiles = new Tile[width,height]; // Zur Speicherung der Tiles
-			HMP.TileSetReference tmp_tilesetref;
-			HMP.Tile tmp_tile;
+			Hmwd.Tile[,] tiles = new Tile[width,height]; // Zur Speicherung der Tiles
+			Hmwd.TileSetReference tmp_tilesetref;
+			Hmwd.Tile tmp_tile;
 			int[,] ids = loadIDs("/map/layer["+(layer_number+1).to_string()+"]/data/tile", width, height);
 			for(int y = 0; y < height; y++) {
 				for(int x = 0; x < width; x++) {
 					if(ids[x,y] > 0) {
 						// Sucht das passende TileSetRef fuer die ids[y,x]
-						tmp_tilesetref = HMP.Map.getTileSetRefFromGid(tilesetrefs, ids[x,y]);
+						tmp_tilesetref = Hmwd.Map.getTileSetRefFromGid(tilesetrefs, ids[x,y]);
 						// Berechnet den Index des Tiles anhand der Gid und der firstgid und gibt das entsprechende Tile mit dem Index zurueck.
 						tmp_tile = tmp_tilesetref.source.getTileFromIndex(ids[x,y] - tmp_tilesetref.firstgid);
 						//TODO anhand der ID den echten TileTyp bestimmen.
@@ -393,7 +393,7 @@ namespace HMP {
 	/**
 	 * Klasse fuer XML-Operationen
 	 */
-	class TSX : HMP.XML {
+	class TSX : Hmwd.XML {
 		public TSX(string path) {
 			base(path);
 		}
@@ -531,7 +531,7 @@ namespace HMP {
 	 * Wir verwenden dafuer ein eigenes Dateiformat an das der Maps angelehnt.
 	 *
 	 */
-	class SSX : HMP.XML {
+	class SSX : Hmwd.XML {
 		/**
 		 * Konstrukter der internen XML-Klasse.
 		 * Hier wird der Parser initialisiert und die uebergebene Datei vorbereitet.
@@ -579,8 +579,8 @@ namespace HMP {
 		 * In der XML sind dies die properties und die Kinder des layer-Tags.
 		 * Eine Karte kann mehrere Layer beinhalten, daher wird mit einer Liste von Layern gearbeitet.
 		 *
-		 * @return Gee.ArrayList vom Typ HMP.Layer aller Layer
-		 * @see HMP.Layer
+		 * @return Gee.ArrayList vom Typ Hmwd.Layer aller Layer
+		 * @see Hmwd.Layer
 		 * @see Gee.ArrayList
 		 */
 		public Gee.List<Animation> loadAnimations (uint width, uint height) {
@@ -605,7 +605,7 @@ namespace HMP {
 
 				ani_datas = loadAnimationData(i, width, height);
 
-				animation.add( new Animation(name, bool.parse(repeat), HMP.Direction.parse(direction), ani_datas) );
+				animation.add( new Animation(name, bool.parse(repeat), Hmwd.Direction.parse(direction), ani_datas) );
 			}
 			return animation;
 		}
@@ -623,7 +623,7 @@ namespace HMP {
 			AnimationData tmp_ani_data = new AnimationData();
 			//tmp_ani_data.x = 0;
 			//tmp_ani_data.y = 0;
-			//tmp_ani_data.mirror = HMP.Mirror.NONE;
+			//tmp_ani_data.mirror = Hmwd.Mirror.NONE;
 			string eval_expression = "/spriteset/animation["+(animation_number+1).to_string()+"]/data/sprite";
 			Gee.List<Gee.HashMap<string, string>> properties = loadPropertiesOfSameNodes (eval_expression);
 			int count = 0;
@@ -631,7 +631,7 @@ namespace HMP {
 				tmp_ani_data = new AnimationData();
 				id = int.parse(propertie.get ("gid")) - 1;
 				mirror = (string) propertie.get ("mirror");
-				tmp_ani_data.mirror = HMP.Mirror.parse(mirror);
+				tmp_ani_data.mirror = Hmwd.Mirror.parse(mirror);
 
 				if (id >= 0) {
 					tmp_ani_data.x = (int)(id%width);
@@ -649,8 +649,8 @@ namespace HMP {
 		 * In der XML sind dies die properties und die Kinder des layer-Tags.
 		 * Eine Karte kann mehrere Layer beinhalten, daher wird mit einer Liste von Layern gearbeitet.
 		 *
-		 * @return Gee.ArrayList vom Typ HMP.Layer aller Layer
-		 * @see HMP.Layer
+		 * @return Gee.ArrayList vom Typ Hmwd.Layer aller Layer
+		 * @see Hmwd.Layer
 		 * @see Gee.ArrayList
 		 */
 		public Gee.List<SpriteLayer> loadLayers ( ) {
@@ -681,7 +681,7 @@ namespace HMP {
 				spritewidth = int.parse(properties.get ("spritewidth"));
 				spriteheight = int.parse(properties.get ("spriteheight"));
 				loadLayerImage(i, out image_filename, out trans);
-				tmp_spritelayer = new SpriteLayer(i, name, image_filename, HMP.SpriteLayerType.parse(type), trans, width, height, spritewidth, spriteheight);
+				tmp_spritelayer = new SpriteLayer(i, name, image_filename, Hmwd.SpriteLayerType.parse(type), trans, width, height, spritewidth, spriteheight);
 				res.add(tmp_spritelayer);
 			}
 			return res;

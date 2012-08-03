@@ -17,8 +17,8 @@ using Gee;
 using Gdk;
 //using GLib; //Fuer assertions
 
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse fuer TileSets
 	 */
@@ -98,13 +98,13 @@ namespace HMP {
 		 *
 		 * @param index Index des gesuchten Tiles
 		 */
-		public HMP.Tile getTileFromIndex(uint index)
+		public Hmwd.Tile getTileFromIndex(uint index)
 		requires (index >= 0)
 		{
 			//print("==GETTILEFROMINDEX==\n");
 			uint count = 0;
 			bool found = false;
-			HMP.Tile result = null;
+			Hmwd.Tile result = null;
 			//print(" index: %u \n", index);
 			for (int y=0;(y<count_y&&!found);y++) {
 				for (int x=0;(x<count_x&&!found);x++) {

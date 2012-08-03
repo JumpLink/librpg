@@ -13,8 +13,8 @@
  *	Ole Lorenzen <ole.lorenzen@gmx.net>
  *	Patrick König <knuffi@gmail.com>
  */
-using HMP;
-namespace HMP {
+using Hmwd;
+namespace Hmwd {
 	/**
 	 * Klasse fuer ausgelagerte Dateioperationen
 	 */
@@ -34,7 +34,7 @@ namespace HMP {
 		 * @param extension die Dateiendung die beruecksichtigt werden soll.
 		 */
 		public static Gee.List<string> loadAllFromFolder(string folder, string extension) {
-			print("Fuehre HMP.File.loadAllFromPath mit folder %s und extension %s aus.\n", folder, extension);
+			print("Fuehre Hmwd.File.loadAllFromPath mit folder %s und extension %s aus.\n", folder, extension);
 			GLib.File directory = GLib.File.new_for_path(folder);
 			FileEnumerator enumerator;
 			Gee.List<string> files = new Gee.ArrayList<string>();
