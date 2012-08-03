@@ -1,4 +1,4 @@
-## Makefile fuers Harvestmoon-Projekt:
+## Makefile fuers HMWorld:
 
 export LD_LIBRARY_PATH := $(shell pwd)/lib
 export GI_TYPELIB_PATH := $(shell pwd)/lib
@@ -137,8 +137,8 @@ TEST_COMP   = \
 							--vapidir=$(VAPI_DIR)                     \
 							$(PKG_FLAGS)                              \
 							$(CC_FLAGS)                               \
-							src/main.vala                             \
-							-X $(SHARED_LIBRARY_TARGET)               \
+							test/main.vala                            \
+							-X lib/$(SHARED_LIBRARY_TARGET)               \
 							-X -I$(LIB_DIR)                           \
 							-o test.o
 

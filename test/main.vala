@@ -14,16 +14,12 @@
  *	Patrick König <knuffi@gmail.com>
  */
 using Hmwd;
-public GdkTextureFactory TEXTUREFACTORY;
-public Hmwd.TileSetManager TILESETMANAGER;
-public Hmwd.MapManager MAPMANAGER;
-public Hmwd.SpriteSetManager SPRITESETMANAGER;
 class Main {
 	public static void init() {
-		TEXTUREFACTORY = new GdkTextureFactory();
-		TILESETMANAGER = new Hmwd.TileSetManager("./data/tileset/");
-		MAPMANAGER = new Hmwd.MapManager("./data/map/");
-		SPRITESETMANAGER = new Hmwd.SpriteSetManager();
+		Hmwd.TEXTUREFACTORY = new GdkTextureFactory();
+		Hmwd.TILESETMANAGER = new Hmwd.TileSetManager("./data/tileset/");
+		Hmwd.MAPMANAGER = new Hmwd.MapManager("./data/map/");
+		Hmwd.SPRITESETMANAGER = new Hmwd.SpriteSetManager();
 		//Gee.List<Player> PLAYERS = new Gee.ArrayList<Player>();
 		//PLAYERS.add (new Player("Hero", SPRITESETMANAGER.getFromName("Hero")));
 		//MAPMANAGER.printAll();
