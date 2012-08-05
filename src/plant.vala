@@ -18,7 +18,7 @@ namespace Hmwd {
 	 /**
 	  * Klasse fuer Pflanzen.
 	  */
-	 public abstract class Plant {
+	 public abstract class Plant : Object {
 	 	/**
 	 	 * Pflanze lebt.
 	 	 */
@@ -56,11 +56,16 @@ namespace Hmwd {
 	 	 * Konstruktor.
 	 	 */
 	 	public Plant () {
+
+			Object();
+		}
+
+		construct {
 	 		alive = true;
 	 		watered = false;
 	 		daysUntilHarvest = timeBetweenCrops;
 	 		cropsLeft = maxCrops;
-	 	}
+		}
 
 	 	/**
 	 	 * Pflanze wachsen lassen.

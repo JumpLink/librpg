@@ -86,7 +86,7 @@ namespace Hmwd {
 	/**
 	 * Kantenform eines unterteilten Tiles.
 	 */
-	enum EdgeShape {
+	public enum EdgeShape {
 		FULL,
 		OUTER_CORNER,
 		INNER_CORNER,
@@ -237,6 +237,9 @@ namespace Hmwd {
 			this.x = x;
 			this.y = y;
 		}
+		construct {
+
+		}
 		public double x {
 			get { return vec[1]; }
 			set { vec[1] = value; }
@@ -246,10 +249,13 @@ namespace Hmwd {
 			set { vec[0] = value; }
 		}
 	}	
-	public class AnimationData {
+	public class AnimationData:GLib.Object {
 		public Coord coord { public get; private set; }
 		public AnimationData () {
- 			coord = new Coord();
+ 			
+		}
+		construct {
+			coord = new Coord();
 		}
 		public Mirror mirror;
 		public double x {

@@ -18,41 +18,40 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer Maplayer.
 	 */
-	public class Layer {
+	public class Layer : Object {
 		/**
 		 * Name des Layers
 		 */
-		public string name;
+		public string name { get; set; }
 		/**
 		 * z-offset zum Zeichnen dieses Layers
 		 */
-		public double zoff;
+		public double zoff { get; set; }
 		/**
 		 * Breite des Layers
 		 */
-		public uint width;
+		public uint width { get; set; }
 		/**
 		 * Hoehe des Layers
 		 */
-		public uint height;
+		public uint height { get; set; }
 		/**
 		 * Tiles des Layers
 		 */
-		public Tile[,] tiles;
+		public Hmwd.Tile[,] tiles { get; set; }
 		/**
 		 * Zur ueberpruefung ob dieser Layer Kollision erzeugt.
 		 */
-		public bool collision = false;
+		public bool collision { get; set; }
 
 		/**
 		 * Konstruktor
 		 */
 		public Layer() {
-			name = "new Layer";
-			zoff = 0;
-			width = 10;
-			height = 10;
-			tiles = new Tile[width, height];
+			Object(name : "new Layer", zoff : 0, width : 10, height : 10, collision:false);
+		}
+		construct {
+			this.tiles = new Hmwd.Tile[10, 10];
 		}
 
 		/**
@@ -84,14 +83,14 @@ namespace Hmwd {
 			TileType[] neighbours = new TileType[8];
 			for (uint r = 0; r < height; ++r)
 				for (uint c = 0; c < width; ++c) {
-					neighbours[0] = ( c != 0 ) ? tiles[c - 1, r].type : TileType.EMPTY_TILE;
-					neighbours[1] = (c != 0 && r != 0 ) ? tiles[c - 1, r - 1].type : TileType.EMPTY_TILE;
-					neighbours[2] = ( r != 0 ) ? tiles[c, r - 1].type : TileType.EMPTY_TILE;
-					neighbours[3] = ( r != 0 && c < width ) ? tiles[c + 1, r - 1].type : TileType.EMPTY_TILE;
-					neighbours[4] = ( c < width ) ? tiles[c + 1, r].type : TileType.EMPTY_TILE;
-					neighbours[5] = ( r < height && c < width ) ? tiles[c + 1, r + 1].type : TileType.EMPTY_TILE;
-					neighbours[6] = ( r < height ) ? tiles[c, r + 1].type : TileType.EMPTY_TILE;
-					neighbours[7] = ( r < height && c != 0 ) ? tiles[c - 1, r + 1].type : TileType.EMPTY_TILE;
+					neighbours[0] = ( c != 0 ) ? tiles[c - 1, r].tile_type : TileType.EMPTY_TILE;
+					neighbours[1] = (c != 0 && r != 0 ) ? tiles[c - 1, r - 1].tile_type : TileType.EMPTY_TILE;
+					neighbours[2] = ( r != 0 ) ? tiles[c, r - 1].tile_type : TileType.EMPTY_TILE;
+					neighbours[3] = ( r != 0 && c < width ) ? tiles[c + 1, r - 1].tile_type : TileType.EMPTY_TILE;
+					neighbours[4] = ( c < width ) ? tiles[c + 1, r].tile_type : TileType.EMPTY_TILE;
+					neighbours[5] = ( r < height && c < width ) ? tiles[c + 1, r + 1].tile_type : TileType.EMPTY_TILE;
+					neighbours[6] = ( r < height ) ? tiles[c, r + 1].tile_type : TileType.EMPTY_TILE;
+					neighbours[7] = ( r < height && c != 0 ) ? tiles[c - 1, r + 1].tile_type : TileType.EMPTY_TILE;
 					tiles[c, r].calcEdges(neighbours);
 				}
 		}
@@ -113,7 +112,7 @@ namespace Hmwd {
 			print("==Tiles==\n");
 			for (int y=0;y<height;y++) {
 				for (int x=0;x<width;x++) {
-					print("%u ", tiles[x,y].type);
+					print("%u ", tiles[x,y].tile_type);
 				}
 				print("\n");
 			}

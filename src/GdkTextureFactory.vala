@@ -12,10 +12,11 @@
 
 using Hmwd;
 namespace Hmwd {
-	public class GdkTextureFactory {
+	public class GdkTextureFactory : Object {
 		public GdkTextureFactory() {
-
+			
 		}
+
 		public Hmwd.GdkTexture empty () {
 			return new OpenGLTexture();
 			//return new ClutterTexture();

@@ -21,8 +21,9 @@ namespace Hmwd {
 	 * Klasse fuer den MapManager, mit dieser Klasse werden alle Maps im Spiel verwaltet.
 	 * Sie kann beispielsweise alle Maps aus einem angegebenen Verzeichnis Laden.
 	 */
-	public class MapManager {
+	public class MapManager : Object {
 		Gee.List<Hmwd.Map> map;
+		public string folder { get; construct set; }
 		/**
 		 * Konstruktor mit uebergebenem Ordner fuer das Map-Verzeichnis.
 		 * @param folder Verzeichnis der Maps, default ist: "./data/map/".
@@ -30,6 +31,10 @@ namespace Hmwd {
 		public MapManager(string folder)
 		requires (TILESETMANAGER != null)
 		{
+
+			Object(folder: folder);
+		}
+		construct {
 			print("Erstelle MapManager\n");
 			map = new Gee.ArrayList<Hmwd.Map>();
 			loadAllFromFolder(folder);

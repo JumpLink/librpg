@@ -20,7 +20,7 @@ namespace Hmwd {
 	/**
 	 * Klasse zur Speicherung einer Textur und um diese an OpenGL zu binden.
 	 */
-	public interface Texture {
+	public interface Texture : GLib.Object {
 		public abstract double width {get;set;}
 		public abstract double height {get;set;}
 		public abstract Hmwd.Colorspace colorspace {get;}

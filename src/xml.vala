@@ -27,7 +27,7 @@ namespace Hmwd {
     /**
      * Klasse fuer XML-Operationen
      */
-    class XML {
+    class XML : GLib.Object {
         // Line indentation
         protected int indent = 0;
 		/**
@@ -45,41 +45,43 @@ namespace Hmwd {
 		/**
 		 * Speichert den path der zu bearbeitenden Mapdatei
 		 */
-        string path;
-        /**
-         * Konstrukter
-         */
-        public XML(string path) {
-        	print("Erstelle Xml-Objekt\n");
-        	// Initialisation, not instantiation since the parser is a static class
-        	Parser.init ();
-			this.path = path;
+		public string path { get; construct set; }
+		/**
+		 * Konstrukter
+		 */
+		public XML(string path) {
+			GLib.Object(path:path);
+		}
+		construct {
+			print("Erstelle Xml-Objekt\n");
+			// Initialisation, not instantiation since the parser is a static class
+			Parser.init ();
+			//this.path = path;
 			doc = Parser.parse_file (path);
 			if(doc==null) print("failed to read the .xml file\n");
-			
+
 			ctx = new Context(doc);
 			if(ctx==null) print("failed to create the xpath context\n");
-        }
-        
-        /**
-         * Dekonstrukter
-         */
-        ~XML() {
-        	print("loesche XML-Objekt\n");
-    		// Do the parser cleanup to free the used memory
+		}
+		/**
+		 * Dekonstrukter
+		 */
+		~XML() {
+			print("loesche XML-Objekt\n");
+			// Do the parser cleanup to free the used memory
 			//delete doc;
-    		Parser.cleanup ();
-        }
+			Parser.cleanup ();
+		}
 
-    	/**
-    	 * Gibt einen Wert der XML aus
-    	 * @param node Nodename
-    	 * @param content Wert vom Nodename
-    	 * @param token Wert der der Ausgabe vorangestellt wird
-    	 */
-        protected void print_indent (string node, string content, char token = '+') {
-            string indent = string.nfill (this.indent * 2, ' ');
-            print ("%s%c%s: %s\n", indent, token, node, content);
+		/**
+		* Gibt einen Wert der XML aus
+		* @param node Nodename
+		* @param content Wert vom Nodename
+		* @param token Wert der der Ausgabe vorangestellt wird
+		*/
+		protected void print_indent (string node, string content, char token = '+') {
+			string indent = string.nfill (this.indent * 2, ' ');
+			print ("%s%c%s: %s\n", indent, token, node, content);
 		}
 		/**
 		 * In dieser Methode werden die Tile-Werte aus der XML gelesen und als return zurueck gegeben.
@@ -114,9 +116,9 @@ namespace Hmwd {
 		protected Gee.HashMap<string, string> loadProperties(Xml.Node* node) {
 			Xml.Attr* attr = node->properties;
 			Gee.HashMap<string, string> properties = new Gee.HashMap<string, string>();
-
+			print("loadProperties - ");
 			while ( attr != null ) {
-				//print("Attribute: \tname: %s\tvalue: %s\n", attr->name, attr->children->content);
+				print("Attribute: \tname: %s\tvalue: %s\n", attr->name, attr->children->content);
 				properties.set(attr->name, attr->children->content);
 				attr = attr->next;
 			}
@@ -368,11 +370,11 @@ namespace Hmwd {
 						// Berechnet den Index des Tiles anhand der Gid und der firstgid und gibt das entsprechende Tile mit dem Index zurueck.
 						tmp_tile = tmp_tilesetref.source.getTileFromIndex(ids[x,y] - tmp_tilesetref.firstgid);
 						//TODO anhand der ID den echten TileTyp bestimmen.
-						tmp_tile.type = TileType.EMPTY_TILE;
+						tmp_tile.tile_type = TileType.EMPTY_TILE;
 					}
 					else {
 						tmp_tile = new RegularTile();
-						tmp_tile.type = TileType.NO_TILE;
+						tmp_tile.tile_type = TileType.NO_TILE;
 					}
 					tiles[x,y] = tmp_tile;
 				}
@@ -659,7 +661,7 @@ namespace Hmwd {
 			Xml.Node* node;
 			Gee.HashMap<string, string> properties;
 			string name;
-			string type;
+			string tile_type;
 			string image_filename;
 			string trans;
 			uint width;
@@ -675,13 +677,13 @@ namespace Hmwd {
 				node = obj.nodesetval->item(i);
 				properties = loadProperties(node);
 				name = (string) properties.get ("name");
-				type = (string) properties.get ("type");
+				tile_type = (string) properties.get ("tile_type");
 				width = int.parse(properties.get ("width"));
 				height = int.parse(properties.get ("height"));
 				spritewidth = int.parse(properties.get ("spritewidth"));
 				spriteheight = int.parse(properties.get ("spriteheight"));
 				loadLayerImage(i, out image_filename, out trans);
-				tmp_spritelayer = new SpriteLayer(i, name, image_filename, Hmwd.SpriteLayerType.parse(type), trans, width, height, spritewidth, spriteheight);
+				tmp_spritelayer = new SpriteLayer(i, name, image_filename, Hmwd.SpriteLayerType.parse(tile_type), trans, width, height, spritewidth, spriteheight);
 				res.add(tmp_spritelayer);
 			}
 			return res;
@@ -696,6 +698,7 @@ namespace Hmwd {
 		 * //@param height The spriteset height in sprites.
 		 */
 		public void loadLayerImage (int spritelayer_number, out string image_filename, out string trans) {
+			print("loadLayerImage\n");
 			//XPath-Expression verarbeiten
 			Xml.Node* node = evalExpression("/spriteset/layer["+(spritelayer_number+1).to_string()+"]/image");
 			//properties des resultats verarbeiten.

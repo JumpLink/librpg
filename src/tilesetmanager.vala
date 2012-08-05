@@ -21,16 +21,23 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer TileSetManager
 	 */
-	public class TileSetManager {
+	public class TileSetManager : GLib.Object {
 		Gee.List<TileSet> tileset;
+		public string folder { get; construct set; }
 		//string folder;
 		/**
 		 * Konstruktor
 		 */
 		public TileSetManager(string folder) {
+			 GLib.Object(folder:folder);
+		}
+		construct{
 			print("Erstelle TileSetManager\n");
 			tileset = new Gee.ArrayList<TileSet>();
-			loadAllFromFolder(folder);
+			if (folder != null)
+				loadAllFromFolder(folder);
+			else
+				printerr("property folder is undefined");
 		}
 		/**
 		 * Dekonstruktor

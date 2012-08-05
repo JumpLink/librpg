@@ -5,14 +5,15 @@
 var Gir = require('gir');
 Gir.init();
 var Hmwd = module.exports = Gir.load('Hmwd');
-console.log(Hmwd);
+//console.log(Hmwd);
 
-//var TEXTUREFACTORY = new Hmwd.GdkTextureFactory();
-// var TILESETMANAGER = new Hmwd.TileSetManager();
-// var MAPMANAGER = new Hmwd.MapManager();
-var SPRITESETMANAGER = new Hmwd.SpriteSetManager();
+Hmwd.TEXTUREFACTORY = new Hmwd.GdkTextureFactory();
+Hmwd.TILESETMANAGER = new Hmwd.TileSetManager({folder:"./data/tileset/"});
+Hmwd.MAPMANAGER = new Hmwd.MapManager({folder:"./data/map/"});
+Hmwd.SPRITESETMANAGER = new Hmwd.SpriteSetManager({folder:"./data/spriteset/"});
+// Hmwd.init();
 
 //SPRITESETMANAGER.SpriteSetManager();
 //Hmwd.Main.init();
 //SPRITESETMANAGER.printAll();
-//console.log(Hmwd.SpriteSetManager);
+//	console.log(Hmwd.Animation);

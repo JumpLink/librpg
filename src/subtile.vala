@@ -20,15 +20,18 @@ namespace Hmwd {
 	 * Sie wird fuer zusammengesetzte Tiles verwendet um beispielsweise Wegkanten
 	 * darzustellen. TODDO an OLE, ueberpruefen
 	 */
-	public class SubTile {
-	 	EdgeShape edge;
+	public class SubTile : Object {
+	 	public EdgeShape edge { get; construct set; }
 	 	/**
 	 	 * Konstruktor, erzeugt ein leeres SubTile vom Typ EdgeShape.FULL.
 	 	 * @see EdgeShape.FULL
 	 	 */
 	 	public SubTile () {
-	 		edge = EdgeShape.FULL;
+	 		Object(edge: EdgeShape.FULL);
 	 	}
+		construct {
+
+		}
 	 	/**
 		 * Aehnlich wie: 
 		 * {@link Hmwd.Tile.calcEdges}

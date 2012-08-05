@@ -21,12 +21,16 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer SpriteSetManager
 	 */
-	public class SpriteSetManager {
+	public class SpriteSetManager : Object {
 		Gee.List<SpriteSet> spriteset;
+		public string folder { get; construct set; }
 		/**
 		 * Konstruktor
 		 */
 		public SpriteSetManager(string folder = "./data/spriteset/") {
+			Object(folder: folder);
+		}
+		construct {
 			print("Erstelle SpriteSetManager\n");
 			spriteset = new Gee.ArrayList<SpriteSet>();
 			loadAllFromFolder(folder);

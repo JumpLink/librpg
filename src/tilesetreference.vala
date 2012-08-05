@@ -25,24 +25,25 @@ namespace Hmwd {
 	 * @see Hmwd.TileSet
 	 * @see Hmwd.TileSetManager
 	 */
-	public class TileSetReference {
+	public class TileSetReference : Object {
 		/**
 		 * Quelle des TileSets.
 		 */
-		public Hmwd.TileSet source;
+		public Hmwd.TileSet source { get; construct set; }
 		/**
 		 * The first global tile ID of this tileset (this global ID maps to the first tile in this tileset).
 		 */
-		public uint firstgid;
+		public uint firstgid { get; construct set; }
 		/**
 		 * Konstrukter
 		 * @param firstgid Die erste gid die von diesem diesem TileSet verwendet wird
 		 * @param source TileSet-Quelle als Referenzangabe.
 		 */
 		public TileSetReference(uint firstgid, Hmwd.TileSet source) {
-
-			this.firstgid = firstgid;
-			this.source = source;
+			GLib.Object(firstgid:firstgid, source:source);
+		}
+		construct {
+			
 		}
 		/**
 		 * Gibt alle Werte des TileSets und der Reference auf der Konsole aus

@@ -18,7 +18,7 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer ausgelagerte Dateioperationen
 	 */
-	class File {
+	class File : Object {
 		/**
 		 * Extrahiert den Dateinamen eines kompletten Pfades.
 		 * @param path Der pfad dessen Dateiname zurueck gegeben werden soll.

@@ -20,7 +20,7 @@ namespace Hmwd {
 	/**
 	 * Allgemeine Klasse fuer Sprites
 	 */
-	public class Sprite {
+	public class Sprite : Object {
 		public GdkTexture tex { get; private set; }
 		public double width {
 			get { return tex.width; }

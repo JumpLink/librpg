@@ -19,7 +19,7 @@ namespace Hmwd {
 	 * Allgemeine Entityklasse.
 	 * hiervon erben Spieler, NPCs und andere Dynamische Objekte.
 	 */
-	public abstract class Entity {
+	public abstract class Entity : Object {
 		/**
 		 * Geschwindigkeit (Schritte in X-Richtung pro Sekunde)
 		 */
@@ -41,7 +41,10 @@ namespace Hmwd {
 		 * Konstruktor
 		 */
 		public Entity() {
-			pos = new Coord();
+			Object(pos: new Coord());
+		}
+		construct {
+			
 		}
 		/**
 		 * SpriteSet der Entity, beinhaltet Animationen und deren Grafiken.

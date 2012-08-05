@@ -20,9 +20,9 @@ namespace Hmwd {
 	/**
 	 * Allgemeine Klasse fuer Sprites
 	 */
-	public class SpriteLayer {
+	public class SpriteLayer : Object {
 		//string name; Name wird als HashMap gespeichert, nicht hier.
-		public SpriteLayerType type;
+		public SpriteLayerType sprite_layer_type { get; construct set; }
 		/**
 		 * Transparente Farbe im SpriteLayers
 		 */
@@ -30,30 +30,24 @@ namespace Hmwd {
 		/**
 		 * aktiv oder inaktiv
 		 */
-		public bool active;
-		public string name;	
-		public int number;
-		public string image_filename;
-		uint width;
-		uint height;
-		uint spritewidth;
-		uint spriteheight;
+		public bool active { get; construct set; }
+		public string name { get; construct set; }
+		public int number { get; construct set; }
+		public string image_filename { get; construct set; }
+		public uint width { get; construct set; }
+		public uint height { get; construct set; }
+		public uint spritewidth { get; construct set; }
+		public uint spriteheight { get; construct set; }
 		/**
 		 * Array fuer die einzelnen Sprites
 		 */	
 		public Sprite[,] sprites;
 	
-		public SpriteLayer(int number, string name, string image_filename, SpriteLayerType type, string trans, uint count_x, uint count_y, uint spritewidth, uint spriteheight) {
-			this.name = name;
-			this.image_filename = image_filename;
-			this.type = type;
-			this.width = count_x;
-			this.height = count_y;
-			this.spritewidth = spritewidth;
-			this.spriteheight = spriteheight;
-			this.active = true;
-			this.loadSprites(count_y, count_x, spritewidth, spriteheight);
-
+		public SpriteLayer(int number, string name, string image_filename, SpriteLayerType type, string trans, uint count_x, uint count_y, uint spritewidth, uint spriteheight) {			
+			Object(name:name, image_filename:image_filename, sprite_layer_type:type, width:count_x, height:count_y, spritewidth:spritewidth, spriteheight:spriteheight, active:true);
+		}
+		construct{
+			this.loadSprites(height, width, spritewidth, spriteheight);
 		}
 		/**
 		 * Ladet die Pixel fuer die Sprites.

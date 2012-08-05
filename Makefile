@@ -138,9 +138,19 @@ TEST_COMP   = \
 							$(PKG_FLAGS)                              \
 							$(CC_FLAGS)                               \
 							test/main.vala                            \
-							-X lib/$(SHARED_LIBRARY_TARGET)               \
+							-X lib/$(SHARED_LIBRARY_TARGET)           \
 							-X -I$(LIB_DIR)                           \
 							-o test.o
+
+DEBUG_COMP   = \
+							-g                                        \
+							--save-temps                              \
+							-o $(TARGET_FILE)                         \
+							--vapidir=$(VAPI_DIR)                     \
+							$(PKG_FLAGS)                              \
+							$(CC_FLAGS)                               \
+							$(SRC_FILES)                              \
+							test/main.vala                            \
 
 # Targets
 
@@ -152,7 +162,11 @@ all: dirs shared_library typelib
 ## * make run: Library compilieren und node ausfuehren
 run: all
 	@echo "Running node src/main.js..."
-	@run.sh
+	./run.sh;
+## * make run-test: Test ausführen
+run-test: all
+	@echo "Running node src/main.js..."
+	./test.o;
 ## * make run: Programm compilieren und ausfuehren
 run-object: dirs object
 	@echo "Running $(TARGET_FILE)..."
@@ -236,6 +250,6 @@ test: dirs all
 ## * make debug: fuehrt das Testprogramm mit Debuggingtools aus.
 debug: dirs $(SRC_FILES)
 	@echo "Debuging.."
-	@$(VC) -g --save-temps -o $(TARGET_FILE) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(SRC_FILES)
+	@$(VC) $(DEBUG_COMP)
 	@nemiver $(TARGET_FILE)
 	#gdb $(TARGET_FILE)

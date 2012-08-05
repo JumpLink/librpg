@@ -38,7 +38,7 @@ namespace Hmwd {
 			 */
 			public override void printValues (){
 				print("ich bin ein reftile: ");
-				print("type: %u\n",type);
+				print("type: %u\n",tile_type);
 			}
 			/**
 			 * {@inheritDoc}
@@ -50,7 +50,7 @@ namespace Hmwd {
 				for (uint s = 0; s < 4; ++s) {
 					for (uint t = 0; t < 3; ++t)
 						n[t] = neighbours[(2 * s + t) % 8];
-					subTiles[s].calcEdge (n, type, s);
+					subTiles[s].calcEdge (n, tile_type, s);
 				}
 			}
 	}

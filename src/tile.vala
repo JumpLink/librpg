@@ -19,40 +19,43 @@ namespace Hmwd {
 	/**
 	 * Allgemeine Klasse fuer Tiles
 	 */
-	public abstract class Tile {
+	public abstract class Tile : Object {
 		/**
 		 * Tiletextur, die Pixel des Tiles
 		 */
-		public GdkTexture tex { get; protected set; }
+		public GdkTexture tex { get; construct set; }
 		/**
 		 * Gibt die Breite eines Tiles zurueck.
 		 */
 		public double width {
-			get { if (type != TileType.NO_TILE) return tex.width; else return 0; }
+			get { if (tile_type != TileType.NO_TILE) return tex.width; else return 0; }
 		}
 		/**
 		 * Gibt die Hoehe eines Tiles zurueck.
 		 */
 		public double height {
-			get { if (type != TileType.NO_TILE) return tex.height; else return 0; }
+			get { if (tile_type != TileType.NO_TILE) return tex.height; else return 0; }
 		}
 		/**
 		 * Tiletyp
 		 */
-		public TileType type;
+		public TileType tile_type { get; construct set; }
 		/**
 		 * Konstruktor erzeugt ein leeres Tile vom Typ TileType.NO_TILE
 		 * @see TileType.NO_TILE
 		 */
 		public Tile() {
-			type = TileType.NO_TILE;
+			Object(tile_type: TileType.NO_TILE);
 		}
+		construct {
+
+    	}
 		/**
 		 * Speichert das Tile mit dem Dateiname filename als Datei
 		 * @param filename Zu verwendender Dateiname
 		 */
 		public virtual void save (string filename) {
-			//if(type != TileType.NO_TILE && type != TileType.EMPTY_TILE) {
+			//if(tile_type != TileType.NO_TILE && tile_type != TileType.EMPTY_TILE) {
 				print("Tile save\n");
 				tex.save(filename);
 			//}

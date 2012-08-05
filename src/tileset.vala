@@ -22,7 +22,7 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer TileSets
 	 */
-	public class TileSet {
+	public class TileSet : Object {
 		/**
 		 * Name des TileSets.
 		 */

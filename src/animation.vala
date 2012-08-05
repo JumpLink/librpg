@@ -20,16 +20,16 @@ namespace Hmwd {
 	/**
 	 * Allgemeine Klasse fuer Sprites
 	 */
-	public class Animation {
-		public string name;
-		public Direction direction;
-		public bool repeat;
+	public class Animation : Object {
+		public string name { get; set; }
+		public Direction direction { get; set; }
+		public bool repeat { get; set; }
 		/**
 		 * Animationsframes pro Sekunde
 		 */
 		public double frame_ps = 6;
 		//private double timer = 0;
-		public Gee.List<AnimationData> animationdata = new Gee.ArrayList<AnimationData>();
+		public Gee.List<AnimationData> animationdata { get; set; }
 
 		private int _current_frame_index = 0;
 		public int current_frame_index {
@@ -48,11 +48,12 @@ namespace Hmwd {
 		}
 
 		public Animation(string name, bool repeat, Direction direction, Gee.List<AnimationData> animationdata) {
-			this.name = name;
-			this.animationdata = animationdata;
-			this.repeat = repeat;
-			this.direction = direction;
+			Object(name: name, repeat: repeat, direction: direction, animationdata:animationdata);
 		}
+		construct {
+			animationdata = new Gee.ArrayList<AnimationData>();
+		}
+
 		public AnimationData get_AnimationData ()
 		requires (animationdata != null)
 		requires (animationdata[current_frame_index] != null)

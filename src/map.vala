@@ -20,7 +20,7 @@ namespace Hmwd {
 	 * Diese Klasse dient zur Speicherung von Mapinformationen.
 	 * Sie kann zudem die Maps auf der Konsole ausgeben und eine Map-Datei laden.
 	 */
-	public class Map {
+	public class Map : Object {
 		/**
 		 * orientation der Map.
 		 */
@@ -60,7 +60,11 @@ namespace Hmwd {
 		/**
 		 * Dateiname der Map
 		 */
-		public string filename;
+		public string filename { get; construct set; }
+		/**
+		 * Path der Mapdateien
+		 */
+		public string path { get; construct; }
 		/**
 		 * Tilesets die für auf der Map verwendet werden
 		 */
@@ -84,6 +88,7 @@ namespace Hmwd {
 
 		public LogicalTile [,] tiles;
 
+
 		// public double shift_x {
 		// 	get { return (VIEW.window_width - width * tilewidth)/2;}
 		// }
@@ -97,20 +102,22 @@ namespace Hmwd {
 		public Map() {
 			print("Erstelle leeres Map Objekt\n");
 		}
-		public Map.fromPath (string folder = "./data/map/", string fn) {
-			setFromPath (folder, fn);
+		public Map.fromPath (string path, string filename) {
+			Object(path: path, filename:filename);
+		}
+		construct {
+			setFromPath (path, filename);
 		}
 		/**
 		 * Konstrukter, ladet Map mit Daten einer Mapdatei
 		 *
-		 * @param folder Das Verzeichnis aus dem gelesen werden soll
-		 * @param fn Der Dateiname der gelesen werden soll
+		 * @param path Das Verzeichnis aus dem gelesen werden soll
+		 * @param filename Der Dateiname der gelesen werden soll
 		 */
-		public void setFromPath (string folder = "./data/map/", string fn) {
-			print("Lade Mapdateien von %s + %s\n", folder, fn);
-
-			this.filename = fn;
-			TMX xml = new TMX(folder+filename);
+		public void setFromPath (string path, string filename) {
+			print("Lade Mapdateien von %s + %s\n", path, filename);
+			
+			TMX xml = new TMX(path+filename);
 			xml.loadGlobalMapProperties(out orientation, out version, out width, out height, out tilewidth, out tileheight);
 			tiles = new LogicalTile [width, height];
 			for (uint x = 0; x < width; ++x)
@@ -197,7 +204,7 @@ namespace Hmwd {
 			//print ("Zielposition: %u, %u\n", y, x);
 			bool obstacle = false;
 			foreach (Layer l in layers_same) {
-				obstacle = obstacle || (l.collision && l.tiles[x, y].type != TileType.NO_TILE);
+				obstacle = obstacle || (l.collision && l.tiles[x, y].tile_type != TileType.NO_TILE);
 			}
 			return !obstacle;
 		}

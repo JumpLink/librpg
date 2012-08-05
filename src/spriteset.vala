@@ -20,7 +20,7 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer SpriteSets
 	 */
-	public class SpriteSet {
+	public class SpriteSet : Object {
 		/**
 		 * Dateiname des SpriteSets.
 		 */
@@ -110,8 +110,8 @@ namespace Hmwd {
 		 * @param folder Das Verzeichnis aus dem gelesen werden soll
 		 * @param fn Der Dateiname der gelesen werden soll
 		 */
-		public SpriteSet.fromPath (string folder = "./data/map/", string fn) {
-			print("Lade Mapdateien von %s + %s\n", folder, fn);
+		public SpriteSet.fromPath (string folder = "./data/spriteset/", string fn) { //TODO
+			print("Lade SpriteSetdateien von %s + %s\n", folder, fn);
 
 			this.filename = fn;
 			SSX xml = new SSX(folder+filename);
@@ -123,7 +123,7 @@ namespace Hmwd {
 		requires (spritelayers != null)
 		{
 			foreach (SpriteLayer sl in spritelayers) {
-				if (sl.type == Hmwd.SpriteLayerType.BASE)
+				if (sl.sprite_layer_type == Hmwd.SpriteLayerType.BASE)
 					return sl;
 				else return null;
 			}

@@ -16,18 +16,101 @@
 	"buffers":
 	[
 		{
-			"file": "hmp.sublime-project",
+			"file": "src/mapmanager.vala",
 			"settings":
 			{
-				"buffer_size": 715,
+				"buffer_size": 2763,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/jumplink/Projekte/HMWorld-Website/hmww.sublime-project",
+			"file": "src/matrix.vala",
 			"settings":
 			{
-				"buffer_size": 243,
+				"buffer_size": 8762,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/main.js",
+			"settings":
+			{
+				"buffer_size": 605,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/plant.vala",
+			"settings":
+			{
+				"buffer_size": 2093,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/regulartile.vala",
+			"settings":
+			{
+				"buffer_size": 1929,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/tile.vala",
+			"settings":
+			{
+				"buffer_size": 2342,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/layer.vala",
+			"settings":
+			{
+				"buffer_size": 3588,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/xml.vala",
+			"settings":
+			{
+				"buffer_size": 27436,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/map.vala",
+			"settings":
+			{
+				"buffer_size": 7667,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/splittile.vala",
+			"settings":
+			{
+				"buffer_size": 1481,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "/* Copyright (C) 2012  Pascal Garber\n * Copyright (C) 2012  Ole Lorenzen\n * Copyright (C) 2012  Patrick König\n *\n * This software is free software; you can redistribute it and/or\n * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.\n * License as published by the Creative Commons organisation; either\n * version 3.0 of the License, or (at your option) any later version.\n * More informations on: http://creativecommons.org/licenses/by-sa/3.0/ \n *\n * Author:\n *	Pascal Garber <pascal.garber@gmail.com>\n *	Ole Lorenzen <ole.lorenzen@gmx.net>\n *	Patrick König <knuffi@gmail.com>\n */\n/**\n * Einfache Klasse fuer Vektoren und deren Mathematik.\n */\nnamespace Hmwd {\n	public class Vector : GLib.Object {\n\n		/**\n		 * Dimension des Vektors.\n		 */\n		public int dim;\n		/**\n		 * Daten des Vektors.\n		 */\n		public double[] vec;\n		\n		/**\n		 * Konstruktor.\n		 * \n		 * Erzeugt einen nicht initialisierten Vektor.\n		 * \n		 * @param dim Dimension des Vektors.\n		 */\n		public Vector(int dim) {\n			GLib.Object(dim:dim);\n		}\n\n		/**\n		 * Konstruktor.\n		 * \n		 * Erzeugt einen Vektor zwischen zwei Punkten.\n		 * \n		 * @param v1 Erster Punkt.\n		 * @param v2 Zweiter Punkt.\n		 */\n		public Vector.fromDifference (Vector v1, Vector v2)\n		requires (v1.dim == v2.dim)\n		{\n			dim = v1.dim;\n			vec = new double[dim];\n			for (int i = 0; i < dim; ++i)\n					vec[i] = v2.vec[i] - v1.vec[i];\n		}\n\n		construct {\n			this.vec = new double[dim];\n		}\n		 \n		public Vector addVector (Vector v) {\n			if (dim == v.dim)\n				for (int i = 0; i < dim; ++i)\n					vec[i] += v.vec[i];\n			return this;\n		}\n		\n		public double ScalarProduct (Vector v) {\n			double r = 0.0;\n			if (dim == v.dim)\n				for (int i = 0; i < dim; ++i)\n					r += vec[i] * v.vec[i];\n			return r;\n		}\n		\n		/**\n		 * Multipliziert Vektor mit Vektor.\n		 * @param v Vektor.\n		 * @return Das Kreuzprodukt.\n		 */\n		public Vector VectorProduct (Vector v) {\n			Vector r = new Vector (dim);\n			if (dim == 3 && v.dim == 3) {\n				r.vec[0] = vec[1] * v.vec[2] - vec[2] * v.vec[1];\n				r.vec[1] = vec[2] * v.vec[0] - vec[0] * v.vec[2];\n				r.vec[2] = vec[0] * v.vec[1] - vec[1] * v.vec[0];\n			}\n			return r;\n		}\n		\n		/**\n		 * Teilt Vektor durch Skalar.\n		 * @param s Skalar.\n		 * @return Der Vektor.\n		 */\n		public Vector divideByScalar (double s) {\n			if (s != 0.0)\n				for (int i = 0; i < dim; ++i)\n					vec[i] /= s;\n			return this;\n		}\n		\n		/**\n		 * Multipliziert Vektor mit Skalar.\n		 * @param s Skalar.\n		 * @return Der Vektor.\n		 */\n		public Vector multScalar (double s) {\n			for (int i = 0; i < dim; ++i)\n				vec[i] *= s;\n			return this;\n		}\n		\n		/**\n		 * Berechnet Betrag eines Vektors.\n		 * @return Der Betrag.\n		 */\n		public double VectorNorm () {\n			double r = 0.0;\n			for (int i = 0; i < dim; ++i)\n				r += vec[i] * vec[i];\n			return Math.sqrt (r);\n		}\n		\n		/**\n		 * Normiert Vektor.\n		 * @return Der Vektor.\n		 */\n		public Vector normVector () {\n			return divideByScalar (VectorNorm ());	\n		}\n		\n		/**\n		 * Multipliziert Vektor mit Matrix.\n		 * @param m Matrix.\n		 * @param v irgendein anderer Vektor ?????.\n		 * @return Der Vektor.\n		 */\n		public Vector multMatrix(Matrix m, Vector v) {\n			for (int i = 0; i < dim; ++i) {\n				vec[i] = 0;\n				for (int j = 0; j < dim; ++j)\n					vec[i] += vec[j] * m.mat[i,j]; /* TODO nicht sicher ob ij richtig. */\n			}\n			return this;\n		}\n\n		/**\n		 * Beschneidet Vektor komponentenweise.\n		 * @param min Untergrenze.\n		 * @param max Obergrenze.\n		 * @return Der beschnittene Vektor.\n		 */\n		public Vector crop (Vector min, Vector max) {\n			if (dim == min.dim && dim == max.dim) {\n				for (int i = 0; i < dim; ++i) {\n					if (vec[i] < min.vec[i])\n						vec[i] = min.vec[i];\n					if (vec[i] > max.vec[i])\n						vec[i] = max.vec[i];\n				}\n			}\n			return this;\n		}\n	}\n}",
+			"file": "src/vector.vala",
+			"file_size": 3741,
+			"file_write_time": 1344171033000000,
+			"settings":
+			{
+				"buffer_size": 3740,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/Hmwd-0.1.gir",
+			"settings":
+			{
+				"buffer_size": 90499,
 				"line_ending": "Unix"
 			}
 		}
@@ -56,6 +139,75 @@
 	},
 	"file_history":
 	[
+		"/home/jumplink/Projekte/HMWorld-Data/src/main.js",
+		"/home/jumplink/Projekte/HMWorld-Data/src/GdkTextureFactory.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/dialogtree.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/entity.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/layer.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/logicalTile.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/test/main.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/xml.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/map.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/mapmanager.vala",
+		"/home/jumplink/Projekte/test.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/main.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/Makefile",
+		"/home/jumplink/Projekte/HMWorld-Data/lib/Hmwd-0.1.h",
+		"/home/jumplink/Projekte/HMWorld-Data/.gitignore",
+		"/home/jumplink/Projekte/HMWorld-Data/src/animation.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/texture.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/Gdk/Texture.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/vector.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/values.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/tilesetmanager.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/tilesetreference.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/matrix.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/file.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/plant.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/sprite.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/spritelayer.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/spriteset.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/spritesetmanager.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/subtile.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/tile.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/tileset.vala",
+		"/home/jumplink/Projekte/vala-object/Makefile",
+		"/home/jumplink/Projekte/node-gir/examples/vala/Makefile",
+		"/home/jumplink/Projekte/node-gir/examples/vala/ValaObject-0.1.gir",
+		"/home/jumplink/Projekte/vala-object/object.vala",
+		"/home/jumplink/Projekte/vala-object/langs/ruby/README.md",
+		"/home/jumplink/Projekte/node-gir/examples/vala/object.vala",
+		"/home/jumplink/Projekte/node-gir/examples/vala/test.node.js",
+		"/home/jumplink/Projekte/node-gir/examples/vala/ValaObject-0.1.typelib",
+		"/home/jumplink/Projekte/node-gir/examples/vala/package.json",
+		"/home/jumplink/Projekte/node-gir/examples/vala/node-run.sh",
+		"/home/jumplink/Projekte/node-gir/examples/vala/env.sh",
+		"/home/jumplink/Projekte/node-gir/examples/vala/vala-object.vapi",
+		"/home/jumplink/Projekte/node-gir/examples/gtk.js",
+		"/home/jumplink/Projekte/node-gir/wscript",
+		"/home/jumplink/Projekte/node-gir/examples/gtk_test.js",
+		"/home/jumplink/Projekte/vala-object/langs/javascript/package.json",
+		"/home/jumplink/Projekte/HMWorld-Data/Hmwd-0.1.gir",
+		"/home/jumplink/Projekte/vala-object/langs/javascript/node-run.sh",
+		"/home/jumplink/Projekte/vala-object/langs/javascript/test.node.js",
+		"/home/jumplink/Projekte/test.txt",
+		"/home/jumplink/Projekte/HMWorld-Data/env.sh",
+		"/home/jumplink/Projekte/HMWorld-Data/Hmwd-0.1.vapi",
+		"/home/jumplink/Projekte/HMWorld-Data/gir/Hmwd-0.1.gir",
+		"/home/jumplink/Projekte/HMWorld-Data/src/texturemanager.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/Clutter/CoglTexture.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/Clutter/GtkTexture.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/Clutter/Texture.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/OpenGL/Texture.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/splittile.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/regulartile.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/eventlocation.vala.off",
+		"/home/jumplink/Projekte/HMWorld/src/main.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/world.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/src/date.vala",
+		"/home/jumplink/Projekte/HMWorld-Data/hmp.sublime-project",
+		"/home/jumplink/Projekte/HMWorld-Website/hmww.sublime-project",
+		"/home/jumplink/Projekte/HMWorld-Data/src/npc.vala",
 		"/home/jumplink/Projekte/HMWorld-Website/hmww",
 		"/home/jumplink/Downloads/node-gir/examples/notify_test.js",
 		"/home/jumplink/Downloads/node-gir/examples/core",
@@ -114,80 +266,11 @@
 		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/category_tbody.jade",
 		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/category_tree.jade",
 		"/home/jumplink/Projekte/magento-nodejs-sync-app/test.txt",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/sync_shop_product_attributes_load.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/sync_shop_funcs.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/product_attributes_load.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/layout.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/node_modules/fetch/lib/fetch.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/README.md",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/product_attributes_image.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/routes/index.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/routes/error.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/routes/customer.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/routes/category.js",
-		"/home/jumplink/Dokumente/arbeit/pizza/nodejs/vala/src/routes/index.js",
-		"/home/jumplink/Dokumente/arbeit/pizza/nodejs/vala/src/app.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/product_info_compare.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/sync_shop_index.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/test.js",
-		"/home/jumplink/Dokumente/arbeit/vala-nodejs/vala-object/langs/javascript/gnome-run.sh",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/no_product.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/no_product_with_menu.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/menu_with_iframe.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/product_info.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/408.jade",
-		"/home/jumplink/Arbeitsfläche/mail.html",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/index.jade",
-		"/home/jumplink/Arbeitsfläche/Re: GoogleMail.eml",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/public/javascripts/page.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/product_image_list.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/content_with_menu.jade",
-		"/home/jumplink/Dokumente/arbeit/#NeverForget/src/app.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/public/javascripts/filterSubmit.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/loading.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/public/javascripts/urlParam.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/load.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/public/javascripts/WindowSize.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/public/javascripts/onClick.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/public/javascripts/getFullSizeOfElement.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/product_delete.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/text.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/iframe.jade",
-		"/tmp/fz3temp-1/bugwelder-shop-17-xml-rpc.conf",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/fileupload/umsetzung/app.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/content_with_menu_and_iframe.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/content_with_menu and_iframe.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/product_atributes_image.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/routes/vwheritage.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/vwheritage_product.jade",
-		"/tmp/fz3temp-1/bugwelder-shop-xml-rpc-apache.conf",
-		"/tmp/fz3temp-1/bugwelder-shop-mageplus-10-xml-rpc.conf",
-		"/tmp/fz3temp-1/index.html",
-		"/media/6564-6531/00001.vcf",
-		"/tmp/fz3temp-1/bugwelder-upload.htpasswd",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/downloads/vwheritage/product/177350",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/product_image_list.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/category_index.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/product_index.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/category_thead.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/product_tbody.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/product_list.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/public/javascripts/filterSubmit.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/category_tree.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/category_tbody.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/public/stylesheets/style.css",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/category_level.jade",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/magento_funcs.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/routes/product.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/routes/category.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/public/javascripts/url_funcs.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/params.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/public/javascripts/urlParam.js",
-		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/sync/views/vwheritage_index.jade"
+		"/home/jumplink/Dokumente/arbeit/bugwelder/magento-nodejs/magento-nodejs-sync-app/views/sync_shop_product_attributes_load.jade"
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 41.0
 	},
 	"find_in_files":
 	{
@@ -198,9 +281,103 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"map",
+			"type",
+			"filename",
+			"path",
+			"fn",
+			"path",
+			"Lade Mapdateien von",
+			"files",
+			"filename",
+			"loadAllFromFolder",
+			"XML",
+			"filename",
+			"path",
+			"./data/map/",
+			"path",
+			"age",
+			"path",
+			"folder",
+			"Layer",
+			"File",
+			"Vector",
+			"class",
+			"Vector",
+			"repeat",
+			"direction",
+			"TEST_COMP",
+			"SHARED_LIBRARY_TARGET",
+			"SHARED_LIBRARY_COMP",
+			"SHARED_LIBRARY_TARGET_FILE",
+			"ValaClass",
+			"vapi",
+			"object",
+			"vapi",
+			"private",
+			"VAPI_TARGET",
+			"vapi",
+			"LIBRARY",
+			"Hmwd.",
+			"init",
+			"main",
+			"init",
+			"function",
+			"main",
+			"init",
+			"main",
+			"init",
+			"process",
+			"sprite_set",
+			"GC",
+			"typelib",
+			"include",
+			"gir",
+			"HMP",
+			"libhmw",
+			"TYPELIB_TARGET",
+			"TYPELIB_TARGET_FILE",
+			"SHARED_LIBRARY_TARGET",
+			"SHARED_LIBRARY",
+			"SHARED_LIBRARY_TARGET_FILE",
+			"TYPELIB_DIR",
+			"TYPELIB_TARGET",
+			"TYPELIB_TARGET_FILE",
+			"TARGET_FILE",
+			"TYPELIB_TARGET_FILE",
+			"dirs",
+			"TYPELIB_TARGET_FILE",
+			"SHARED_LIBRARY_TARGET_FILE",
+			"TYPELIB_COMP",
+			"TYPELIB_TARGET_FILE",
+			":\\",
+			"TYPELIB_TARGET_FILE",
+			"SRC_FILES",
+			"SHARED-LIBRARY",
+			"TARGET",
+			"TARGET_FILE",
+			"timer",
+			"clutter_tex",
+			"age",
+			"HMP.Map.shift_x",
+			"WORLD",
+			"		// private bool motionPossible () {\n		// 	foreach (Entity e in WORLD.CURRENT_MAP.entities) {\n		// 		Vector v = new Vector.fromDifference (e.pos, pos);\n		// 		if (e != this && v.VectorNorm() < (collisionRadius + e.collisionRadius)) {\n		// 			print (\"Kollision mit Entity\\n\");\n		// 			pos.addVector (v.divideByScalar(4.0));\n		// 			return false;\n		// 		}\n		// 	}\n		// 	int y = (direction == Direction.NORTH) ? -1 : (direction == Direction.SOUTH) ? 1 : 0;\n		// 	int x = (direction == Direction.WEST) ? -1 : (direction == Direction.EAST) ? 1 : 0;\n		// 	//print (\"Spielerposition: %f, %f\\n\", (pos.x + spriteset.spritewidth/2)/WORLD.CURRENT_MAP.tilewidth, (pos.y + spriteset.spriteheight/2)/WORLD.CURRENT_MAP.tileheight);\n		// 	return WORLD.CURRENT_MAP.walkable ((uint) ((pos.x)/WORLD.CURRENT_MAP.tilewidth + x), \n		// 		(uint) ((pos.y) /WORLD.CURRENT_MAP.tileheight + y));\n		// }",
+			"current_animation",
+			"time",
+			"STATE",
+			"entity",
+			"LogicalTile",
+			"CoglTexture",
+			"main.vala",
+			"ASRCS",
+			"VIEW",
+			"TEXTUREFACTORY",
+			"VIEW",
+			"clutter",
+			"CLUTTER",
 			"count",
 			"exit",
 			"thread",
@@ -234,101 +411,7 @@
 			"reset_logs",
 			"reset_logs();",
 			"saveFileToArray",
-			"not_exists",
-			"update_or_move",
-			"move",
-			"parent_id",
-			"replace",
-			"not_exists",
-			"parent_id",
-			"is_ac",
-			"category_id",
-			"\")) ",
-			"sql_log",
-			"error_handler",
-			"create_category",
-			"update_category",
-			"update_or_create",
-			"create_categorie",
-			"update_categorie",
-			"delete",
-			"parent_id",
-			"replace",
-			"loop",
-			"path",
-			"help",
-			"input",
-			"unexpected_end_log",
-			"log_path",
-			"error_handler",
-			"shop_index_update",
-			"error",
-			"pausecomp",
-			"console-log",
-			"create_categorie",
-			"parentId",
-			"current_magento",
-			"url",
-			"CategoryLevelSubmitOnClick",
-			"category",
-			"console.log",
-			"magento_result",
-			"cb",
-			"unavable_skus",
-			"email_server",
-			"magento_result",
-			"sync=1",
-			"sku",
-			"if(magen",
-			"email_server",
-			"sku",
-			"result",
-			"json_shops_confs",
-			"config",
-			"__dirname + ",
-			"path",
-			"putspan",
-			"DisplayStr",
-			"FinishMessage",
-			"It is finally",
-			"TargetDate",
-			"date",
-			"DisplayFormat",
-			"CountBack",
-			"AC25155158",
-			"AC2513512",
-			"000-057-002",
-			"113-905-451",
-			"211-611-069/C/ATE",
-			"console",
-			"filter",
-			"filters",
-			"magento",
-			"console",
-			"magento",
-			"console",
-			"console.log",
-			"});\n",
-			"905-QHT-015/BOSCH-M",
-			"magento_confs",
-			"update",
-			"sync_shops_confs",
-			"splitDescriptionData",
-			"    \n",
-			"set_render_parameter",
-			"util",
-			"product_url",
-			"list",
-			"storeView",
-			" arameters",
-			"parameter",
-			"parameters.url",
-			"parameters.sync_shop",
-			"storeView",
-			"magento_conf",
-			"decodeURIComponent(req.query['shop'])",
-			"magento_conf",
-			"storeView"
+			"not_exists"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -336,6 +419,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"tile_type",
+			"Hmwd.Vector",
+			"Hmwd",
+			"SHARED_LIBRARY",
 			"socket",
 			"delete_category",
 			"update_or_create_or_move",
@@ -374,59 +461,328 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 11,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "hmp.sublime-project",
+					"file": "src/mapmanager.vala",
 					"settings":
 					{
-						"buffer_size": 715,
+						"buffer_size": 2763,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1194,
+								1194
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 507.0,
+						"translation.y": 117.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/home/jumplink/Projekte/HMWorld-Website/hmww.sublime-project",
+					"file": "src/matrix.vala",
 					"settings":
 					{
-						"buffer_size": 243,
+						"buffer_size": 8762,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								243,
-								243
+								779,
+								779
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
+						"translation.y": 78.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/main.js",
+					"settings":
+					{
+						"buffer_size": 605,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								245,
+								245
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/plant.vala",
+					"settings":
+					{
+						"buffer_size": 2093,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1417,
+								1417
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 429.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/regulartile.vala",
+					"settings":
+					{
+						"buffer_size": 1929,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1723,
+								1723
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 195.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/tile.vala",
+					"settings":
+					{
+						"buffer_size": 2342,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								922,
+								922
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 156.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/layer.vala",
+					"settings":
+					{
+						"buffer_size": 3588,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2861,
+								2861
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 796.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/xml.vala",
+					"settings":
+					{
+						"buffer_size": 27436,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1587,
+								1587
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 381.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/map.vala",
+					"settings":
+					{
+						"buffer_size": 7667,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5702,
+								5702
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2457.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/splittile.vala",
+					"settings":
+					{
+						"buffer_size": 1481,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1476,
+								1476
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 273.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/vector.vala",
+					"settings":
+					{
+						"buffer_size": 3740,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								919,
+								919
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vala/Syntaxes/Vala.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 390.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "lib/Hmwd-0.1.gir",
+					"settings":
+					{
+						"buffer_size": 90499,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								22468,
+								22468
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6885.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

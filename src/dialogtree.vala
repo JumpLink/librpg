@@ -18,23 +18,23 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer einen Dialogbaum.
 	 */
-	public class DialogTree {
+	public class DialogTree : Object {
 		/**
 		 * Antwort auf vorhergehende Frage.
 		 */
-		private string answer;
+		public string answer { get; construct set; }
 		/**
 		 * Aktuelle Frage.
 		 */
-		private string question;
+		public string question { get; construct set; }
 		/**
 		 * Ausgewaehlte Antwort.
 		 */
-		private int choice = 0;
+		public int choice { get; construct set; }
 		/**
 		 * Antwortmoeglichkeiten.
 		 */
-		private DialogTree[] children;
+		public Hmwd.DialogTree[] children { get; private set; } //FIXME: http://pastebin.com/nEcr7VMe
 
 		/**
 		 * Konstruktor.
@@ -42,10 +42,11 @@ namespace Hmwd {
 		 * @param a Antwort.
 		 * @param c Nachfolger.	
 		 */
-		public DialogTree (string q, string a, DialogTree[] c) {
-			question = q;
-			answer = a;
-			children = c;
+		public DialogTree (string q, string a, Hmwd.DialogTree[] c) { 
+			Object(question: q, answer: a/*, children: c, choice: 0*/); //FIXME
+		}
+		construct {
+
 		}
 		/**
 		 * Aendert ausgewaehlte Antwort.

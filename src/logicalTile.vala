@@ -18,12 +18,12 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer logische Eigenschaften eines Tiles.
 	 */
-	public class LogicalTile {
+	public class LogicalTile : Object {
 
 		/**
 		 * Eigenschaften.
 		 */
-		public TileType type = TileType.EMPTY_TILE;
+		public Hmwd.TileType tile_type { get; set; }
 
 		/**
 		 * Pflanze.
@@ -36,7 +36,10 @@ namespace Hmwd {
 		//public EventLocation event;
 
 		public LogicalTile () {
-			//print("Logisches Tile erstellt\n");
+			Object(tile_type:TileType.EMPTY_TILE	);
+		}
+		construct {
+			
 		}
 	}
 }

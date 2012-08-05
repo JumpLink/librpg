@@ -15,8 +15,20 @@
  */
 using Hmwd;
 namespace Hmwd {
-	public GdkTextureFactory TEXTUREFACTORY;
-	public Hmwd.TileSetManager TILESETMANAGER;
-	public Hmwd.MapManager MAPMANAGER;
-	public Hmwd.SpriteSetManager SPRITESETMANAGER;
+	public GdkTextureFactory TEXTUREFACTORY = null;
+	public Hmwd.TileSetManager TILESETMANAGER = null;
+	public Hmwd.MapManager MAPMANAGER = null;
+	public Hmwd.SpriteSetManager SPRITESETMANAGER = null;
+	public static void init() {
+		Hmwd.TEXTUREFACTORY = new GdkTextureFactory();
+		Hmwd.TILESETMANAGER = new Hmwd.TileSetManager("./data/tileset/");
+		Hmwd.MAPMANAGER = new Hmwd.MapManager("./data/map/");
+		Hmwd.SPRITESETMANAGER = new Hmwd.SpriteSetManager("./data/spriteset/");
+		//Gee.List<Player> PLAYERS = new Gee.ArrayList<Player>();
+		//PLAYERS.add (new Player("Hero", SPRITESETMANAGER.getFromName("Hero")));
+		//MAPMANAGER.printAll();
+		//this.SPRITESETMANAGER.printAll();
+		//PLAYERS[0].printAll();
+		//this.CURRENT_MAP = MAPMANAGER.getFromFilename("testmap.tmx");
+	}
 }

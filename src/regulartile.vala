@@ -26,16 +26,22 @@ namespace Hmwd {
 			 * @see Hmwd.TileType.EMPTY_TILE
 			 */
 			public RegularTile () {
-				tex = TEXTUREFACTORY.empty();
-				type = Hmwd.TileType.NO_TILE;
+				// tex = TEXTUREFACTORY.empty();
+				// type = Hmwd.TileType.NO_TILE;
+				Object(tex:TEXTUREFACTORY.empty(),tile_type:Hmwd.TileType.NO_TILE);
 			}
+
 			/**
 			 * Konstruktor mit uebergabe eines bereits existierenden und zu verwendenen Pixbuf.
 			 * @param pixbuf Pixelbufer der in das Tile uebernommen werden soll.
 			 */
 			public RegularTile.fromPixbuf (Pixbuf pixbuf) {
-				tex = TEXTUREFACTORY.fromPixbuf(pixbuf);
-				type = Hmwd.TileType.EMPTY_TILE;
+				// tex = TEXTUREFACTORY.fromPixbuf(pixbuf);
+				// type = Hmwd.TileType.EMPTY_TILE;
+				Object(tex:TEXTUREFACTORY.fromPixbuf(pixbuf),tile_type:Hmwd.TileType.EMPTY_TILE);
+			}
+			construct {
+				
 			}
 			/**
 			 * {@inheritDoc}
@@ -44,8 +50,8 @@ namespace Hmwd {
 			public override void printValues (){
 				print("ich bin ein RegularTile: ");
 				//print("gid: %u",gid);
-				print("type: %u\n",type);
-				if(type != TileType.NO_TILE) {
+				print("type: %u\n",tile_type);
+				if(tile_type != TileType.NO_TILE) {
 					tex.printValues();
 				}
 			}

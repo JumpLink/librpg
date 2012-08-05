@@ -14,21 +14,9 @@
  *	Patrick König <knuffi@gmail.com>
  */
 using Hmwd;
-class Main {
-	public static void init() {
-		Hmwd.TEXTUREFACTORY = new GdkTextureFactory();
-		Hmwd.TILESETMANAGER = new Hmwd.TileSetManager("./data/tileset/");
-		Hmwd.MAPMANAGER = new Hmwd.MapManager("./data/map/");
-		Hmwd.SPRITESETMANAGER = new Hmwd.SpriteSetManager();
-		//Gee.List<Player> PLAYERS = new Gee.ArrayList<Player>();
-		//PLAYERS.add (new Player("Hero", SPRITESETMANAGER.getFromName("Hero")));
-		//MAPMANAGER.printAll();
-		//this.SPRITESETMANAGER.printAll();
-		//PLAYERS[0].printAll();
-		//this.CURRENT_MAP = MAPMANAGER.getFromFilename("testmap.tmx");
-	}
+class Main : Object {
 	public static int main (string[] args) {
-		Main.init();
+		Hmwd.init();
 		return 0;
 	}
 }
