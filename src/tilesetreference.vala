@@ -25,7 +25,7 @@ namespace Hmwd {
 	 * @see Hmwd.TileSet
 	 * @see Hmwd.TileSetManager
 	 */
-	public class TileSetReference : Object {
+	public class TileSetReference : GLib.Object {
 		/**
 		 * Quelle des TileSets.
 		 */

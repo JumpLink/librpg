@@ -16,7 +16,8 @@
 using Hmwd;
 class Main : Object {
 	public static int main (string[] args) {
-		Hmwd.init();
+		//Hmwd.init();
+		Hmwd.Data data = new Hmwd.Data();
 		return 0;
 	}
 }

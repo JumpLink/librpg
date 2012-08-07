@@ -58,10 +58,10 @@ namespace Hmwd {
 			Parser.init ();
 			//this.path = path;
 			doc = Parser.parse_file (path);
-			if(doc==null) print("failed to read the .xml file\n");
+			if(doc==null) printerr("failed to read the .xml file\n");
 
 			ctx = new Context(doc);
-			if(ctx==null) print("failed to create the xpath context\n");
+			if(ctx==null) printerr("failed to create the xpath context\n");
 		}
 		/**
 		 * Dekonstrukter
@@ -97,7 +97,7 @@ namespace Hmwd {
 			Xml.Node* node;
 			//XPath-Expression ausfuehren
 			unowned Xml.XPath.Object obj = ctx.eval_expression(eval_expression);
-			if(obj==null) print("failed to evaluate xpath\n");
+			if(obj==null) printerr("failed to evaluate xpath\n");
 			//Alle Tiles des XPath-Expression-Ergebnisses durchlaufen
 			for (int i=0;(obj.nodesetval != null && obj.nodesetval->item(i) != null);i++) {
 				//Holt sich das Tile
@@ -116,9 +116,9 @@ namespace Hmwd {
 		protected Gee.HashMap<string, string> loadProperties(Xml.Node* node) {
 			Xml.Attr* attr = node->properties;
 			Gee.HashMap<string, string> properties = new Gee.HashMap<string, string>();
-			print("loadProperties - ");
+			//print("loadProperties - ");
 			while ( attr != null ) {
-				print("Attribute: \tname: %s\tvalue: %s\n", attr->name, attr->children->content);
+				//print("Attribute: \tname: %s\tvalue: %s\n", attr->name, attr->children->content);
 				properties.set(attr->name, attr->children->content);
 				attr = attr->next;
 			}
@@ -132,14 +132,14 @@ namespace Hmwd {
 		 */
 	    protected Xml.Node* evalExpression (string expression ) {
 	        unowned Xml.XPath.Object obj = ctx.eval_expression(expression);
-	        if(obj==null) print("failed to evaluate xpath\n");
+	        if(obj==null) printerr("failed to evaluate xpath\n");
 
 	        Xml.Node* node = null;
 	        if ( obj.nodesetval != null && obj.nodesetval->item(0) != null ) {
 	            node = obj.nodesetval->item(0);
-	            print("Found the node we want\n");
+	            //print("Found the node we want\n");
 	        } else {
-	            print("failed to find the expected node\n");
+	            printerr("failed to find the expected node\n");
 	        }
 	        return node;
 	    }
@@ -217,11 +217,11 @@ namespace Hmwd {
 		 *
 		 * @return Liste mit allen gefundenen TileSets
 		 */
-		public Gee.List<Hmwd.TileSetReference> loadTileSets () {
+		public Gee.List<Hmwd.TileSetReference> loadTileSets (Hmwd.TileSetManager tilesetmanager) {
 			Gee.List<Hmwd.TileSetReference> tileset = new Gee.ArrayList<Hmwd.TileSetReference>(); //Speichert diie TileSets in einer Liste
 			//XPath-Expression ausfuehren
 			unowned Xml.XPath.Object obj = ctx.eval_expression("/map/tileset");
-			if(obj==null) print("failed to evaluate xpath\n");
+			if(obj==null) printerr("failed to evaluate xpath\n");
 			//Durchläuft alle Nodes, also alle resultierten TileSet-Tags
 			for (int i=0;(obj.nodesetval != null && obj.nodesetval->item(i) != null);i++) {
 				//Holt entsprechenden Layer
@@ -231,7 +231,7 @@ namespace Hmwd {
 				//string zerschneiden um den Dateinamen zu bekommen
 				string filename = Hmwd.File.PathToFilename((string) properties.get ("source"));
 				//Speichert die geparsten properties
-				Hmwd.TileSet source = TILESETMANAGER.getFromFilename(filename);
+				Hmwd.TileSet source = tilesetmanager.getFromFilename(filename);
 				int firstgid = int.parse(properties.get ("firstgid"));
 				//Den zusammengestellten neuen TileSet in die Liste einfuegen
 				tileset.add( new TileSetReference(firstgid, source));
@@ -267,7 +267,7 @@ namespace Hmwd {
 			DrawLevel drawlayer;
 			//XPath-Expression ausfuehren
 			unowned Xml.XPath.Object obj = ctx.eval_expression("/map/layer");
-			if(obj==null) print("failed to evaluate xpath\n");
+			if(obj==null) printerr("failed to evaluate xpath\n");
 			//Durchläuft alle Nodes, also alle resultierten Layer-Tags
 			for (int i=0;(obj.nodesetval != null && obj.nodesetval->item(i) != null);i++) {
 				//Holt entsprechenden Layer
@@ -284,15 +284,17 @@ namespace Hmwd {
 				//print("Fuege Layer mit Namen %s hinzu\n", properties.get ("name"));
 				//Holt sich auch gleich den Z-Wert
 				loadLayerProps(i, out collision, out drawlayer);
+				Hmwd.Layer new_layer = new Layer.all( name, i+1, collision, width, height);
+				new_layer.tiles = tiles;
 				switch (drawlayer) {
 					case DrawLevel.UNDER:
-						layer_under.add( new Layer.all( name, i+1, collision, width, height, tiles) );
+						layer_under.add( new_layer );
 					break;
 					case DrawLevel.SAME:
-						layer_same.add( new Layer.all( name, i+1, collision, width, height, tiles) );
+						layer_same.add( new_layer );
 					break;
 					case DrawLevel.OVER:
-						layer_over.add( new Layer.all( name, i+1, collision, width, height, tiles) );
+						layer_over.add( new_layer );
 					break;
 
 				}
@@ -369,6 +371,7 @@ namespace Hmwd {
 						tmp_tilesetref = Hmwd.Map.getTileSetRefFromGid(tilesetrefs, ids[x,y]);
 						// Berechnet den Index des Tiles anhand der Gid und der firstgid und gibt das entsprechende Tile mit dem Index zurueck.
 						tmp_tile = tmp_tilesetref.source.getTileFromIndex(ids[x,y] - tmp_tilesetref.firstgid);
+						tmp_tile.gid = ids[x,y]; //neu
 						//TODO anhand der ID den echten TileTyp bestimmen.
 						tmp_tile.tile_type = TileType.EMPTY_TILE;
 					}
@@ -399,7 +402,7 @@ namespace Hmwd {
 		public TSX(string path) {
 			base(path);
 		}
-		~TMX() {
+		~TSX() {
 			//base(path);
 		}
 		/**
@@ -459,7 +462,7 @@ namespace Hmwd {
 					parse_properties (root, tileset_image_properties);
 				break;
 				default:
-					print("Keine passende Node gefunden!\n");
+					printerr("Keine passende Node gefunden!\n");
 				break;
 			}
 	        
@@ -586,6 +589,7 @@ namespace Hmwd {
 		 * @see Gee.ArrayList
 		 */
 		public Gee.List<Animation> loadAnimations (uint width, uint height) {
+			print("loadAnimations\n");
 			Gee.List<Animation> animation = new Gee.ArrayList<Animation>();
 			Gee.List<AnimationData> ani_datas;
 			string name;
@@ -593,7 +597,7 @@ namespace Hmwd {
 			string repeat;
 			//XPath-Expression ausfuehren
 			unowned Xml.XPath.Object obj = ctx.eval_expression("/spriteset/animation");
-			if(obj==null) print("failed to evaluate xpath\n");
+			if(obj==null) printerr("failed to evaluate xpath\n");
 			//Durchläuft alle Nodes, also alle resultierten Layer-Tags
 			for (int i=0;(obj.nodesetval != null && obj.nodesetval->item(i) != null);i++) {
 				//Holt entsprechenden Layer
@@ -661,7 +665,8 @@ namespace Hmwd {
 			Xml.Node* node;
 			Gee.HashMap<string, string> properties;
 			string name;
-			string tile_type;
+			string tile_type_str;
+			SpriteLayerType tile_type;
 			string image_filename;
 			string trans;
 			uint width;
@@ -670,20 +675,27 @@ namespace Hmwd {
 			uint spriteheight;
 			//XPath-Expression ausfuehren
 			unowned Xml.XPath.Object obj = ctx.eval_expression("/spriteset/layer");
-			if(obj==null) print("failed to evaluate xpath\n");
+			if(obj==null) printerr("failed to evaluate xpath\n");
 			//Durchläuft alle Nodes, also alle resultierten Layer-Tags
 			for (int i=0;(obj.nodesetval != null && obj.nodesetval->item(i) != null);i++) {
-				print("LadeLayer\n");
+				//print("LadeLayer\n");
 				node = obj.nodesetval->item(i);
 				properties = loadProperties(node);
 				name = (string) properties.get ("name");
-				tile_type = (string) properties.get ("tile_type");
+				tile_type_str = (string) properties.get ("tile_type");
 				width = int.parse(properties.get ("width"));
 				height = int.parse(properties.get ("height"));
 				spritewidth = int.parse(properties.get ("spritewidth"));
 				spriteheight = int.parse(properties.get ("spriteheight"));
 				loadLayerImage(i, out image_filename, out trans);
-				tmp_spritelayer = new SpriteLayer(i, name, image_filename, Hmwd.SpriteLayerType.parse(tile_type), trans, width, height, spritewidth, spriteheight);
+				if(tile_type_str == null || tile_type_str.length < 0){
+					printerr("xml: sprite: loadLayers: tile_type is null, using base-type\n");
+					tile_type = Hmwd.SpriteLayerType.BASE;
+				} else {
+					tile_type = Hmwd.SpriteLayerType.parse(tile_type_str);
+				}
+				
+				tmp_spritelayer = new SpriteLayer(i, name, image_filename, tile_type, trans, width, height, spritewidth, spriteheight);
 				res.add(tmp_spritelayer);
 			}
 			return res;
@@ -698,7 +710,7 @@ namespace Hmwd {
 		 * //@param height The spriteset height in sprites.
 		 */
 		public void loadLayerImage (int spritelayer_number, out string image_filename, out string trans) {
-			print("loadLayerImage\n");
+			//print("loadLayerImage\n");
 			//XPath-Expression verarbeiten
 			Xml.Node* node = evalExpression("/spriteset/layer["+(spritelayer_number+1).to_string()+"]/image");
 			//properties des resultats verarbeiten.

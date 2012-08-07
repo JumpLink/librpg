@@ -24,19 +24,19 @@ namespace Hmwd {
 		/**
 		 * orientation der Map.
 		 */
-		public string orientation;
+		public string orientation { get; set; }
 		/**
 		 * Version des Kartenformats, fuer gewoehnloch 1.0
 		 */
-		public string version;
+		public string version { get; set; }
 		/**
 		 * Gesamtbreite der Map in Tiles
 		 */
-		public uint width;
+		public uint width { get; set; }
 		/**
 		 * Gesamthoehe der Map in Tiles
 		 */
-		public uint height;
+		public uint height { get; set; }
 		/**
 		 * Gesamtbreite der Map in Pixel
 		 */
@@ -52,11 +52,11 @@ namespace Hmwd {
 		/**
 		 * Breite eines Tiles
 		 */
-		public uint tilewidth;
+		public uint tilewidth { get; set; }
 		/**
 		 * Höhe eines Tiles
 		 */
-		public uint tileheight;
+		public uint tileheight { get; set; }
 		/**
 		 * Dateiname der Map
 		 */
@@ -68,25 +68,33 @@ namespace Hmwd {
 		/**
 		 * Tilesets die für auf der Map verwendet werden
 		 */
-		public Gee.List<Hmwd.TileSetReference> tileset = new Gee.ArrayList<TileSetReference>();
+		public Gee.List<Hmwd.TileSetReference> tileset  { get; set; default=new Gee.ArrayList<TileSetReference>();}
 		/**
 		 * Layer der Map ueber dem Helden
 		 */
-		public Gee.List<Layer> layers_over = new Gee.ArrayList<Layer>();
+		public Gee.List<Layer> layers_over { get; set; default=new Gee.ArrayList<Layer>();}
 		/**
 		 * Layer der Map gleich dem Helden
 		 */
-		public Gee.List<Layer> layers_same = new Gee.ArrayList<Layer>();
+		public Gee.List<Layer> layers_same { get; set; default=new Gee.ArrayList<Layer>();} 
 		/**
 		 * Layer der Map unter dem Helden
 		 */
-		public Gee.List<Layer> layers_under = new Gee.ArrayList<Layer>();
+		public Gee.List<Layer> layers_under { get; set; default=new Gee.ArrayList<Layer>();} 
+
+		public int all_layer_size {
+			get {
+				return layers_same.size+layers_under.size+layers_over.size;
+			}
+		}
 		/** 
 		 * Entities auf der Map
 		 */
-		public Gee.List<Entity> entities = new Gee.ArrayList<Entity>();
+		public Gee.List<Entity> entities { get; set; default=new Gee.ArrayList<Entity>();}
 
-		public LogicalTile [,] tiles;
+		public LogicalTile [,] tiles { get; set; }
+
+		public Hmwd.TileSetManager tilesetmanager { get; construct set; }
 
 
 		// public double shift_x {
@@ -102,11 +110,11 @@ namespace Hmwd {
 		public Map() {
 			print("Erstelle leeres Map Objekt\n");
 		}
-		public Map.fromPath (string path, string filename) {
-			Object(path: path, filename:filename);
+		public Map.fromPath (string path, string filename, Hmwd.TileSetManager tilesetmanager) {
+			Object(path: path, filename:filename, tilesetmanager:tilesetmanager);
 		}
 		construct {
-			setFromPath (path, filename);
+			setFromPath (path, filename, tilesetmanager);
 		}
 		/**
 		 * Konstrukter, ladet Map mit Daten einer Mapdatei
@@ -114,18 +122,43 @@ namespace Hmwd {
 		 * @param path Das Verzeichnis aus dem gelesen werden soll
 		 * @param filename Der Dateiname der gelesen werden soll
 		 */
-		public void setFromPath (string path, string filename) {
+		public void setFromPath (string path, string filename, Hmwd.TileSetManager tilesetmanager) {
 			print("Lade Mapdateien von %s + %s\n", path, filename);
 			
 			TMX xml = new TMX(path+filename);
-			xml.loadGlobalMapProperties(out orientation, out version, out width, out height, out tilewidth, out tileheight);
+
+			string tmp_orientation;
+			string tmp_version;
+			uint tmp_width;
+			uint tmp_height;
+			uint tmp_tilewidth;
+			uint tmp_tileheight;
+
+			xml.loadGlobalMapProperties(out tmp_orientation, out tmp_version, out tmp_width, out tmp_height, out tmp_tilewidth, out tmp_tileheight);
+			
+			orientation = tmp_orientation;
+			version = tmp_version;
+			width = tmp_width;
+			height = tmp_height;
+			tilewidth = tmp_tilewidth;
+			tileheight = tmp_tileheight;
+
 			tiles = new LogicalTile [width, height];
 			for (uint x = 0; x < width; ++x)
 				for (uint y = 0; y < height; ++y) {
 					tiles[x,y] = new LogicalTile ();
 			}
-			tileset = xml.loadTileSets();
-			xml.loadLayers(tileset, out layers_over, out layers_same, out layers_under);
+			tileset = xml.loadTileSets(tilesetmanager);
+
+			Gee.List<Layer> tmp_layers_over;
+			Gee.List<Layer> tmp_layers_same;
+			Gee.List<Layer> tmp_layers_under;
+
+			xml.loadLayers(tileset, out tmp_layers_over, out tmp_layers_same, out tmp_layers_under);
+
+			layers_over = tmp_layers_over;
+			layers_same = tmp_layers_same;
+			layers_under = tmp_layers_under;
 		}
 		/**
 		 * Gibt das zur gid passende TileSetReference zurueck.
@@ -143,6 +176,52 @@ namespace Hmwd {
 			}
 			//print("Das passende TileSet ist %s\n", found.source.name);
 			return found;
+		}
+		public TileSetReference getTileSetRefFromGidFromOwn(int gid) {	
+			Hmwd.TileSetReference found = tileset[0];
+			foreach (Hmwd.TileSetReference tsr in tileset) {
+				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
+					found = tsr;
+			}
+			//print("Das passende TileSet ist %s\n", found.source.name);
+			return found;
+		}
+		public int getTileSetIndexFromGid(int gid) {	
+			TileSetReference tref = getTileSetRefFromGidFromOwn(gid);
+			if (tref == null)
+				return 0;
+			else
+				return tileset.index_of(tref);
+		}
+		public int getTileSetIndexFromPosition(int x, int y, int layer_index) {
+			return getTileSetIndexFromGid(getTileGIDFromPosition(x,y,layer_index));
+		}
+		public int getTileIDFromGid(int gid) {	
+			TileSetReference tref = getTileSetRefFromGidFromOwn(gid);
+			return (int) gid - (int) (tref.firstgid-1);
+		}
+		public int getTileIDFromPosition(int x, int y, int layer_index) {
+			Hmwd.Layer layer = getLayerFromIndex(layer_index);
+			if (layer == null)
+				return 0;
+			Hmwd.Tile tile = layer.getTileXY(x,y);
+			if (tile == null)
+				return 0;
+			Hmwd.TileSetReference tref = getTileSetRefFromGidFromOwn(tile.gid);
+			if (tref == null)
+				return 0;
+			return (int) tile.gid - (int) (tref.firstgid-1);
+		}
+		public int getTileGIDFromPosition(int x, int y, int layer_index) {
+			Hmwd.Layer layer = getLayerFromIndex(layer_index);
+			if (layer == null)
+				return 0;
+			Hmwd.Tile tile = layer.getTileXY(x,y);
+			if (tile != null)
+				return tile.gid;
+			else {
+				return 0;
+			}
 		}
 		/**
 		 * Gibt den Layer eines gesuchten Layers mit dem Namen name zurueck.
@@ -166,6 +245,31 @@ namespace Hmwd {
 					return i;
 				}
 			}
+			printerr("keinen Layer mit diesem Namen gefunden\n");
+			return null;
+		}
+
+		public Layer? getLayerFromIndex(int index){
+			int count = 0;
+			foreach (Layer i in layers_under) {
+				if (count == index) {
+					return i;
+				}
+				count++;
+			}
+			foreach (Layer i in layers_same) {
+				if (count == index) {
+					return i;
+				}
+				count++;
+			}
+			foreach (Layer i in layers_over) {
+				if (count == index) {
+					return i;
+				}
+				count++;
+			}
+			printerr("keinen Layer mit dem Index %i gefunden\n",index);
 			return null;
 		}
 		/**

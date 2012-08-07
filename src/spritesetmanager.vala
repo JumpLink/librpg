@@ -21,19 +21,26 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer SpriteSetManager
 	 */
-	public class SpriteSetManager : Object {
+	public class SpriteSetManager : GLib.Object {
 		Gee.List<SpriteSet> spriteset;
 		public string folder { get; construct set; }
 		/**
 		 * Konstruktor
 		 */
-		public SpriteSetManager(string folder = "./data/spriteset/") {
-			Object(folder: folder);
+		public SpriteSetManager(string folder) {
+			GLib.Object(folder: folder);
 		}
 		construct {
-			print("Erstelle SpriteSetManager\n");
 			spriteset = new Gee.ArrayList<SpriteSet>();
-			loadAllFromFolder(folder);
+			if(folder!=null) {
+				print("Erstelle SpriteSetManager\n");
+				spriteset = new Gee.ArrayList<SpriteSet>();
+				loadAllFromFolder(folder);
+			} else {
+				printerr("folder is undefined, using default: ./data/spriteset/\n");
+				folder = "./data/spriteset/";
+			}
+
 		}
 		/**
 		 * Dekonstruktor
@@ -50,11 +57,18 @@ namespace Hmwd {
 		 *
 		 * @param folder Ordnername aus dem gelesen werden soll.
 		 */
-		private void loadAllFromFolder(string folder = "./data/spriteset/") {
+		public void loadAllFromFolder(string folder) {
+			if(folder == null || folder.length < 1) {
+				printerr("folder is undefined, using default: ./data/spriteset/\n");
+				folder = "./data/spriteset/";
+			}
+
 			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".ssx");
+
 			foreach (string filename in files) {
 				print("Dateiname: %s\n\n", filename);
-				spriteset.add(new Hmwd.SpriteSet.fromPath(folder, filename));
+				Hmwd.SpriteSet current_spriteset = new Hmwd.SpriteSet.fromPath(folder, filename);
+				spriteset.add(current_spriteset);
 			}
 		}
 		/**

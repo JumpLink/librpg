@@ -17,45 +17,113 @@ namespace Hmwd {
 	/**
 	 * Klasse zur Speicherung einer Textur und um diese an OpenGL zu binden.
 	 */
-	public abstract class GdkTexture : GLib.Object, Texture {
+	public class GdkTexture : GLib.Object {
 		/**
 		 * Liefert den Pixbuf der Textur, Pixbuf wird fuer die Verwalltung der Pixel verwendet.<<BR>>
 		 * * Weitere Informationen: [[http://valadoc.org/gdk-pixbuf-2.0/Gdk.Pixbuf.html]]
 		 * @see Gdk.Pixbuf
 		 */
-		public virtual Pixbuf pixbuf { get; protected set; }
-		public virtual double width {
+		public Pixbuf pixbuf { get; set construct; }
+		public string path { get; set construct; }
+		public double width {
 			get { return pixbuf.get_width(); }
 			set { width = value;}
 		}
-		public virtual double height {
+		public double height {
 			get { return pixbuf.get_height(); }
 			set { height = value;}
 		}
-		public virtual Hmwd.Colorspace colorspace {
+		public Hmwd.Colorspace colorspace {
 			get { return Hmwd.Colorspace.fromGdkPixbuf(pixbuf); }
+		}
+		public uint length {
+			get { return pixbuf.rowstride*pixbuf.height; }
 		}
 		/**
 		 * Liefert ein Zeiger auf ein Array uint8[] mit den Pixelwerten,
 		 * der hier vorgegebene Rueckgabetyp ist hier void* damit dieser mit OpenGL
 		 * kompatibel ist.
 		 */
-		public virtual void* pixels {
-			get { return pixbuf.get_pixels(); }
+		public uint8[] pixels {
+			get {
+				return pixbuf.get_pixels();
+			}
 		}
+
+		public uint8[] copy_pixels() {
+			uint size = pixbuf.rowstride*pixbuf.height;
+			uint8[] p = new uint8[size];
+			//uint8[] p = pixbuf.get_pixels()[0:size];
+			print("pixel size: %u\n",size);
+			// uint8[] tmp =  pixbuf.get_pixels();
+			// uint8[] p = new uint8[size];
+
+			for (int i = 0;i<size;i++) {
+				p[i] = pixbuf.get_pixels()[i];
+				print("%u ", p[i]);
+			}
+			//p = pixbuf.get_pixels();
+			
+			return p;
+		}
+
+		public uint8 copy_pixel(int n) {
+			return pixbuf.get_pixels()[n];
+		}
+
+		public string string_pixels {
+			get { return (string) pixbuf.get_pixels(); }
+		}
+
+		public uint8[] save_to_buffer(string type) {
+	 		try {
+				uint8[] pixel_buffer;
+				pixbuf.save_to_buffer(out pixel_buffer, type );
+				print("buffer_size: %u\n",pixel_buffer.length);
+				return pixel_buffer;
+			}
+			catch (GLib.Error e) {
+				GLib.error("%s pixel konnten nicht kopiert werden", path);
+			}
+		}
+		public string save_to_buffer_string(string type) {
+	 		try {
+				uint8[] pixel_buffer;
+				pixbuf.save_to_buffer(out pixel_buffer, type);
+				print("buffer_size: %u\n",pixel_buffer.length);
+				return (string) pixel_buffer;
+			}
+			catch (GLib.Error e) {
+				GLib.error("%s pixel konnten nicht kopiert werden", path);
+			}
+		}
+
 		/**
 		 * Liefert Information darueber ob die Textur einen Alphakanal enthaelt.
 		 * @see Gdk.Pixbuf.get_has_alpha
 		 */
-		public virtual bool has_alpha {
+		public bool has_alpha {
 			get { return this.pixbuf.get_has_alpha(); }
+		}
+		public GdkTexture() {
+
+		}
+		public GdkTexture.fromFile(string path) {
+			GLib.Object(path:path);
+		}
+		public GdkTexture.fromPixbuf(Gdk.Pixbuf pixbuf) {
+			GLib.Object(pixbuf:pixbuf);
+		}
+		construct {
+			if(path != null) {
+				loadFromFile(path);
+			}
 		}
 		/**
 		 * Ladet eine Textur aus einer Datei.
 		 * @param path Pfadangabe der zu ladenden Grafikdatei.
 		 */
-		protected virtual void loadFromFile(string path)
-		requires (path != null)
+		protected void loadFromFile(string path)
 		{
 	 		try {
 				pixbuf = new Pixbuf.from_file (path);
@@ -72,8 +140,7 @@ namespace Hmwd {
 		 * Ladet eine Textur aus einem Pixbuf in die Klasse.
 		 * @param pixbuf Der pixbuf aus dem die Textur erstellt werden soll.
 		 */
-		public virtual void loadFromPixbuf(Gdk.Pixbuf pixbuf)
-		requires (pixbuf != null)
+		public void loadFromPixbuf(Gdk.Pixbuf pixbuf)
 		{
 			print("GdkTexture: loadFromPixbuf\n");
 			this.pixbuf = pixbuf;
@@ -81,7 +148,7 @@ namespace Hmwd {
 		/**
 		 *
 		 */
-		public virtual void save (string filename) {
+		public void save (string filename) {
 			try {
 				pixbuf.save(filename, "png");
 				print("GdkTexture: save\n");

@@ -10,19 +10,25 @@ VERSION        = 0.1
 # Name des Pakets
 PKG_NAME       = Hmwd
 
+# Name der Library
+LIB_NAME       = libhmwd
+
+
 # Quelldateien nur fuer das Spiel
 SRCS           = main.vala
 
 LIBRARY        = $(PKG_NAME)-$(VERSION)
 
 # Quelltestdateien nur fuer Tests
-TSRCS          = main.vala tileset.vala ClutterTest.vala
+TSRCS          = main.vala
 
 
 # ausfuehrbares Ziel
 TARGET                   = $(LIBRARY).o
-# ausfuehrbares Ziel
-SHARED_LIBRARY_TARGET    = $(LIBRARY).so
+
+SHARED_LIBRARY_TARGET    = $(LIB_NAME).so
+
+STATIC_LIBRARY_TARGET    = $(LIB_NAME).a
 
 TYPELIB_TARGET           = $(LIBRARY).typelib
 
@@ -53,10 +59,12 @@ GIR_DIR              = $(LIB_DIR)
 TYPELIB_DIR          = $(LIB_DIR)
 # Linkverzeichnis
 SHARED_LIBRARY_DIR   = $(LIB_DIR)
+
+STATIC_LIBRARY_DIR   = $(LIB_DIR)
 # Headerverzeichniss
 HEADER_DIR    = $(LIB_DIR)
 # Verzeichnis fuer erzeuge Binaries
-BIN_DIR              = bin/
+BIN_DIR              = $(LIB_DIR)
 # Verzeichnis fuer Doku
 DOC_DIR              = doc/
 # Verzeichnis fuer Doku
@@ -96,6 +104,8 @@ VAPI_TARGET_FILE           = $(VAPI_TARGET:%=$(LIB_DIR)%)
 
 SHARED_LIBRARY_TARGET_FILE = $(SHARED_LIBRARY_TARGET:%=$(SHARED_LIBRARY_DIR)%)
 
+STATIC_LIBRARY_TARGET_FILE = $(STATIC_LIBRARY_TARGET:%=$(STATIC_LIBRARY_DIR)%)
+
 GIR_TARGET_FILE            = $(GIR_TARGET:%=$(GIR_DIR)%)
 
 HEADER_TARGET_FILE         = $(HEADER_TARGET:%=$(HEADER_DIR)%)
@@ -112,6 +122,7 @@ COMP                  = \
 							$(PKG_FLAGS)                              \
 							$(CC_FLAGS)                               \
 							$(SRC_FILES)                              \
+							--enable-experimental                     \
 # Alle g-ir-compiler obtionen
 TYPELIB_COMP              = \
 							--shared-library=$(SHARED_LIBRARY_TARGET) \
@@ -132,6 +143,12 @@ SHARED_LIBRARY_COMP   = \
 							$(CC_FLAGS)                               \
 							$(SRC_FILES)                              \
 
+# STATIC_LIBRARY_COMP = \
+# 							ar                                        \
+# 							rvs                                       \
+# 							$(STATIC_LIBRARY_TARGET_FILE)             \
+#							$(TARGET_FILE)
+
 TEST_COMP   = \
 							$(VAPI_TARGET_FILE)                       \
 							--vapidir=$(VAPI_DIR)                     \
@@ -140,6 +157,7 @@ TEST_COMP   = \
 							test/main.vala                            \
 							-X lib/$(SHARED_LIBRARY_TARGET)           \
 							-X -I$(LIB_DIR)                           \
+							--enable-experimental                     \
 							-o test.o
 
 DEBUG_COMP   = \
@@ -150,7 +168,8 @@ DEBUG_COMP   = \
 							$(PKG_FLAGS)                              \
 							$(CC_FLAGS)                               \
 							$(SRC_FILES)                              \
-							test/main.vala                            \
+							--enable-experimental                     \
+							test/main.vala
 
 # Targets
 
@@ -158,7 +177,14 @@ DEBUG_COMP   = \
 
 ## * make (all): Programm compilieren
 all: dirs shared_library typelib
-
+## * make install: Programm installieren
+install:
+	@sudo cp -u ./$(SHARED_LIBRARY_TARGET_FILE) /usr/lib/$(SHARED_LIBRARY_TARGET)
+	@sudo cp -u ./$(HEADER_TARGET_FILE) /usr/include/$(HEADER_TARGET)
+## * make unstall: Programm deinstallieren
+unstall:
+	@sudo rm /usr/lib/$(SHARED_LIBRARY_TARGET)
+	@sudo rm /usr/include/$(HEADER_TARGET)
 ## * make run: Library compilieren und node ausfuehren
 run: all
 	@echo "Running node src/main.js..."
@@ -167,10 +193,6 @@ run: all
 run-test: all
 	@echo "Running node src/main.js..."
 	./test.o;
-## * make run: Programm compilieren und ausfuehren
-run-object: dirs object
-	@echo "Running $(TARGET_FILE)..."
-	$(TARGET_FILE)
 ## * make dirs: Noetige Verzeichnisse erstellen
 dirs:
 	@echo "Creating output directory..."
@@ -187,6 +209,10 @@ shared_library: dirs $(SRC_FILES)
 	@$(VC) $(SHARED_LIBRARY_COMP)
 	@mv -f $(GIR_TARGET) $(GIR_TARGET_FILE)
 	@mv -f $(VAPI_TARGET) $(VAPI_TARGET_FILE)
+## * make static_library:  
+#static_library: object
+#	@echo "Compiling static_library:\n$(STATIC_LIBRARY_COMP)\n";  \
+#	$(STATIC_LIBRARY_COMP)                
 ## * make typelib:  
 typelib: shared_library
 	@echo "Compiling Typelib:\n$(GC) $(TYPELIB_COMP)\n";  \

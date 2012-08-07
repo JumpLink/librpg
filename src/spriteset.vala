@@ -24,7 +24,8 @@ namespace Hmwd {
 		/**
 		 * Dateiname des SpriteSets.
 		 */
-		public string filename;
+		public string filename { get; construct set; }
+		public string folder { get; construct set; }
 		/**
 		 * Name des SpriteSets.
 		 */
@@ -82,6 +83,30 @@ namespace Hmwd {
 
 		}
 		/**
+		 * Konstrukter, ladet SpriteSet mit Daten einer SpriteSetDatei
+		 *
+		 * @param folder Das Verzeichnis aus dem gelesen werden soll
+		 * @param filename Der Dateiname der gelesen werden soll
+		 */
+		public SpriteSet.fromPath (string folder, string filename) {
+			Object(folder:folder, filename:filename);
+
+		}
+		construct {
+			print("Lade SpriteSetdateien von %s + %s\n", folder, filename);
+
+			if(folder != null && filename != null) {
+				SSX xml = new SSX(folder+filename);
+				xml.loadGlobalProperties(out name, out version, out width, out height, out spritewidth, out spriteheight);
+				print("loadGlobalProperties -> name %s\n", name);
+				spritelayers = xml.loadLayers();
+				animations = xml.loadAnimations(width, height);
+			} else {
+				printerr("SpriteSet.fromPath: folder or filename is null\n");
+			}
+		}
+
+		/**
 		 * Setzt eine Animation anhand ihres Namens und ihrer Richtung,
 		 * dadurch wird dann durch draw das entsprechende Sprite verwendet.
 		 */
@@ -104,21 +129,7 @@ namespace Hmwd {
 				//kein wechsel
 			}
 		}
-		/**
-		 * Konstrukter, ladet SpriteSet mit Daten einer SpriteSetDatei
-		 *
-		 * @param folder Das Verzeichnis aus dem gelesen werden soll
-		 * @param fn Der Dateiname der gelesen werden soll
-		 */
-		public SpriteSet.fromPath (string folder = "./data/spriteset/", string fn) { //TODO
-			print("Lade SpriteSetdateien von %s + %s\n", folder, fn);
 
-			this.filename = fn;
-			SSX xml = new SSX(folder+filename);
-			xml.loadGlobalProperties(out name, out version, out width, out height, out spritewidth, out spriteheight);
-			spritelayers = xml.loadLayers();
-			animations = xml.loadAnimations(width, height);
-		}
 		public SpriteLayer? get_baseLayer()
 		requires (spritelayers != null)
 		{

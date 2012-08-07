@@ -21,13 +21,13 @@ namespace Hmwd {
 	 * Allgemeine Klasse fuer Sprites
 	 */
 	public class Animation : Object {
-		public string name { get; set; }
-		public Direction direction { get; set; }
-		public bool repeat { get; set; }
+		public string name { get; construct set; }
+		public Direction direction { get; construct set; }
+		public bool repeat { get; construct set; }
 		/**
 		 * Animationsframes pro Sekunde
 		 */
-		public double frame_ps = 6;
+		public double frame_ps { get; set; default=6; }
 		//private double timer = 0;
 		public Gee.List<AnimationData> animationdata { get; set; }
 
@@ -51,7 +51,10 @@ namespace Hmwd {
 			Object(name: name, repeat: repeat, direction: direction, animationdata:animationdata);
 		}
 		construct {
-			animationdata = new Gee.ArrayList<AnimationData>();
+			if (animationdata == null) {
+				printerr("animationdata == null create new animationdata\n");
+				animationdata = new Gee.ArrayList<AnimationData>();
+			}
 		}
 
 		public AnimationData get_AnimationData ()

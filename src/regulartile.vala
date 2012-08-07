@@ -28,7 +28,7 @@ namespace Hmwd {
 			public RegularTile () {
 				// tex = TEXTUREFACTORY.empty();
 				// type = Hmwd.TileType.NO_TILE;
-				Object(tex:TEXTUREFACTORY.empty(),tile_type:Hmwd.TileType.NO_TILE);
+				Object(tex:new GdkTexture(), tile_type:Hmwd.TileType.NO_TILE);
 			}
 
 			/**
@@ -38,7 +38,7 @@ namespace Hmwd {
 			public RegularTile.fromPixbuf (Pixbuf pixbuf) {
 				// tex = TEXTUREFACTORY.fromPixbuf(pixbuf);
 				// type = Hmwd.TileType.EMPTY_TILE;
-				Object(tex:TEXTUREFACTORY.fromPixbuf(pixbuf),tile_type:Hmwd.TileType.EMPTY_TILE);
+				Object(tex:new GdkTexture.fromPixbuf(pixbuf), tile_type:Hmwd.TileType.EMPTY_TILE);
 			}
 			construct {
 				

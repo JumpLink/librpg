@@ -319,6 +319,16 @@ namespace Hmwd {
 					assert_not_reached();
 			}
 		}
+		public string to_string() {
+			switch (this) {
+				case Hmwd.Colorspace.RGB:
+					return "rgb";
+				case  Hmwd.Colorspace.RGBA:
+					return "rgba";
+				default:
+					assert_not_reached();
+			}
+		}
 		public static Hmwd.Colorspace fromGdkPixbuf (Gdk.Pixbuf pixbuf) {
 			if(pixbuf.colorspace == Gdk.Colorspace.RGB) {
 				if (pixbuf.has_alpha) {

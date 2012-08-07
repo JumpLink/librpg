@@ -30,7 +30,7 @@ namespace Hmwd {
 		/**
 		 * Dateiname des TileSets.
 		 */
-		public string filename;
+		public string filename { get; set; }
 		/**
 		 * Breite eines Tiles
 		 */
@@ -42,7 +42,7 @@ namespace Hmwd {
 		/**
 		 * Dateiname des TileSet-Bildes
 		 */
-		public string source;
+		public string source { get; construct set; }
 		/**
 		 * Transparente Farbe im TileSet
 		 */
@@ -90,8 +90,10 @@ namespace Hmwd {
 		public void loadFromPath(string folder, string filename) {
 			this.filename = filename;
 			var xml = new TSX (folder+filename);
-			xml.getDataFromFile(folder, filename, out name, out tilewidth, out tileheight, out source, out trans, out width, out height);
-			loadTiles();
+			string tmp_source = ""; 
+			xml.getDataFromFile(folder, filename, out name, out tilewidth, out tileheight, out tmp_source, out trans, out width, out height);
+			this.source = tmp_source;
+			loadTiles(folder);
 		}
 		/**
 		 * Gibt ein gesuchtes Tile anhand seines Index zurueck.
@@ -125,8 +127,8 @@ namespace Hmwd {
 		 * Ladet die Pixel fuer die Tiles.
 		 * Zur Zeit alle noch als RegularTile.
 		 */
-		private void loadTiles() {
-			GdkTexture tex = new OpenGLTexture.FromFile("./data/tileset/"+source);
+		private void loadTiles(string folder) {
+			GdkTexture tex = new GdkTexture.fromFile(folder+source);
 			int split_width = (int) tilewidth;
 			int split_height = (int) tileheight;
 			tile = new Tile[count_x,count_y];

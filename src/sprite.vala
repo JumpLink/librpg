@@ -21,7 +21,7 @@ namespace Hmwd {
 	 * Allgemeine Klasse fuer Sprites
 	 */
 	public class Sprite : Object {
-		public GdkTexture tex { get; private set; }
+		public GdkTexture tex { get; set; }
 		public double width {
 			get { return tex.width; }
 		}
@@ -33,7 +33,10 @@ namespace Hmwd {
 		 * @param pixbuf Pixelbufer der in das Tile uebernommen werden soll.
 		 */
 		public Sprite (Pixbuf pixbuf) {
-			tex = TEXTUREFACTORY.fromPixbuf(pixbuf);
+			Object(tex: new Hmwd.GdkTexture.fromPixbuf(pixbuf));
+		}
+		construct {
+
 		}
 		/**
 		 * 

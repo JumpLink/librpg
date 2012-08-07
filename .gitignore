@@ -22,3 +22,6 @@ lib
 
 # Node
 node_modules
+
+# Editor
+*.sublime*

@@ -28,7 +28,7 @@ namespace Hmwd {
 		/**
 		 * Pflanze.
 		 */
-		public Plant plant;
+		public Plant plant { get; set; }
 
 		/**
 		 * Ereignis.

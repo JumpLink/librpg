@@ -23,7 +23,7 @@ namespace Hmwd {
 		/**
 		 * Geschwindigkeit (Schritte in X-Richtung pro Sekunde)
 		 */
-		public double steps_ps = 35;
+		public double steps_ps { get; set; default=35; }
 		/**
 		 * Position des Entities
 		 */
@@ -31,11 +31,11 @@ namespace Hmwd {
 		/**
 		 * Ausrichtung der Entitaet.
 		 */
-		public Direction direction = Direction.SOUTH;
+		public Direction direction { get; set; default=Direction.SOUTH; }
 
 		public bool motion { get; protected set; default = false;}
 
-		public double collisionRadius = 5.0;
+		public double collisionRadius { get; protected set; default = 5.0;}
 
 		/**
 		 * Konstruktor
@@ -49,7 +49,7 @@ namespace Hmwd {
 		/**
 		 * SpriteSet der Entity, beinhaltet Animationen und deren Grafiken.
 		 */
-		public SpriteSet spriteset;
+		public SpriteSet spriteset { get; set;}
 
 		public static int compare (Entity a, Entity b) {
 			return (int) (a.pos.y - b.pos.y);

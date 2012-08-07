@@ -24,6 +24,11 @@ namespace Hmwd {
 	public class TileSetManager : GLib.Object {
 		Gee.List<TileSet> tileset;
 		public string folder { get; construct set; }
+		public int size {
+			get {
+				return tileset.size;
+			} 
+		}
 		//string folder;
 		/**
 		 * Konstruktor
@@ -55,7 +60,7 @@ namespace Hmwd {
 		 *
 		 * @param folder der Ordnername aus dem gelesen werden soll.
 		 */
-		private void loadAllFromFolder(string folder = "./data/tileset/") {
+		private void loadAllFromFolder(string folder) {
 			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tsx");
 			foreach (string filename in files) {
 				print("Dateiname: %s\n\n", filename);
@@ -88,11 +93,11 @@ namespace Hmwd {
 		{
 			TileSet result = null;
 			foreach (TileSet ts in tileset)
-					if (ts.filename == filename) {
-						print("TileSet mit gleichem Namen %s gefunden!\n", filename);
-						result = ts;
-						break;
-					}		
+				if (ts.filename == filename) {
+					print("TileSet mit gleichem Namen %s gefunden!\n", filename);
+					result = ts;
+					break;
+				}
 			return result;
 		}
 		/**
@@ -109,6 +114,10 @@ namespace Hmwd {
 					}
 						
 			return new TileSet();
+		}
+
+		public string getSourcesFromIndex(int index) {
+			return tileset[index].source;
 		}
 
 		/*public TileSet loadFromPath(string filename) {

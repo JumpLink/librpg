@@ -21,23 +21,23 @@ namespace Hmwd {
 	 * Klasse fuer den MapManager, mit dieser Klasse werden alle Maps im Spiel verwaltet.
 	 * Sie kann beispielsweise alle Maps aus einem angegebenen Verzeichnis Laden.
 	 */
-	public class MapManager : Object {
+	public class MapManager : GLib.Object {
 		Gee.List<Hmwd.Map> map;
 		public string folder { get; construct set; }
+		public Hmwd.TileSetManager tilesetmanager { get; construct set; }
 		/**
 		 * Konstruktor mit uebergebenem Ordner fuer das Map-Verzeichnis.
 		 * @param folder Verzeichnis der Maps, default ist: "./data/map/".
 		 */
-		public MapManager(string folder)
-		requires (TILESETMANAGER != null)
+		public MapManager(string folder,  Hmwd.TileSetManager tilesetmanager )
+		//requires (tilesetmanager != null)
 		{
-
-			Object(folder: folder);
+			GLib.Object(folder: folder, tilesetmanager : tilesetmanager);
 		}
 		construct {
 			print("Erstelle MapManager\n");
 			map = new Gee.ArrayList<Hmwd.Map>();
-			loadAllFromFolder(folder);
+			loadAllFromFolder(folder, tilesetmanager);
 		}
 		/**
 		 * Dekonstruktor
@@ -55,11 +55,11 @@ namespace Hmwd {
 		 *
 		 * @param folder der Ordnername aus dem gelesen werden soll.
 		 */
-		private void loadAllFromFolder(string folder) {
+		private void loadAllFromFolder(string folder, Hmwd.TileSetManager tilesetmanager) {
 			//print("Fuehre MapManager.loadAllFromPath mit folder %s aus.\n", folder);
 			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tmx");
 			foreach (string filename in files) {
-				map.add(new Hmwd.Map.fromPath(folder, filename));
+				map.add(new Hmwd.Map.fromPath(folder, filename, tilesetmanager));
 			}
 		}
 
