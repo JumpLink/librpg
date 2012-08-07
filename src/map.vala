@@ -230,12 +230,12 @@ namespace Hmwd {
 		 * @return Layer aus der Layerliste
 		 */
 		public Layer? getLayerFromName(string name){
-			foreach (Layer i in layers_same) {
+			foreach (Layer i in layers_under) {
 				if (name == i.name) {
 					return i;
 				}
 			}
-			foreach (Layer i in layers_under) {
+			foreach (Layer i in layers_same) {
 				if (name == i.name) {
 					return i;
 				}
@@ -251,7 +251,7 @@ namespace Hmwd {
 
 		public Layer? getLayerFromIndex(int index){
 			int count = 0;
-			foreach (Layer i in layers_under) {
+			foreach (Layer i in layers_over) {
 				if (count == index) {
 					return i;
 				}
@@ -263,11 +263,29 @@ namespace Hmwd {
 				}
 				count++;
 			}
-			foreach (Layer i in layers_over) {
+			foreach (Layer i in layers_under) {
 				if (count == index) {
 					return i;
 				}
 				count++;
+			}
+			printerr("keinen Layer mit dem Index %i gefunden\n",index);
+			return null;
+		}
+
+		public Layer? getLayerFromIndexInverse(int index){
+			int count = 0;
+			for(int i=layers_under.size-1;i>=0;i++,count++) {
+				if (count == index)
+					return layers_under[i];
+			}
+			for(int i=layers_same.size-1;i>=0;i++,count++) {
+				if (count == index)
+					return layers_same[i];
+			}
+			for(int i=layers_over.size-1;i>=0;i++,count++) {
+				if (count == index)
+					return layers_over[i];
 			}
 			printerr("keinen Layer mit dem Index %i gefunden\n",index);
 			return null;
@@ -279,14 +297,10 @@ namespace Hmwd {
 		 * @return Index aus der Layerliste
 		 */
 		public int getIndexOfLayerName(string name){
+			
 			foreach (Layer i in layers_same) {
 				if (name == i.name) {
 					return layers_same.index_of(i);
-				}
-			}
-			foreach (Layer i in layers_under) {
-				if (name == i.name) {
-					return layers_under.index_of(i);
 				}
 			}
 			foreach (Layer i in layers_over) {
