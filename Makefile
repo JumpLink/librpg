@@ -40,9 +40,9 @@ HEADER_TARGET            = $(LIBRARY).h
 
 
 # Pakete
-PACKAGES      = gl glu glut sdl sdl-image cairo libxml-2.0 gee-1.0 gio-2.0 posix clutter-1.0 clutter-gtk-1.0
+PACKAGES      = libxml-2.0 gee-1.0 gio-2.0 posix gdk-pixbuf-2.0 #clutter-1.0 clutter-gtk-1.0 gl glu glut sdl sdl-image cairo 
 # C-Compileranweisungen
-CFLAGS        = -lglut -lSDL_image -lm
+CFLAGS        = -lm # -lglut -lSDL_image
 
 
 # Quellverzeichnis

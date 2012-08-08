@@ -14,8 +14,6 @@
  *	Patrick König <knuffi@gmail.com>
  */
 using Hmwd;
-using GL;
-using Cogl;
 namespace Hmwd {
 	const int TIMER_CALLS_PS = 30;
 
@@ -62,7 +60,7 @@ namespace Hmwd {
 	/**
 	 * Szenenhintergrundfarbe
 	 */
-	const GL.GLclampf colBG[] = {0.0f, 0.0f, 0.0f, 0.0f};
+	// const GL.GLclampf colBG[] = {0.0f, 0.0f, 0.0f, 0.0f};
 	/**
 	 * Benamsung der Farbindizes
 	 */
@@ -309,16 +307,16 @@ namespace Hmwd {
 	public enum Colorspace {
 		RGB,
 		RGBA;
-		public GLenum to_opengl () {
-			switch (this) {
-				case Hmwd.Colorspace.RGB:
-					return GL.GL_RGB;
-				case  Hmwd.Colorspace.RGBA:
-					return GL.GL_RGBA;
-				default:
-					assert_not_reached();
-			}
-		}
+		// public GLenum to_opengl () {
+		// 	switch (this) {
+		// 		case Hmwd.Colorspace.RGB:
+		// 			return GL.GL_RGB;
+		// 		case  Hmwd.Colorspace.RGBA:
+		// 			return GL.GL_RGBA;
+		// 		default:
+		// 			assert_not_reached();
+		// 	}
+		// }
 		public string to_string() {
 			switch (this) {
 				case Hmwd.Colorspace.RGB:
@@ -340,16 +338,16 @@ namespace Hmwd {
 				assert_not_reached();
 			}
 		}
-		public static Hmwd.Colorspace fromCogl (Cogl.PixelFormat format) {
-			switch (format) {
-				case Cogl.PixelFormat.RGB_888:
-					return Hmwd.Colorspace.RGB;
-				case Cogl.PixelFormat.RGBA_8888:
-					return Hmwd.Colorspace.RGBA;
-				default:
-					assert_not_reached();
-			}
-		}
+		// public static Hmwd.Colorspace fromCogl (Cogl.PixelFormat format) {
+		// 	switch (format) {
+		// 		case Cogl.PixelFormat.RGB_888:
+		// 			return Hmwd.Colorspace.RGB;
+		// 		case Cogl.PixelFormat.RGBA_8888:
+		// 			return Hmwd.Colorspace.RGBA;
+		// 		default:
+		// 			assert_not_reached();
+		// 	}
+		// }
 		public int to_channel () {
 			switch (this) {
 				case Hmwd.Colorspace.RGB:
