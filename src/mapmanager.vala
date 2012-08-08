@@ -25,6 +25,12 @@ namespace Hmwd {
 		Gee.List<Hmwd.Map> map;
 		public string folder { get; construct set; }
 		public Hmwd.TileSetManager tilesetmanager { get; construct set; }
+		public int length {
+			get { return tilesetmanager.size; }
+		}
+		public int size {
+			get { return tilesetmanager.size; }
+		}
 		/**
 		 * Konstruktor mit uebergebenem Ordner fuer das Map-Verzeichnis.
 		 * @param folder Verzeichnis der Maps, default ist: "./data/map/".
@@ -62,7 +68,12 @@ namespace Hmwd {
 				map.add(new Hmwd.Map.fromPath(folder, filename, tilesetmanager));
 			}
 		}
-
+		public Hmwd.Map getMapFromIndex(int index) {
+			return map[index];
+		}
+		public string getMapFilenameFromIndex(int index) {
+			return map[index].filename;
+		}
 		/**
 		 * Gibt die Map mit dem Dateinamen "filename" zurueck
 		 *
