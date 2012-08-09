@@ -119,6 +119,9 @@ namespace Hmwd {
 		public string getSourcesFromIndex(int index) {
 			return tileset[index].source;
 		}
+		public TileSet getFromIndex(int index) {
+			return tileset[index];
+		}
 
 		/*public TileSet loadFromPath(string filename) {
 

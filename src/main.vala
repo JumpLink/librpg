@@ -30,6 +30,7 @@ namespace Hmwd {
 		}
 
 		public void loadTileSetManager(string folder) {
+			print("erstelle loadTileSetManager mit folder: %s",folder);
 			tilesetmanager = new Hmwd.TileSetManager(folder);
 		}
 
