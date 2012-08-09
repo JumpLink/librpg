@@ -69,6 +69,9 @@ namespace Hmwd {
 		 * Tilesets die für auf der Map verwendet werden
 		 */
 		public Gee.List<Hmwd.TileSetReference> tileset  { get; set; default=new Gee.ArrayList<TileSetReference>();}
+		public int tileset_size {
+			get { return tileset.size; }
+		}
 		/**
 		 * Layer der Map ueber dem Helden
 		 */
@@ -94,7 +97,7 @@ namespace Hmwd {
 
 		public LogicalTile [,] tiles { get; set; }
 
-		public Hmwd.TileSetManager tilesetmanager { get; construct set; }
+		public Hmwd.TileSetManager tilesetmanager { get; construct set; } //TODO remove?
 
 
 		// public double shift_x {
@@ -192,6 +195,15 @@ namespace Hmwd {
 				return 0;
 			else
 				return tileset.index_of(tref);
+		}
+		public string getTileSetSourceFromIndex(int index) {	
+			return tileset[index].source.source;
+		}
+		public TileSetReference getTileSetRefFromIndex(int index) {	
+			return tileset[index];
+		}
+		public TileSet getTileSetFromIndex(int index) {	
+			return tileset[index].source;
 		}
 		public int getTileSetIndexFromPosition(int x, int y, int layer_index) {
 			return getTileSetIndexFromGid(getTileGIDFromPosition(x,y,layer_index));

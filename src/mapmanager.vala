@@ -24,7 +24,7 @@ namespace Hmwd {
 	public class MapManager : GLib.Object {
 		Gee.List<Hmwd.Map> map;
 		public string folder { get; construct set; }
-		public Hmwd.TileSetManager tilesetmanager { get; construct set; }
+		public Hmwd.TileSetManager tilesetmanager { get; construct set; } //TODO remove?
 		public int length {
 			get { return tilesetmanager.size; }
 		}
