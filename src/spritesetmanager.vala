@@ -22,7 +22,11 @@ namespace Hmwd {
 	 * Klasse fuer SpriteSetManager
 	 */
 	public class SpriteSetManager : GLib.Object {
-		Gee.List<SpriteSet> spriteset;
+		public Gee.List<SpriteSet> spriteset;
+
+		public int length { get{return spriteset.size;} }
+		public int size { get{return spriteset.size;} }
+
 		public string folder { get; construct set; }
 		/**
 		 * Konstruktor
@@ -33,14 +37,13 @@ namespace Hmwd {
 		construct {
 			spriteset = new Gee.ArrayList<SpriteSet>();
 			if(folder!=null) {
-				print("Erstelle SpriteSetManager\n");
-				spriteset = new Gee.ArrayList<SpriteSet>();
-				loadAllFromFolder(folder);
+
 			} else {
 				printerr("folder is undefined, using default: ./data/spriteset/\n");
-				folder = "./data/spriteset/";
+				folder = "bla/data/spriteset/";
 			}
-
+			print("Erstelle SpriteSetManager\n");
+			loadAllFromFolder(folder);
 		}
 		/**
 		 * Dekonstruktor
@@ -70,6 +73,7 @@ namespace Hmwd {
 				Hmwd.SpriteSet current_spriteset = new Hmwd.SpriteSet.fromPath(folder, filename);
 				spriteset.add(current_spriteset);
 			}
+			print("spritset size: %i\n",this.size);
 		}
 		/**
 		 * Gibt das SpriteSet mit dem Namen "name" zurück
@@ -85,6 +89,9 @@ namespace Hmwd {
 					}
 						
 			return null;
+		}
+		public SpriteSet getFromIndex(int index) {
+			return spriteset[index];
 		}
 		/**
 		 * Gibt das SpriteSet mit dem Dateiname "filename" zurück

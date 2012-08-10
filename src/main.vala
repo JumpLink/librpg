@@ -43,6 +43,7 @@ namespace Hmwd {
 		}
 
 		public void loadSpriteSetManager(string folder) {
+			print("erstelle SpriteSetManager mit folder: %s",folder);
 			spritesetmanager = new Hmwd.SpriteSetManager(folder);
 		}
 

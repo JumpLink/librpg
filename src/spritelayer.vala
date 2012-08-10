@@ -38,25 +38,26 @@ namespace Hmwd {
 		public uint height { get; construct set; }
 		public uint spritewidth { get; construct set; }
 		public uint spriteheight { get; construct set; }
+		public string folder {get; construct set;} //TODO hier ist der dateiname bereits enthalten
 		/**
 		 * Array fuer die einzelnen Sprites
 		 */	
 		public Sprite[,] sprites;
 	
-		public SpriteLayer(int number, string name, string image_filename, SpriteLayerType type, string trans, uint count_x, uint count_y, uint spritewidth, uint spriteheight) {			
-			Object(name:name, image_filename:image_filename, sprite_layer_type:type, width:count_x, height:count_y, spritewidth:spritewidth, spriteheight:spriteheight, active:true);
+		public SpriteLayer(string folder, int number, string name, string image_filename, SpriteLayerType type, string trans, uint count_x, uint count_y, uint spritewidth, uint spriteheight) {			
+			Object(folder:folder, name:name, image_filename:image_filename, sprite_layer_type:type, width:count_x, height:count_y, spritewidth:spritewidth, spriteheight:spriteheight, active:true);
 		}
 		construct{
-			this.loadSprites(height, width, spritewidth, spriteheight);
+			this.loadSprites(folder, height, width, spritewidth, spriteheight);
 		}
 		/**
 		 * Ladet die Pixel fuer die Sprites.
 		 */
-		private void loadSprites(uint count_y, uint count_x, uint spritewidth, uint spriteheight)
+		private void loadSprites(string folder, uint count_y, uint count_x, uint spritewidth, uint spriteheight)
 		requires (image_filename != null)
 		{
 			if (image_filename != "") {
-				GdkTexture tex = new GdkTexture.fromFile("./data/spriteset/"+image_filename);
+				GdkTexture tex = new GdkTexture.fromFile(folder);
 				sprites = new Sprite[count_y,count_x];
 				//int count = 0;
 				Pixbuf pxb = tex.pixbuf;

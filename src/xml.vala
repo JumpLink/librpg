@@ -537,14 +537,18 @@ namespace Hmwd {
 	 *
 	 */
 	class SSX : Hmwd.XML {
+		string filename; //TODO inkosistent
+		string folder; //TODO inkosistent
 		/**
 		 * Konstrukter der internen XML-Klasse.
 		 * Hier wird der Parser initialisiert und die uebergebene Datei vorbereitet.
 		 *
 		 * @param path Pfadangabe der vorzubereitenden XML-Datei
 		 */
-		public SSX(string path) {
-			base(path);
+		public SSX(string path, string filename) {
+			base(path+filename);
+			this.filename = filename;
+			this.folder = path;
 		}
 		/**
 		 * Dekonstrukter der internen XML-Klasse.
@@ -659,7 +663,7 @@ namespace Hmwd {
 		 * @see Hmwd.Layer
 		 * @see Gee.ArrayList
 		 */
-		public Gee.List<SpriteLayer> loadLayers ( ) {
+		public Gee.List<SpriteLayer> loadLayers () {
 			Gee.List<SpriteLayer> res = new Gee.ArrayList<SpriteLayer>();
 			SpriteLayer tmp_spritelayer;
 			Xml.Node* node;
@@ -682,7 +686,7 @@ namespace Hmwd {
 				node = obj.nodesetval->item(i);
 				properties = loadProperties(node);
 				name = (string) properties.get ("name");
-				tile_type_str = (string) properties.get ("tile_type");
+				tile_type_str = (string) properties.get ("type");
 				width = int.parse(properties.get ("width"));
 				height = int.parse(properties.get ("height"));
 				spritewidth = int.parse(properties.get ("spritewidth"));
@@ -695,7 +699,7 @@ namespace Hmwd {
 					tile_type = Hmwd.SpriteLayerType.parse(tile_type_str);
 				}
 				
-				tmp_spritelayer = new SpriteLayer(i, name, image_filename, tile_type, trans, width, height, spritewidth, spriteheight);
+				tmp_spritelayer = new SpriteLayer(folder+image_filename, i, name, image_filename, tile_type, trans, width, height, spritewidth, spriteheight);
 				res.add(tmp_spritelayer);
 			}
 			return res;

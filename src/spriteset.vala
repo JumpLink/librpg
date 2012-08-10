@@ -96,7 +96,7 @@ namespace Hmwd {
 			print("Lade SpriteSetdateien von %s + %s\n", folder, filename);
 
 			if(folder != null && filename != null) {
-				SSX xml = new SSX(folder+filename);
+				SSX xml = new SSX(folder,filename);
 				xml.loadGlobalProperties(out name, out version, out width, out height, out spritewidth, out spriteheight);
 				print("loadGlobalProperties -> name %s\n", name);
 				spritelayers = xml.loadLayers();

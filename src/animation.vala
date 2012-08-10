@@ -29,7 +29,7 @@ namespace Hmwd {
 		 */
 		public double frame_ps { get; set; default=6; }
 		//private double timer = 0;
-		public Gee.List<AnimationData> animationdata { get; set; }
+		public Gee.List<AnimationData> animationdata { get; construct set; }
 
 		private int _current_frame_index = 0;
 		public int current_frame_index {
