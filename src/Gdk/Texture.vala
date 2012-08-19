@@ -39,6 +39,12 @@ namespace Hmwd {
 		public uint length {
 			get { return pixbuf.rowstride*pixbuf.height; }
 		}
+		public uint size {
+			get { return pixbuf.rowstride*pixbuf.height; }
+		}
+		public uint png_length {
+			get { return png_buffer.length; }
+		}
 		/**
 		 * Liefert ein Zeiger auf ein Array uint8[] mit den Pixelwerten,
 		 * der hier vorgegebene Rueckgabetyp ist hier void* damit dieser mit OpenGL
@@ -49,9 +55,10 @@ namespace Hmwd {
 				return pixbuf.get_pixels();
 			}
 		}
+		public uint8[] png_buffer { get; private set; }	//WORKAROUND for nodejs
 
 		public uint8[] copy_pixels() {
-			uint size = pixbuf.rowstride*pixbuf.height;
+			//uint size = pixbuf.rowstride*pixbuf.height;
 			uint8[] p = new uint8[size];
 			//uint8[] p = pixbuf.get_pixels()[0:size];
 			print("pixel size: %u\n",size);
@@ -76,7 +83,7 @@ namespace Hmwd {
 		}
 
 		public uint8[] save_to_buffer(string type) {
-	 		try {
+			try {
 				uint8[] pixel_buffer;
 				pixbuf.save_to_buffer(out pixel_buffer, type );
 				print("buffer_size: %u\n",pixel_buffer.length);
@@ -97,7 +104,9 @@ namespace Hmwd {
 				GLib.error("%s pixel konnten nicht kopiert werden", path);
 			}
 		}
-
+		public uint8 get_pngbuffer_from_index(int index) {
+			return png_buffer[index];
+		}
 		/**
 		 * Liefert Information darueber ob die Textur einen Alphakanal enthaelt.
 		 * @see Gdk.Pixbuf.get_has_alpha
@@ -110,14 +119,16 @@ namespace Hmwd {
 		}
 		public GdkTexture.fromFile(string path) {
 			GLib.Object(path:path);
+			loadFromFile(path);
 		}
 		public GdkTexture.fromPixbuf(Gdk.Pixbuf pixbuf) {
 			GLib.Object(pixbuf:pixbuf);
+			loadFromPixbuf(pixbuf);
 		}
 		construct {
 			if(path != null) {
 				loadFromFile(path);
-			}
+			}	
 		}
 		/**
 		 * Ladet eine Textur aus einer Datei.
@@ -144,6 +155,7 @@ namespace Hmwd {
 		{
 			print("GdkTexture: loadFromPixbuf\n");
 			this.pixbuf = pixbuf;
+			png_buffer = save_to_buffer("png");
 		}
 		/**
 		 *
@@ -155,6 +167,10 @@ namespace Hmwd {
 			} catch (GLib.Error e) {
 				error ("Error! Konnte Sprite nicht Speichern: %s\n", e.message);
 			}
+		}
+		public void printPngAsHex() {
+			uint8[] hex = save_to_buffer("png");
+			foreach (uint8 h in hex) { stdout.printf("%02X ",h); }
 		}
 		/**
 		 *

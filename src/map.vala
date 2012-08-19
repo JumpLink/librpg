@@ -224,6 +224,38 @@ namespace Hmwd {
 				return 0;
 			return (int) tile.gid - (int) (tref.firstgid-1);
 		}
+		/**
+		 * tile X-Coord of the tilesetimage
+		 */
+		public uint getTileImageXCoordFromPosition(int x, int y, int layer_index) {
+			Hmwd.Layer layer = getLayerFromIndex(layer_index);
+			if (layer == null)
+				return 0;
+			Hmwd.Tile tile = layer.getTileXY(x,y);
+			if (tile == null)
+				return 0;
+			Hmwd.TileSetReference tref = getTileSetRefFromGidFromOwn(tile.gid);
+			if (tref == null)
+				return 0;
+			int id = (int) tile.gid - (int) (tref.firstgid-1);
+			return (id%tref.source.count_x)*tilewidth;
+		}
+		/**
+		 * tile X-Coord of the tilesetimage
+		 */
+		public uint getTileImageYCoordFromPosition(int x, int y, int layer_index) {
+			Hmwd.Layer layer = getLayerFromIndex(layer_index);
+			if (layer == null)
+				return 0;
+			Hmwd.Tile tile = layer.getTileXY(x,y);
+			if (tile == null)
+				return 0;
+			Hmwd.TileSetReference tref = getTileSetRefFromGidFromOwn(tile.gid);
+			if (tref == null)
+				return 0;
+			int id = (int) tile.gid - (int) (tref.firstgid-1);
+			return (uint) (id/tref.source.count_x)*tileheight;
+		}
 		public int getTileGIDFromPosition(int x, int y, int layer_index) {
 			Hmwd.Layer layer = getLayerFromIndex(layer_index);
 			if (layer == null)
