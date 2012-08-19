@@ -238,7 +238,15 @@ namespace Hmwd {
 			if (tref == null)
 				return 0;
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
-			return (id%tref.source.count_x)*tilewidth;
+
+			uint res = (id%tref.source.count_x)*tilewidth;
+			// if (id == 30) {
+			// 	print("res: %u\n",res);
+			// 	print("id: %i\n",id);
+			// 	print("tref.source.count_x: %u\n",tref.source.count_x);
+			// }
+
+			return res == 0 && id != 0 ? tref.source.count_x*tilewidth : res;
 		}
 		/**
 		 * tile X-Coord of the tilesetimage
@@ -254,7 +262,8 @@ namespace Hmwd {
 			if (tref == null)
 				return 0;
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
-			return (uint) (id/tref.source.count_x)*tileheight;
+			uint res = (id/tref.source.count_x)*tileheight;
+			return (uint) id%tref.source.count_x == 0 && id != 0 ? res-1*tileheight : res;
 		}
 		public int getTileGIDFromPosition(int x, int y, int layer_index) {
 			Hmwd.Layer layer = getLayerFromIndex(layer_index);
