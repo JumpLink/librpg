@@ -26,10 +26,10 @@ namespace Hmwd {
 		public string folder { get; construct set; }
 		public Hmwd.TileSetManager tilesetmanager { get; construct set; } //TODO remove?
 		public int length {
-			get { return tilesetmanager.size; }
+			get { return map.size; }
 		}
 		public int size {
-			get { return tilesetmanager.size; }
+			get { return map.size; }
 		}
 		/**
 		 * Konstruktor mit uebergebenem Ordner fuer das Map-Verzeichnis.
