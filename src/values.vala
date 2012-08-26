@@ -268,6 +268,18 @@ namespace Hmwd {
 		public string to_string () {
 			return @"x: $x y: $y mirror: $mirror";
 		}
+		public string x_to_string () {
+			return @"$x";
+		}
+		public string y_to_string () {
+			return @"$y";
+		}
+		public string mirror_to_string () {
+			return @"$mirror";
+		}
+		public string to_string_for_split (string s) {
+			return @"$x$s$y$s$mirror";
+		}
 	}
 
 	public enum Mirror {

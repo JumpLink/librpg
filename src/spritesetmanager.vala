@@ -90,7 +90,7 @@ namespace Hmwd {
 						
 			return null;
 		}
-		public SpriteSet getFromIndex(int index) {
+		public SpriteSet? getFromIndex(int index) {
 			return spriteset[index];
 		}
 		/**
@@ -99,7 +99,7 @@ namespace Hmwd {
 		 * @param filename Dateiname des gesuchten SpriteSets
 		 * @return Bei Erfolg das gefundene SpriteSet, sonst ein neues Objekt SpriteSet
 		 */
-		public SpriteSet getFromFilename(string filename)
+		public SpriteSet? getFromFilename(string filename)
 		requires (filename.length > 0)
 		{
 			SpriteSet result = null;

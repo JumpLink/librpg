@@ -29,23 +29,23 @@ namespace Hmwd {
 		/**
 		 * Name des SpriteSets.
 		 */
-		public string name;
+		public string name { get; set; }
 		/**
 		 * Breite eines Sprites
 		 */
-		public uint spritewidth;
+		public uint spritewidth { get; set; }
 		/**
 		 * Hoehe eines Sprites7
 		 */
-		public uint spriteheight;
+		public uint spriteheight { get; set; }
 		/**
 		 * Gesamtbreite des SpriteSets in Sprites
 		 */
-		public uint width;
+		public uint width { get; set; }
 		/**
 		 * Gesamthoehe des SpriteSets in Sprites
 		 */
-		public uint height;
+		public uint height { get; set; }
 		/**
 		 * Gesamtbreite des SpriteSets in Pixel
 		 */
@@ -61,21 +61,24 @@ namespace Hmwd {
 		/**
 		 * Die Version des SpriteSets-XML-Formates
 		 */
-		public string version;
+		public string version { get; set; }
 		/**
 		 * Ein Sprite kann aus mehreren Layern bestehen, sie werden mit einer Map gespeichert.
 		 * Es gibt aktive und inaktive Layer, die inaktiven Layer werden beim zeichnen uebersprungen.
 		 */
-		public Gee.List<SpriteLayer> spritelayers;
+		public Gee.List<SpriteLayer> spritelayers { get; set; }
+		public SpriteLayer get_spritelayers_from_index(int index) {
+			return spritelayers[index];
+		}
 		/**
 		 * Ein Sprite kann mehrere Animationen beinhalten, sie sind als Koordinaten des Sprites der SpriteLayers gespeichert.
 		 * Die Animationen sind unabhaenig von den derzeit aktiven Layern. 
 		 */
-		public Gee.List<Animation> animations;
+		public Gee.List<Animation> animations { get; set; }
 		/**
 		 * Aktuelle Animation die gerade verwendet wird.
 		 */
-		public Animation current_animation;
+		public Animation current_animation { get; set; }
 		/**
 		 * Konstruktor
 		 */
@@ -97,7 +100,19 @@ namespace Hmwd {
 
 			if(folder != null && filename != null) {
 				SSX xml = new SSX(folder,filename);
-				xml.loadGlobalProperties(out name, out version, out width, out height, out spritewidth, out spriteheight);
+				string tmp_name;
+				string tmp_version;
+				uint tmp_width;
+				uint tmp_height;
+				uint tmp_spritewidth;
+				uint tmp_spriteheight;
+				xml.loadGlobalProperties(out tmp_name, out tmp_version, out tmp_width, out tmp_height, out tmp_spritewidth, out tmp_spriteheight);
+				this.name = tmp_name;
+				this.version = tmp_version;
+				this.width = tmp_width;
+				this.height = tmp_height;
+				this.spritewidth = tmp_spritewidth;
+				this.spriteheight = tmp_spriteheight;
 				print("loadGlobalProperties -> name %s\n", name);
 				spritelayers = xml.loadLayers();
 				animations = xml.loadAnimations(width, height);
@@ -128,6 +143,9 @@ namespace Hmwd {
 			} else { /* Wenn es sich um die gleiche Bewegung handelt*/
 				//kein wechsel
 			}
+		}
+		public void set_Animation_from_string(string name, string direction) {
+			set_Animation(name, Hmwd.Direction.parse(direction));
 		}
 
 		public SpriteLayer? get_baseLayer()

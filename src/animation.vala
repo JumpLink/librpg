@@ -24,6 +24,7 @@ namespace Hmwd {
 		public string name { get; construct set; }
 		public Direction direction { get; construct set; }
 		public bool repeat { get; construct set; }
+		public int size {get{return animationdata.size;}}
 		/**
 		 * Animationsframes pro Sekunde
 		 */
@@ -70,6 +71,9 @@ namespace Hmwd {
 		// 		timer = 0;
 		// 	}
 		// }
+		public void time() {
+			current_frame_index++;
+		}
 		/**
 		 * Gibt alle Werte des SpriteSets auf der Konsole aus
 		 */
