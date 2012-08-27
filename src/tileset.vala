@@ -26,7 +26,7 @@ namespace Hmwd {
 		/**
 		 * Name des TileSets.
 		 */
-		public string name;
+		public string name { get; set; }
 		/**
 		 * Dateiname des TileSets.
 		 */
@@ -34,11 +34,11 @@ namespace Hmwd {
 		/**
 		 * Breite eines Tiles
 		 */
-		public uint tilewidth;
+		public uint tilewidth { get; set; }
 		/**
 		 * Hoehe eines Tiles
 		 */
-		public uint tileheight;
+		public uint tileheight { get; set; }
 		/**
 		 * Dateiname des TileSet-Bildes
 		 */
@@ -46,19 +46,19 @@ namespace Hmwd {
 		/**
 		 * Transparente Farbe im TileSet
 		 */
-		public string trans;
+		public string trans { get; set; }
 		/**
 		 * Gesamtbreite des TileSets
 		 */
-		public uint width;
+		public uint width { get; set; }
 		/**
 		 * Gesamthoehe des TileSets
 		 */
-		public uint height;
+		public uint height { get; set; }
 		/**
 		 * Die Tiles in Form eines 2D-Array des TileSets
 		 */
-		public Tile[,] tile;
+		public Tile[,] tile { get; set; }
 
 		public uint count_y {
 			get { return (uint) (height / tileheight); }
@@ -90,9 +90,25 @@ namespace Hmwd {
 		public void loadFromPath(string folder, string filename) {
 			this.filename = filename;
 			var xml = new TSX (folder+filename);
-			string tmp_source = ""; 
-			xml.getDataFromFile(folder, filename, out name, out tilewidth, out tileheight, out tmp_source, out trans, out width, out height);
+			
+			string tmp_name;
+			uint tmp_tilewidth;
+			uint tmp_tileheight;
+			string tmp_source;
+			string tmp_trans;
+			uint tmp_width;
+			uint tmp_height;
+
+			xml.getDataFromFile(folder, filename, out tmp_name, out tmp_tilewidth, out tmp_tileheight, out tmp_source, out tmp_trans, out tmp_width, out tmp_height);
+			
+			this.name = tmp_name;
+			this.tilewidth = tmp_tilewidth;
+			this.tileheight = tmp_tileheight;
 			this.source = tmp_source;
+			this.trans = tmp_trans;
+			this.width = tmp_width;
+			this.height = tmp_height;
+
 			loadTiles(folder);
 		}
 		/**
