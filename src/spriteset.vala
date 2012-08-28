@@ -70,6 +70,8 @@ namespace Hmwd {
 		public SpriteLayer get_spritelayers_from_index(int index) {
 			return spritelayers[index];
 		}
+		public int spritelayers_size { get {return spritelayers.size;} }
+		public int spritelayers_length { get {return spritelayers.size;} }
 		/**
 		 * Ein Sprite kann mehrere Animationen beinhalten, sie sind als Koordinaten des Sprites der SpriteLayers gespeichert.
 		 * Die Animationen sind unabhaenig von den derzeit aktiven Layern. 
