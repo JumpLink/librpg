@@ -1,0 +1,15 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+
+
+Name: HMworld Data
+Description: The Data-Library for HMWorld
+Version: 0.1
+Requires: gee-1.0
+Libs: -L${libdir} -lhmwd
+Cflags: -I${includedir}/Hmwd-0.1
+~                                             

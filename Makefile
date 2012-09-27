@@ -40,7 +40,7 @@ HEADER_TARGET            = $(LIBRARY).h
 
 
 # Pakete
-PACKAGES      = libxml-2.0 gee-1.0 gio-2.0 posix gdk-pixbuf-2.0 #clutter-1.0 clutter-gtk-1.0 gl glu glut sdl sdl-image cairo 
+PACKAGES      = Sxml-0.1 libxml-2.0 gee-1.0 gio-2.0 posix gdk-pixbuf-2.0 #clutter-1.0 clutter-gtk-1.0 gl glu glut sdl sdl-image cairo 
 # C-Compileranweisungen
 CFLAGS        = -lm # -lglut -lSDL_image
 
@@ -184,6 +184,7 @@ install:
 	@sudo cp -u ./$(VAPI_TARGET_FILE) /usr/share/vala/vapi/$(VAPI_TARGET)				# .vapi
 	@sudo cp -u ./$(GIR_TARGET_FILE) /usr/share/gir-1.0/$(GIR_TARGET)					# .gir
 	@sudo cp -u ./$(TYPELIB_TARGET_FILE) /usr/lib/girepository-1.0/$(TYPELIB_TARGET)	# .typelib
+	@sudo cp -u ./$(LIBRARY).pc /usr/lib/pkgconfig/$(LIBRARY).pc	                    # .pc //TODO fixme for debian
 ## * make unstall: Programm deinstallieren
 unstall:
 	@sudo rm /usr/lib/$(SHARED_LIBRARY_TARGET)
