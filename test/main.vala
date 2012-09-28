@@ -14,14 +14,20 @@
  *	Patrick König <knuffi@gmail.com>
  */
 using Hmwd;
-using Sxml;
 class Main : Object {
 	public static int main (string[] args) {
-		print("test\n");
-		//Hmwd.init();
-		Hmwd.Data data = new Hmwd.Data();
+		var data = new Hmwd.Data();
 		data.loadTileSetManager("./data/tileset/");
 		data.loadMapManager("./data/map/");
+		var map = data.mapmanager.getFromFilename("testmap.tmx");
+		var layer = map.getLayerFromIndex(0);
+		//get tile x y
+		var tile = layer.tiles[0,0];
+
+		print("layers_same(index:0) -> name:%s, width:%u, height:%u, zoff:%f\n", layer.name, layer.width, layer.height, layer.zoff);
+		print("tile(x:0,y:0) -> gid:%i, width:%f, height:%f\n", tile.gid, tile.width, tile.height);
+		print("textur: colorspace:%s\n", tile.tex.colorspace.to_string());
+		
 		return 0;
 	}
 }

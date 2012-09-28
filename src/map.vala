@@ -160,6 +160,9 @@ namespace Hmwd {
 		public TileSetReference getTileSetRefFromIndex(int index) {	
 			return tileset[index];
 		}
+		public TileSet getTileSetRefFromPosition(int x, int y, int layer_index) {
+			return getTileSetFromIndex(getTileSetIndexFromPosition(x,y,layer_index));
+		}
 		public TileSet getTileSetFromIndex(int index) {	
 			return tileset[index].source;
 		}
