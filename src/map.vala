@@ -22,6 +22,10 @@ namespace Hmwd {
 	 */
 	public class Map : Object {
 		/**
+		 * properties der Map.
+		 */
+		public Gee.Map<string, string> properties = new HashMap<string, string> (str_hash, str_equal);
+		/**
 		 * orientation der Map.
 		 */
 		public string orientation { get; set; }
@@ -110,59 +114,13 @@ namespace Hmwd {
 		/**
 		 * Konstruktor fuer eine leere Map
 		 */
-		public Map() {
-			print("Erstelle leeres Map Objekt\n");
-		}
-		public Map.fromPath (string path, string filename, Hmwd.TileSetManager tilesetmanager) {
+		public Map(string path, string filename, Hmwd.TileSetManager tilesetmanager) {
 			Object(path: path, filename:filename, tilesetmanager:tilesetmanager);
 		}
 		construct {
-			setFromPath (path, filename, tilesetmanager);
+
 		}
-		/**
-		 * Konstrukter, ladet Map mit Daten einer Mapdatei
-		 *
-		 * @param path Das Verzeichnis aus dem gelesen werden soll
-		 * @param filename Der Dateiname der gelesen werden soll
-		 */
-		public void setFromPath (string path, string filename, Hmwd.TileSetManager tilesetmanager) {
-			print("Lade Mapdateien von %s + %s\n", path, filename);
-			
-			TMX xml = new TMX(path+filename);
 
-			string tmp_orientation;
-			string tmp_version;
-			uint tmp_width;
-			uint tmp_height;
-			uint tmp_tilewidth;
-			uint tmp_tileheight;
-
-			xml.loadGlobalMapProperties(out tmp_orientation, out tmp_version, out tmp_width, out tmp_height, out tmp_tilewidth, out tmp_tileheight);
-			
-			orientation = tmp_orientation;
-			version = tmp_version;
-			width = tmp_width;
-			height = tmp_height;
-			tilewidth = tmp_tilewidth;
-			tileheight = tmp_tileheight;
-
-			tiles = new LogicalTile [width, height];
-			for (uint x = 0; x < width; ++x)
-				for (uint y = 0; y < height; ++y) {
-					tiles[x,y] = new LogicalTile ();
-			}
-			tileset = xml.loadTileSets(tilesetmanager);
-
-			Gee.List<Layer> tmp_layers_over;
-			Gee.List<Layer> tmp_layers_same;
-			Gee.List<Layer> tmp_layers_under;
-
-			xml.loadLayers(tileset, out tmp_layers_over, out tmp_layers_same, out tmp_layers_under);
-
-			layers_over = tmp_layers_over;
-			layers_same = tmp_layers_same;
-			layers_under = tmp_layers_under;
-		}
 		/**
 		 * Gibt das zur gid passende TileSetReference zurueck.
 		 * Dabei wird nach der firstgid gesucht die kleiner ist als die gid

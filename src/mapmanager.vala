@@ -64,8 +64,10 @@ namespace Hmwd {
 		private void loadAllFromFolder(string folder, Hmwd.TileSetManager tilesetmanager) {
 			//print("Fuehre MapManager.loadAllFromPath mit folder %s aus.\n", folder);
 			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tmx");
+			MapReader mapreader = new MapReader(folder, tilesetmanager);
 			foreach (string filename in files) {
-				map.add(new Hmwd.Map.fromPath(folder, filename, tilesetmanager));
+
+				map.add(mapreader.parse(filename));
 			}
 		}
 		public Hmwd.Map getMapFromIndex(int index) {
@@ -80,14 +82,14 @@ namespace Hmwd {
 		 * @param filename Dateiname der gesuchten Map
 		 * @return Bei Erfolg die gefundene Map, sonst ein neues Objekt Map
 		 */
-		public Hmwd.Map getFromFilename(string filename) {
+		public Hmwd.Map? getFromFilename(string filename) {
 			foreach (Hmwd.Map m in map)
 					if (m.filename == filename) {
 						print("Map gefunden!\n");
 						return m;
 					}
 						
-			return new Hmwd.Map();
+			return null;
 		}
 		/**
 		 * Gibt die Werte aller Maps in der Liste aus.

@@ -90,7 +90,7 @@ BZR           = bzr
 
 
 # Allgemeine Quelldateien mit Pfad
-ASRC_FILES                 = $(wildcard src/*.vala) $(wildcard src/Clutter/*.vala) $(wildcard src/OpenGL/*.vala) $(wildcard src/Gdk/*.vala)
+ASRC_FILES                 = $(wildcard src/*.vala) $(wildcard src/Clutter/*.vala) $(wildcard src/OpenGL/*.vala) $(wildcard src/Gdk/*.vala) $(wildcard src/XML/*.vala)
 # Quelldateien mit Pfad
 SRC_FILES                  = $(ASRC_FILES)
 # Test-Quelldateien mit Pfad

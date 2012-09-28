@@ -14,10 +14,14 @@
  *	Patrick König <knuffi@gmail.com>
  */
 using Hmwd;
+using Sxml;
 class Main : Object {
 	public static int main (string[] args) {
+		print("test\n");
 		//Hmwd.init();
 		Hmwd.Data data = new Hmwd.Data();
+		data.loadTileSetManager("./data/tileset/");
+		data.loadMapManager("./data/map/");
 		return 0;
 	}
 }
