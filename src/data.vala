@@ -30,7 +30,7 @@ namespace Hmwd {
 		}
 
 		public void loadTileSetManager(string folder) {
-			print("erstelle loadTileSetManager mit folder: %s",folder);
+			//print("erstelle loadTileSetManager mit folder: %s",folder);
 			tilesetmanager = new Hmwd.TileSetManager(folder);
 		}
 
@@ -43,7 +43,7 @@ namespace Hmwd {
 		}
 
 		public void loadSpriteSetManager(string folder) {
-			print("erstelle SpriteSetManager mit folder: %s",folder);
+			//print("erstelle SpriteSetManager mit folder: %s",folder);
 			spritesetmanager = new Hmwd.SpriteSetManager(folder);
 		}
 

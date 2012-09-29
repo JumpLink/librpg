@@ -65,10 +65,10 @@ namespace Hmwd {
 		 * Dateiname der Map
 		 */
 		public string filename { get; construct set; }
-		/**
-		 * Path der Mapdateien
-		 */
-		public string path { get; construct; }
+		// /**
+		//  * Path der Mapdateien
+		//  */
+		// public string path { get; construct; }
 		/**
 		 * Tilesets die für auf der Map verwendet werden
 		 */
@@ -114,8 +114,8 @@ namespace Hmwd {
 		/**
 		 * Konstruktor fuer eine leere Map
 		 */
-		public Map(string path, string filename, Hmwd.TileSetManager tilesetmanager) {
-			Object(path: path, filename:filename, tilesetmanager:tilesetmanager);
+		public Map(string filename, Hmwd.TileSetManager tilesetmanager) {
+			Object(filename:filename, tilesetmanager:tilesetmanager);
 		}
 		construct {
 

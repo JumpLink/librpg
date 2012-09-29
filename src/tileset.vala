@@ -30,7 +30,7 @@ namespace Hmwd {
 		/**
 		 * Dateiname des TileSets.
 		 */
-		public string filename { get; set; }
+		public string filename { get; construct set; }
 		/**
 		 * Breite eines Tiles
 		 */
@@ -42,7 +42,7 @@ namespace Hmwd {
 		/**
 		 * Dateiname des TileSet-Bildes
 		 */
-		public string source { get; construct set; }
+		public string source { get; set; } //TODO gibt es mehrere sources?
 		/**
 		 * Transparente Farbe im TileSet
 		 */
@@ -71,45 +71,14 @@ namespace Hmwd {
 		/**
 		 * Konstruktor
 		 */
-		public TileSet() {
-			print("Erstelle TileSet Objekt\n");
-			//tiles = new Tile[,];
-		}
-		/**
-		 * Konstruktor
-		 */
-		public TileSet.fromPath(string folder, string filename) {
-			loadFromPath(folder, filename);
+		public TileSet(string filename) {
+			Object(filename:filename);
 		}
 		/**
 		 * Dekonstruktor
 		 */
 		~TileSet() {
-			print("Lösche TileSet Objekt\n");
-		}
-		public void loadFromPath(string folder, string filename) {
-			this.filename = filename;
-			var xml = new TSX (folder+filename);
-			
-			string tmp_name;
-			uint tmp_tilewidth;
-			uint tmp_tileheight;
-			string tmp_source;
-			string tmp_trans;
-			uint tmp_width;
-			uint tmp_height;
-
-			xml.getDataFromFile(folder, filename, out tmp_name, out tmp_tilewidth, out tmp_tileheight, out tmp_source, out tmp_trans, out tmp_width, out tmp_height);
-			
-			this.name = tmp_name;
-			this.tilewidth = tmp_tilewidth;
-			this.tileheight = tmp_tileheight;
-			this.source = tmp_source;
-			this.trans = tmp_trans;
-			this.width = tmp_width;
-			this.height = tmp_height;
-
-			loadTiles(folder);
+			//print("Lösche TileSet Objekt\n");
 		}
 		/**
 		 * Gibt ein gesuchtes Tile anhand seines Index zurueck.
@@ -143,14 +112,14 @@ namespace Hmwd {
 		 * Ladet die Pixel fuer die Tiles.
 		 * Zur Zeit alle noch als RegularTile.
 		 */
-		private void loadTiles(string folder) {
+		public void loadTiles(string folder) {
 			GdkTexture tex = new GdkTexture.fromFile(folder+source);
 			int split_width = (int) tilewidth;
 			int split_height = (int) tileheight;
 			tile = new Tile[count_x,count_y];
 			//int count = 0;
 			Pixbuf pxb = tex.pixbuf;
-			print("=====LOADTILES=====\n");
+			//print("=====LOADTILES=====\n");
 			for(int y = 0; y < count_y; y++) {
 				for(int x = 0; x < count_x; x++) {
 					Pixbuf split = new Pixbuf(Gdk.Colorspace.RGB, pxb.get_has_alpha(), pxb.get_bits_per_sample(), split_width, split_height);
@@ -161,7 +130,7 @@ namespace Hmwd {
 					//tile[y,x].printValues();
 				}
 			}
-			print("Tiles zerteilt\n");
+			//print("Tiles zerteilt\n");
 		}
 		/**
 		 * Speichert alle Tiles als Datei.
@@ -171,7 +140,7 @@ namespace Hmwd {
 			for (uint y=0;y<count_y;y++) {
 				for (uint x=0;x<count_x;x++) {
 					tile[x,y].save(folder+name+"_y"+y.to_string()+"_x"+x.to_string()+".png");
-					print("speichere "+folder+name+"_y"+y.to_string()+"_x"+x.to_string()+".png\n");
+					//print("speichere "+folder+name+"_y"+y.to_string()+"_x"+x.to_string()+".png\n");
 				}
 			}
 		}

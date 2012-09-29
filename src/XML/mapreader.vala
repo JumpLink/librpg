@@ -11,23 +11,24 @@ using Gee;
  *
  * @see Hmwd.MapManager
  */
-public class Hmwd.MapReader : Object {
+public class Hmwd.MapReader : Hmwd.DataReader, Object {
 
-	MarkupTokenType current_token;
-	MarkupSourceLocation begin;
-	MarkupSourceLocation end;
-	ErrorReporter reporter;
-	MarkupReader reader;
+	protected MarkupTokenType current_token {get; set;}
+	protected MarkupSourceLocation begin {get; set;}
+	protected MarkupSourceLocation end {get; set;}
+	protected ErrorReporter reporter {get; set;}
+	protected MarkupReader reader {get; set;}
 
-	Hmwd.Map map;
+	protected Hmwd.Map map;
 	/**
 	 * Path der Mapdateien
 	 */
-	public string path { get; construct; }
+	public string path { get; construct set; }
+
 	/**
 	 * Anzahl der geparsedten Layer
 	 */
-	private int layer_count = 0;
+	protected int layer_count = 0;
 
 	public Hmwd.TileSetManager tilesetmanager { get; construct set; } //TODO remove?
 
@@ -36,7 +37,7 @@ public class Hmwd.MapReader : Object {
 	}
 
 	construct {
-		print("new MapReader\n");
+		//print("new MapReader\n");
 		reporter = new ErrorReporter();
 	}
 
@@ -48,52 +49,21 @@ public class Hmwd.MapReader : Object {
 		print("\n\n");
 	}
 
-	private void next () {
-		current_token = reader.read_token (out begin, out end);
-	}
-
-	private bool is_start_element (string name) {
-		if (current_token != MarkupTokenType.START_ELEMENT || reader.name != name) {
-			return false;
-		} else
-			return true;
-	}
-
-	private bool is_end_element (string name) {
-		if (current_token != MarkupTokenType.END_ELEMENT || reader.name != name) {
-			return false;
-		} else
-			return true;
-	}
-
-	private void start_element (string name) {
-		if (!is_start_element(name)) {
-			// error
-			error ("expected start element of `%s'".printf (name));
-		}
-	}
-
-	private void end_element (string name) {
-		if (!is_end_element(name)) {
-			// error
-			error ("expected end element of `%s'".printf (name));
-		}
-		next ();
-	}
-	public Hmwd.Map parse(string filename) {
-		map = new Hmwd.Map(path, filename, tilesetmanager);
-		reader = new MarkupReader (map.path+map.filename, reporter);
+	public Hmwd.Map parse(string filename) {	
+		map = new Hmwd.Map(filename, tilesetmanager);
+		reader = new MarkupReader (path+filename, reporter);
 		next ();
 		while(!is_start_element("map")){next ();}
 		parse_map();
+		print("Map parsed: %s\n", path+filename);
 		return map;
 	}
 
-	private void parse_map() {
+	protected void parse_map() {
 		start_element("map");
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		foreach (var key in attributes.keys) {
-			print("%s:%s\n", key, attributes.get (key));
+			//print("%s:%s\n", key, attributes.get (key));
 			switch (key) {
 			case "tilewidth":
 				map.tilewidth = int.parse(attributes.get (key));
@@ -113,6 +83,8 @@ public class Hmwd.MapReader : Object {
 			case "height":
 				map.height = int.parse(attributes.get (key));
 				break;
+			default:
+				error ("unknown property of '%s'".printf (key));
 			}
 		}
 		next();
@@ -123,11 +95,10 @@ public class Hmwd.MapReader : Object {
 		while(is_start_element("layer")) {
 			parse_layer();
 		}
-		is_end_element("map");
-		print("Map parsed\n");
+		end_element("map");
 	}
 
-	private void parse_map_properties() {
+	protected void parse_map_properties() {
 		start_element("properties");
 		next();
 		while(!is_end_element("properties")) {
@@ -141,7 +112,7 @@ public class Hmwd.MapReader : Object {
 		end_element("properties");
 	}
 
-	private void parse_property(out string prop_name, out string prop_value) {
+	protected void parse_property(out string prop_name, out string prop_value) {
 		start_element("property");
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		prop_value = null;
@@ -156,7 +127,7 @@ public class Hmwd.MapReader : Object {
 		end_element("property");
 	}
 
-	private void parse_tileset() {
+	protected void parse_tileset() {
 		start_element("tileset");
 		Gee.Map<string,string> attributes = reader.get_attributes();
 
@@ -169,7 +140,7 @@ public class Hmwd.MapReader : Object {
 		end_element("tileset");
 	}
 
-	private void parse_layer() {
+	protected void parse_layer() {
 		start_element("layer");
 
 		Gee.Map<string,string> attributes = reader.get_attributes();
@@ -215,7 +186,7 @@ public class Hmwd.MapReader : Object {
 		end_element("layer");
 	}
 
-	private void parse_layer_properties(out DrawLevel _drawlayer, out bool _collision) {
+	protected void parse_layer_properties(out DrawLevel _drawlayer, out bool _collision) {
 		start_element("properties");
 		next();
 		_drawlayer =DrawLevel.UNDER;
@@ -237,7 +208,7 @@ public class Hmwd.MapReader : Object {
 		end_element("properties");
 	}
 
-	private Hmwd.Tile[,] parse_data() {
+	protected Hmwd.Tile[,] parse_data() {
 		start_element("data");
 		next();
 		Hmwd.Tile[,] _tiles = new Tile[map.width,map.height]; 
@@ -249,7 +220,7 @@ public class Hmwd.MapReader : Object {
 		end_element("data");
 		return _tiles;
 	}
-	private Hmwd.Tile parse_tile() {
+	protected Hmwd.Tile parse_tile() {
 		start_element("tile");
 		int gid = int.parse(reader.get_attributes().get("gid"));
 		Hmwd.Tile tmp_tile;

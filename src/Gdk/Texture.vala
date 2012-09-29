@@ -61,13 +61,13 @@ namespace Hmwd {
 			//uint size = pixbuf.rowstride*pixbuf.height;
 			uint8[] p = new uint8[size];
 			//uint8[] p = pixbuf.get_pixels()[0:size];
-			print("pixel size: %u\n",size);
+			//print("pixel size: %u\n",size);
 			// uint8[] tmp =  pixbuf.get_pixels();
 			// uint8[] p = new uint8[size];
 
 			for (int i = 0;i<size;i++) {
 				p[i] = pixbuf.get_pixels()[i];
-				print("%u ", p[i]);
+				//print("%u ", p[i]);
 			}
 			//p = pixbuf.get_pixels();
 			
@@ -86,7 +86,7 @@ namespace Hmwd {
 			try {
 				uint8[] pixel_buffer;
 				pixbuf.save_to_buffer(out pixel_buffer, type );
-				print("buffer_size: %u\n",pixel_buffer.length);
+				//print("buffer_size: %u\n",pixel_buffer.length);
 				return pixel_buffer;
 			}
 			catch (GLib.Error e) {
@@ -97,7 +97,7 @@ namespace Hmwd {
 	 		try {
 				uint8[] pixel_buffer;
 				pixbuf.save_to_buffer(out pixel_buffer, type);
-				print("buffer_size: %u\n",pixel_buffer.length);
+				//print("buffer_size: %u\n",pixel_buffer.length);
 				return (string) pixel_buffer;
 			}
 			catch (GLib.Error e) {
@@ -143,7 +143,7 @@ namespace Hmwd {
 				//GLib.error("", e.message);
 				GLib.error("%s konnte nicht geladen werden", path);
 			}
-			print("GdkTexture: loadFromFile\n");
+			//print("GdkTexture: loadFromFile\n");
 			loadFromPixbuf(pixbuf);
 		}
 
@@ -153,7 +153,7 @@ namespace Hmwd {
 		 */
 		public void loadFromPixbuf(Gdk.Pixbuf pixbuf)
 		{
-			print("GdkTexture: loadFromPixbuf\n");
+			//print("GdkTexture: loadFromPixbuf\n");
 			this.pixbuf = pixbuf;
 			png_buffer = save_to_buffer("png");
 		}
@@ -163,7 +163,7 @@ namespace Hmwd {
 		public void save (string filename) {
 			try {
 				pixbuf.save(filename, "png");
-				print("GdkTexture: save\n");
+				//print("GdkTexture: save\n");
 			} catch (GLib.Error e) {
 				error ("Error! Konnte Sprite nicht Speichern: %s\n", e.message);
 			}

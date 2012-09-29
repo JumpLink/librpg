@@ -62,7 +62,7 @@ namespace Hmwd {
 		 */
 		public virtual void save (string filename) {
 			//if(tile_type != TileType.NO_TILE && tile_type != TileType.EMPTY_TILE) {
-				print("Tile save\n");
+				//print("Tile save\n");
 				tex.save(filename);
 			//}
 		}

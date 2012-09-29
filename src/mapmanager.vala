@@ -41,7 +41,7 @@ namespace Hmwd {
 			GLib.Object(folder: folder, tilesetmanager : tilesetmanager);
 		}
 		construct {
-			print("Erstelle MapManager\n");
+			//print("Erstelle MapManager\n");
 			map = new Gee.ArrayList<Hmwd.Map>();
 			loadAllFromFolder(folder, tilesetmanager);
 		}
@@ -49,7 +49,7 @@ namespace Hmwd {
 		 * Dekonstruktor
 		 */
 		~MapManager() {
-			print("Lösche MapManager\n");
+			//print("Lösche MapManager\n");
 		}
 
 		/**
@@ -85,7 +85,7 @@ namespace Hmwd {
 		public Hmwd.Map? getFromFilename(string filename) {
 			foreach (Hmwd.Map m in map)
 					if (m.filename == filename) {
-						print("Map gefunden!\n");
+						//print("Map gefunden!\n");
 						return m;
 					}
 						

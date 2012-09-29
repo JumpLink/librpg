@@ -34,7 +34,7 @@ namespace Hmwd {
 		 * @param extension die Dateiendung die beruecksichtigt werden soll.
 		 */
 		public static Gee.List<string> loadAllFromFolder(string folder, string extension) {
-			print("Fuehre Hmwd.File.loadAllFromPath mit folder %s und extension %s aus.\n", folder, extension);
+			//print("Fuehre Hmwd.File.loadAllFromPath mit folder %s und extension %s aus.\n", folder, extension);
 			GLib.File directory = GLib.File.new_for_path(folder);
 			FileEnumerator enumerator;
 			Gee.List<string> files = new Gee.ArrayList<string>();
@@ -49,11 +49,11 @@ namespace Hmwd {
 					string filename = file_info.get_name ();
 					string tmp_extension;
 
-					print ("%s\n", filename);
+					//print ("%s\n", filename);
 					//print ("Content type: %s\n", file_info.get_content_type ());
 					//extrahiert die Dateiendung
 					tmp_extension = filename.substring(filename.last_index_of (".", 0), -1);
-					print ("extension: %s\n", tmp_extension);
+					//print ("extension: %s\n", tmp_extension);
 					if (tmp_extension == extension) {
 						files.add(filename);
 					}

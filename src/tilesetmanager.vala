@@ -37,7 +37,7 @@ namespace Hmwd {
 			 GLib.Object(folder:folder);
 		}
 		construct{
-			print("Erstelle TileSetManager\n");
+			//print("Erstelle TileSetManager\n");
 			tileset = new Gee.ArrayList<TileSet>();
 			if (folder != null)
 				loadAllFromFolder(folder);
@@ -48,7 +48,7 @@ namespace Hmwd {
 		 * Dekonstruktor
 		 */
 		~TileSetManager() {
-			print("Lösche TileSetManager\n");
+			//print("Lösche TileSetManager\n");
 		}
 
 		/**
@@ -62,9 +62,12 @@ namespace Hmwd {
 		 */
 		private void loadAllFromFolder(string folder) {
 			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tsx");
+			TileSetReader tilesetreader = new TileSetReader(folder);
 			foreach (string filename in files) {
-				print("Dateiname: %s\n\n", filename);
-				tileset.add(new Hmwd.TileSet.fromPath(folder, filename));
+				//print("Dateiname: %s\n\n", filename);
+				TileSet tmp_tileset = tilesetreader.parse(filename);
+				tmp_tileset.loadTiles(folder);
+				tileset.add(tmp_tileset);
 			}
 		}
 		/**
@@ -73,14 +76,14 @@ namespace Hmwd {
 		 * @param name name des gesuchten TileSets
 		 * @return Bei Erfolg das gefundene TileSet, sonst ein neues Objekt TileSet
 		 */
-		public TileSet getFromName(string name) {
+		public TileSet? getFromName(string name) {
 			foreach (TileSet ts in tileset)
 					if (ts.name == name) {
-						print("TileSet gefunden!\n");
+						//print("TileSet gefunden!\n");
 						return ts;
 					}
 						
-			return new TileSet();
+			return null;
 		}
 		/**
 		 * Gibt das TileSet mit dem Dateiname "filename" zurück
@@ -94,7 +97,7 @@ namespace Hmwd {
 			TileSet result = null;
 			foreach (TileSet ts in tileset)
 				if (ts.filename == filename) {
-					print("TileSet mit gleichem Namen %s gefunden!\n", filename);
+					//print("TileSet mit gleichem Namen %s gefunden!\n", filename);
 					result = ts;
 					break;
 				}
@@ -106,14 +109,14 @@ namespace Hmwd {
 		 * @param source Ort des gesuchten TileSets
 		 * @return Bei Erfolg das gefundene TileSet, sonst ein neues Objekt TileSet
 		 */
-		public TileSet getFromSource(string source) {
+		public TileSet? getFromSource(string source) {
 			foreach (TileSet ts in tileset)
 					if (ts.source == source) {
-						print("TileSet gefunden!\n");
+						//print("TileSet gefunden!\n");
 						return ts;
 					}
 						
-			return new TileSet();
+			return null;
 		}
 
 		public string getSourcesFromIndex(int index) {
