@@ -1,16 +1,6 @@
 using Sxml;
 using Gee;
-/**
- * MapReader als Hilfe fuer das Laden einer XML-basierten Map-Datei.
- * Wir verwenden dafuer das Dateiformat von "Tiled", einem Mapeditor
- * der hier zu finden ist: [[http://www.mapeditor.org/|mapeditor.org]]<<BR>>
- * Derzeit werden noch keine komprimierten Dateien unterstuetzt.
- * Die zu ladenden Maps werden fuer gewoehnlich von der Klasse Hmwd.MapManager
- * uebernommen.<<BR>>
- * Die definitionen des Kartenformats sind [[https://github.com/bjorn/tiled/wiki/TMX-Map-Format|hier]] zu finden.
- *
- * @see Hmwd.MapManager
- */
+
 public interface Hmwd.DataReader : Object {
 
 	protected abstract MarkupTokenType current_token {get; set;}

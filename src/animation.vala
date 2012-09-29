@@ -47,15 +47,16 @@ namespace Hmwd {
 				}
 			}
 		}
-
-		public Animation(string name, bool repeat, Direction direction, Gee.List<AnimationData> animationdata) {
+		public Animation() {
+		}
+		public Animation.all(string name, bool repeat, Direction direction, Gee.List<AnimationData> animationdata) {
 			Object(name: name, repeat: repeat, direction: direction, animationdata:animationdata);
 		}
 		construct {
-			if (animationdata == null) {
-				printerr("animationdata == null create new animationdata\n");
-				animationdata = new Gee.ArrayList<AnimationData>();
-			}
+			// if (animationdata == null) {
+			// 	printerr("animationdata == null create new animationdata\n");
+			// 	animationdata = new Gee.ArrayList<AnimationData>();
+			// }
 		}
 
 		public AnimationData get_AnimationData ()

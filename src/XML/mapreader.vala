@@ -72,10 +72,10 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 				map.tileheight = int.parse(attributes.get (key));
 				break;
 			case "version":
-				map.version = (string) attributes.get (key);
+				map.version =  attributes.get (key);
 				break;
 			case "orientation":
-				map.orientation = (string) attributes.get (key);
+				map.orientation =  attributes.get (key);
 				break;
 			case "width":
 				map.width = int.parse(attributes.get (key));
@@ -119,9 +119,9 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 		prop_name = null;
 		foreach (var key in attributes.keys) {
 			if(key == "value")
-				prop_value = (string) attributes.get (key);
+				prop_value =  attributes.get (key);
 			else
-				prop_name = (string) attributes.get (key);
+				prop_name =  attributes.get (key);
 		}
 		next();
 		end_element("property");
@@ -131,7 +131,7 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 		start_element("tileset");
 		Gee.Map<string,string> attributes = reader.get_attributes();
 
-		string ts_filename = Hmwd.File.PathToFilename((string) attributes.get ("source"));
+		string ts_filename = Hmwd.File.PathToFilename( attributes.get ("source"));
 		Hmwd.TileSet ts_source = tilesetmanager.getFromFilename(ts_filename);
 		int firstgid = int.parse(attributes.get ("firstgid"));
 		//Den zusammengestellten neuen TileSet in die Liste einfuegen
@@ -159,7 +159,7 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 				layer_height = int.parse(attributes.get (key));
 				break;
 			case "name":
-				layer_name = (string) attributes.get (key);
+				layer_name =  attributes.get (key);
 				break;
 			}
 		}

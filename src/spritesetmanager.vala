@@ -42,14 +42,14 @@ namespace Hmwd {
 				printerr("folder is undefined, using default: ./data/spriteset/\n");
 				folder = "bla/data/spriteset/";
 			}
-			print("Erstelle SpriteSetManager\n");
+			//print("Erstelle SpriteSetManager\n");
 			loadAllFromFolder(folder);
 		}
 		/**
 		 * Dekonstruktor
 		 */
 		~SpriteSetManager() {
-			print("Loesche SpriteSetManager\n");
+			//print("Loesche SpriteSetManager\n");
 		}
 
 		/**
@@ -67,13 +67,13 @@ namespace Hmwd {
 			}
 
 			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".ssx");
-
+			SpriteSetReader spritesetreader = new SpriteSetReader(folder);
 			foreach (string filename in files) {
-				print("Dateiname: %s\n\n", filename);
-				Hmwd.SpriteSet current_spriteset = new Hmwd.SpriteSet.fromPath(folder, filename);
-				spriteset.add(current_spriteset);
+				//print("Dateiname: %s\n\n", filename);
+				//Hmwd.SpriteSet current_spriteset = new Hmwd.SpriteSet.fromPath(folder, filename);
+				spriteset.add(spritesetreader.parse(filename));
 			}
-			print("spritset size: %i\n",this.size);
+			//print("spritset size: %i\n",this.size);
 		}
 		/**
 		 * Gibt das SpriteSet mit dem Namen "name" zurück
@@ -84,7 +84,7 @@ namespace Hmwd {
 		public SpriteSet? getFromName(string name) {
 			foreach (SpriteSet ss in spriteset)
 					if (ss.name == name) {
-						print("SpriteSet gefunden!\n");
+						//print("SpriteSet gefunden!\n");
 						return ss;
 					}
 						
@@ -105,7 +105,7 @@ namespace Hmwd {
 			SpriteSet result = null;
 			foreach (SpriteSet ss in spriteset)
 					if (ss.filename == filename) {
-						print("SpriteSet mit gleichem Namen %s gefunden!\n", filename);
+						//print("SpriteSet mit gleichem Namen %s gefunden!\n", filename);
 						result = ss;
 						break;
 					}		

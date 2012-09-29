@@ -51,7 +51,7 @@ public class Hmwd.TileSetReader : Hmwd.DataReader, Object {
 				tileset.tileheight = int.parse(attributes.get (key));
 				break;
 			case "name":
-				tileset.name = (string) attributes.get (key);
+				tileset.name =  attributes.get (key);
 				break;
 			default:
 				error ("unknown property of '%s'".printf (key));
@@ -75,10 +75,10 @@ public class Hmwd.TileSetReader : Hmwd.DataReader, Object {
 				tileset.height = int.parse(attributes.get (key));
 				break;
 			case "source":
-				tileset.source = (string) attributes.get (key);
+				tileset.source =  attributes.get (key);
 				break;
 			case "trans":
-				tileset.trans = (string) attributes.get (key);
+				tileset.trans =  attributes.get (key);
 				break;
 			default:
 				error ("unknown property of '%s'".printf (key));

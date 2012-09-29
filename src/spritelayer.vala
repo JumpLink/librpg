@@ -24,47 +24,56 @@ namespace Hmwd {
 		//string name; Name wird als HashMap gespeichert, nicht hier.
 		public SpriteLayerType sprite_layer_type { get; construct set; }
 		/**
-		 * Transparente Farbe im SpriteLayers
-		 */
-		public string trans;
-		/**
 		 * aktiv oder inaktiv
 		 */
 		public bool active { get; construct set; }
 		public string name { get; construct set; }
 		public int number { get; construct set; }
+		//->image
 		public string image_filename { get; construct set; }
+		public uint image_width { get{ return width*spritewidth; } }
+		public uint image_height { get{ return height*spriteheight; } }
+		public string folder {get; construct set;}
+		/**
+		 * Transparente Farbe im SpriteLayers
+		 */
+		public string trans;
+		//<-image
 		public uint width { get; construct set; }
 		public uint height { get; construct set; }
 		public uint spritewidth { get; construct set; }
 		public uint spriteheight { get; construct set; }
-		public string folder {get; construct set;} //TODO hier ist der dateiname bereits enthalten
 		/**
 		 * Array fuer die einzelnen Sprites
 		 */	
 		public Sprite[,] sprites;
+
+		public SpriteLayer() {
+
+		}	
+
 	
-		public SpriteLayer(string folder, int number, string name, string image_filename, SpriteLayerType type, string trans, uint count_x, uint count_y, uint spritewidth, uint spriteheight) {			
-			Object(folder:folder, name:name, image_filename:image_filename, sprite_layer_type:type, width:count_x, height:count_y, spritewidth:spritewidth, spriteheight:spriteheight, active:true);
+		public SpriteLayer.all(string folder, int number, string name, string image_filename, SpriteLayerType type, string trans, uint width, uint height, uint spritewidth, uint spriteheight) {			
+			Object(folder:folder, name:name, image_filename:image_filename, sprite_layer_type:type, width:width, height:height, spritewidth:spritewidth, spriteheight:spriteheight, active:true);
 		}
 		construct{
-			this.loadSprites(folder, height, width, spritewidth, spriteheight);
+			//this.loadSprites(folder, height, width, spritewidth, spriteheight);
 		}
 		/**
 		 * Ladet die Pixel fuer die Sprites.
 		 */
-		private void loadSprites(string folder, uint count_y, uint count_x, uint spritewidth, uint spriteheight)
+		public void loadSprites()
 		requires (image_filename != null)
 		{
 			if (image_filename != "") {
-				GdkTexture tex = new GdkTexture.fromFile(folder);
-				sprites = new Sprite[count_y,count_x];
+				GdkTexture tex = new GdkTexture.fromFile(folder+image_filename);
+				sprites = new Sprite[height,width];
 				//int count = 0;
 				Pixbuf pxb = tex.pixbuf;
-				tex.printValues();
-				print("=====LOADSPRITES=====\n");
-				for(int y = 0; y < count_y; y++) {
-					for(int x = 0; x < count_x; x++) {
+				//tex.printValues();
+				//print("=====LOADSPRITES=====\n");
+				for(int y = 0; y < height; y++) {
+					for(int x = 0; x < width; x++) {
 						Pixbuf split = new Pixbuf(Gdk.Colorspace.RGB, pxb.get_has_alpha(), pxb.get_bits_per_sample(), (int) spritewidth, (int) spriteheight);
 						//print("y: %i x:%i spritewidth:%u spriteheight:%u count %i", y, x, spritewidth, spriteheight, count);
 						pxb.copy_area((int) spritewidth*x, (int) spriteheight*y, (int) spritewidth, (int) spriteheight, split, 0, 0);
@@ -73,7 +82,7 @@ namespace Hmwd {
 						//tile[y,x].printValues();
 					}
 				}
-				print("Sprites zerteilt\n");
+				//print("Sprites zerteilt\n");
 			} else {
 				GLib.error("Objekt enthaelt keinen Dateinamen fuer das zu splittende Bild!\n");
 			}
@@ -104,6 +113,7 @@ namespace Hmwd {
 			print("Name: %s\n", name);
 			print("Number: %i\n", number);
 			print("Image FileName: %s\n", image_filename);
+			print("folder: %s\n", folder);
 			print("width: %u\n",width);
 			print("height: %u\n",height);
 			print("spritewidth: %u\n",spritewidth);

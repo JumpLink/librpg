@@ -35,7 +35,7 @@ namespace Hmwd {
 		 */
 		public uint spritewidth { get; set; }
 		/**
-		 * Hoehe eines Sprites7
+		 * Hoehe eines Sprites
 		 */
 		public uint spriteheight { get; set; }
 		/**
@@ -98,29 +98,31 @@ namespace Hmwd {
 
 		}
 		construct {
-			print("Lade SpriteSetdateien von %s + %s\n", folder, filename);
+			spritelayers = new Gee.ArrayList<SpriteLayer>();
+			animations = new Gee.ArrayList<Animation>();
+			// print("Lade SpriteSetdateien von %s + %s\n", folder, filename);
 
-			if(folder != null && filename != null) {
-				SSX xml = new SSX(folder,filename);
-				string tmp_name;
-				string tmp_version;
-				uint tmp_width;
-				uint tmp_height;
-				uint tmp_spritewidth;
-				uint tmp_spriteheight;
-				xml.loadGlobalProperties(out tmp_name, out tmp_version, out tmp_width, out tmp_height, out tmp_spritewidth, out tmp_spriteheight);
-				this.name = tmp_name;
-				this.version = tmp_version;
-				this.width = tmp_width;
-				this.height = tmp_height;
-				this.spritewidth = tmp_spritewidth;
-				this.spriteheight = tmp_spriteheight;
-				print("loadGlobalProperties -> name %s\n", name);
-				spritelayers = xml.loadLayers();
-				animations = xml.loadAnimations(width, height);
-			} else {
-				printerr("SpriteSet.fromPath: folder or filename is null\n");
-			}
+			// if(folder != null && filename != null) {
+			// 	SSX xml = new SSX(folder,filename);
+			// 	string tmp_name;
+			// 	string tmp_version;
+			// 	uint tmp_width;
+			// 	uint tmp_height;
+			// 	uint tmp_spritewidth;
+			// 	uint tmp_spriteheight;
+			// 	xml.loadGlobalProperties(out tmp_name, out tmp_version, out tmp_width, out tmp_height, out tmp_spritewidth, out tmp_spriteheight);
+			// 	this.name = tmp_name;
+			// 	this.version = tmp_version;
+			// 	this.width = tmp_width;
+			// 	this.height = tmp_height;
+			// 	this.spritewidth = tmp_spritewidth;
+			// 	this.spriteheight = tmp_spriteheight;
+			// 	print("loadGlobalProperties -> name %s\n", name);
+			// 	spritelayers = xml.loadLayers();
+			// 	animations = xml.loadAnimations(width, height);
+			// } else {
+			// 	printerr("SpriteSet.fromPath: folder or filename is null\n");
+			// }
 		}
 
 		/**
