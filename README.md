@@ -1,7 +1,11 @@
 HMWorld-Data
 =========
 
-This Libary is used by [HMWworld](https://github.com/JumpLink/HMWorld) and [HMWorld-Website](https://github.com/JumpLink/HMWorld-Website) to handle the Game Data.
+This Libary is used by [HMWworld](https://github.com/JumpLink/HMWorld) and [HMWorld-Website](https://github.com/JumpLink/HMWorld-Website) to handle the Game Data, but can also be used generally for orthogonally tiled based maps.
+This library can also load tiled based tilesets and (in my own format) spritesets.
+
+Install
+-------
 
 First you need to install [Sxml](https://github.com/JumpLink/simple-xml-reader-vala).
 
@@ -12,6 +16,7 @@ Debian
         make install
         
 Example
+-------
 
 ```vala
 using Hmwd;
