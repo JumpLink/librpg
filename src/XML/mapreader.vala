@@ -295,7 +295,7 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 				                    FLIPPED_VERTICALLY_FLAG |
 				                    FLIPPED_DIAGONALLY_FLAG);
 				// Resolve the tile
-				_tiles[y,x] = resolve_tile(global_tile_id);
+				_tiles[x,y] = resolve_tile(global_tile_id);
 			}
 		}
 		return _tiles;
