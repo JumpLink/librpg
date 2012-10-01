@@ -39,9 +39,9 @@ VAPI_TARGET              = $(LIBRARY).vapi
 HEADER_TARGET            = $(LIBRARY).h
 
 # Pakete
-PACKAGES      = zlib Sxml-0.1 gee-1.0 gio-2.0 posix gdk-pixbuf-2.0 #clutter-1.0 clutter-gtk-1.0 gl glu glut sdl sdl-image cairo 
+PACKAGES      = Sxml-0.1 gee-1.0 gio-2.0 posix gdk-pixbuf-2.0 #clutter-1.0 clutter-gtk-1.0 gl glu glut sdl sdl-image cairo 
 # C-Compileranweisungen
-CFLAGS        = -lz -lm # -lglut -lSDL_image
+CFLAGS        = -lm # -lglut -lSDL_image
 
 
 # Quellverzeichnis

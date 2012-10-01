@@ -1,6 +1,5 @@
 using Sxml;
 using Gee;
-using ZLib;
 /**
  * MapReader als Hilfe fuer das Laden einer XML-basierten Map-Datei.
  * Wir verwenden dafuer das Dateiformat von "Tiled", einem Mapeditor
