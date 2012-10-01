@@ -1,5 +1,6 @@
 using Sxml;
 using Gee;
+using ZLib;
 /**
  * MapReader als Hilfe fuer das Laden einer XML-basierten Map-Datei.
  * Wir verwenden dafuer das Dateiformat von "Tiled", einem Mapeditor
@@ -11,6 +12,12 @@ using Gee;
  *
  * @see Hmwd.MapManager
  */
+
+// Bits on the far end of the 32-bit global tile ID are used for tile flags
+const uint64 FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
+const uint64 FLIPPED_VERTICALLY_FLAG   = 0x40000000;
+const uint64 FLIPPED_DIAGONALLY_FLAG   = 0x20000000;
+
 public class Hmwd.MapReader : Hmwd.DataReader, Object {
 
 	protected MarkupTokenType current_token {get; set;}
@@ -37,7 +44,6 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 	}
 
 	construct {
-		//print("new MapReader\n");
 		reporter = new ErrorReporter();
 	}
 
@@ -63,7 +69,6 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 		start_element("map");
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		foreach (var key in attributes.keys) {
-			//print("%s:%s\n", key, attributes.get (key));
 			switch (key) {
 			case "tilewidth":
 				map.tilewidth = int.parse(attributes.get (key));
@@ -142,7 +147,6 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 
 	protected void parse_layer() {
 		start_element("layer");
-
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		string layer_name = null;
 		int layer_width = 0;
@@ -203,29 +207,113 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 				_collision = bool.parse(prop_value);
 				break;
 			}
-
 		}
 		end_element("properties");
 	}
 
 	protected Hmwd.Tile[,] parse_data() {
 		start_element("data");
-		next();
-		Hmwd.Tile[,] _tiles = new Tile[map.width,map.height]; 
-		int tile_count = 0;
-		while(!is_end_element("data")) {
-			_tiles[(uint)(tile_count%map.width), (uint)(tile_count/map.width)] = parse_tile();
-			tile_count++;
+		Hmwd.Tile[,] _tiles = null;
+		Gee.Map<string,string> attributes = reader.get_attributes();
+		if (attributes.has_key("compression")) {
+			// parse data with encoding and compression
+			next();
+			if (!attributes.has_key("encoding") || attributes.get("encoding") != "base64")
+				error ("unknown encoding '%s'".printf (attributes.get("encoding")));
+			uint8[] data = null;
+			switch(attributes.get("compression")) {
+			case "zlib":
+				data = inflate(Base64.decode(reader.content), ZlibCompressorFormat.ZLIB);
+				break;
+			case "gzip":
+				data = inflate(Base64.decode(reader.content), ZlibCompressorFormat.GZIP);
+				break;
+			default:
+				error ("unknown compression '%s'".printf (attributes.get("compression")));
+			}				
+			_tiles = parse_binary(data);
+			next();
+		} else if (attributes.has_key("encoding")) {
+			// parse data with encoding but without compression
+			if (attributes.get("encoding") != "base64")
+				error ("unknown encoding '%s'".printf (attributes.get("encoding")));
+			next();
+			uchar[] data = Base64.decode(reader.content);
+			_tiles = parse_binary(data);
+			next();
+		} else {
+			// parse data directly from xml without encoding and compression 
+			next();
+			_tiles = new Tile[map.width,map.height];
+			int tile_count = 0;
+			while(!is_end_element("data")) {
+				_tiles[(uint)(tile_count%map.width), (uint)(tile_count/map.width)] = parse_tile();
+				tile_count++;
+			}
 		}
 		end_element("data");
 		return _tiles;
 	}
+	// Decompress zlib compressed inbuf
+	protected uint8[] inflate(uint8[] inbuf, ZlibCompressorFormat format) {
+		uint8[] outbuf = new uint8[map.width*map.height*4];
+
+		size_t bytes_read = 0;
+		size_t bytes_written = 0;
+
+		ConverterResult res;
+		ZlibDecompressor decompressor = new ZlibDecompressor(format);
+		try {
+			res = decompressor.convert (inbuf, outbuf, ConverterFlags.INPUT_AT_END, out bytes_read, out bytes_written);
+		} catch (Error e) {
+			error ("can not convert data: %s".printf(e.message));
+		}
+		if (res != ConverterResult.FINISHED)
+			error ("wrong converter result: %s".printf(res.to_string()));
+		return outbuf;
+	}
+
+	protected Hmwd.Tile[,] parse_binary(uchar[] data) {
+		if(data.length != map.width*map.height*4)
+			error("data.length: %i != map.width*map.height*4: %i\n", data.length, (int) (map.width*map.height*4));
+		uint tile_index = 0;
+		Hmwd.Tile[,] _tiles = new Tile[map.width,map.height];
+		for (int y = 0; y < map.height; ++y) {
+			for (int x = 0; x < map.width; ++x) {
+				int global_tile_id = data[tile_index] |
+				                          data[tile_index + 1] << 8 |
+				                          data[tile_index + 2] << 16 |
+				                          data[tile_index + 3] << 24;
+				tile_index += 4;
+
+				// Read out the flags TODO save this!
+				bool flipped_horizontally = (global_tile_id & FLIPPED_HORIZONTALLY_FLAG) == FLIPPED_HORIZONTALLY_FLAG;
+				bool flipped_vertically = (global_tile_id & FLIPPED_VERTICALLY_FLAG) == FLIPPED_VERTICALLY_FLAG;
+				bool flipped_diagonally = (global_tile_id & FLIPPED_DIAGONALLY_FLAG) == FLIPPED_DIAGONALLY_FLAG;
+
+				// Clear the flags
+				global_tile_id &= ~(FLIPPED_HORIZONTALLY_FLAG |
+				                    FLIPPED_VERTICALLY_FLAG |
+				                    FLIPPED_DIAGONALLY_FLAG);
+				// Resolve the tile
+				_tiles[y,x] = resolve_tile(global_tile_id);
+			}
+		}
+		return _tiles;
+	}
+
 	protected Hmwd.Tile parse_tile() {
 		start_element("tile");
-		int gid = int.parse(reader.get_attributes().get("gid"));
+		Hmwd.Tile tmp_tile = resolve_tile(int.parse(reader.get_attributes().get("gid")));
+		next();
+		end_element("tile");
+		return tmp_tile;
+	}
+
+	protected Hmwd.Tile resolve_tile(int gid) {
 		Hmwd.Tile tmp_tile;
 		Hmwd.TileSetReference tmp_tilesetref;
-		//TODO bestimmung des tiles vereinfachen
+		// TODO bestimmung des tiles vereinfachen
 		if(gid > 0) {
 			tmp_tilesetref = Hmwd.Map.getTileSetRefFromGid(map.tileset, gid);
 			tmp_tile = tmp_tilesetref.source.getTileFromIndex(gid - tmp_tilesetref.firstgid);	
@@ -235,8 +323,6 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 			tmp_tile = new RegularTile();
 			tmp_tile.tile_type = TileType.NO_TILE;
 		}
-		next();
-		end_element("tile");
 		return tmp_tile;
 	}
 }
