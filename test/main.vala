@@ -20,7 +20,7 @@ class Main : Object {
 		data.loadSpriteSetManager("./data/spriteset/");
 		data.loadTileSetManager("./data/tileset/");
 		data.loadMapManager("./data/map/");
-		var map = data.mapmanager.getFromFilename("testmap_base64_gzip.tmx");
+		var map = data.mapmanager.getFromFilename("testmap.tmx");
 		var layer = map.getLayerFromIndex(0);
 		//get tile x y
 		var tile = layer.tiles[0,0];
