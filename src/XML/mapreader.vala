@@ -17,17 +17,15 @@ const uint64 FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
 const uint64 FLIPPED_VERTICALLY_FLAG   = 0x40000000;
 const uint64 FLIPPED_DIAGONALLY_FLAG   = 0x20000000;
 
-public class Hmwd.MapReader : Hmwd.DataReader, Object {
+public class Hmwd.MapReader : Sxml.DataReader, Object {
 
 	protected MarkupTokenType current_token {get; set;}
 	protected MarkupSourceLocation begin {get; set;}
 	protected MarkupSourceLocation end {get; set;}
-	protected ErrorReporter reporter {get; set;}
-	protected MarkupReader reader {get; set;}
+	protected XMLStreamReader reader {get; set;}
 
-	protected Hmwd.Map map;
 	/**
-	 * Path der Mapdateien
+	 * Path of Data
 	 */
 	public string path { get; construct set; }
 
@@ -38,12 +36,10 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 
 	public Hmwd.TileSetManager tilesetmanager { get; construct set; } //TODO remove?
 
+	protected Hmwd.Map map;
+
 	public MapReader (string path, Hmwd.TileSetManager tilesetmanager) {
 		Object(path:path, tilesetmanager:tilesetmanager);
-	}
-
-	construct {
-		reporter = new ErrorReporter();
 	}
 
 	public void print_properties() {
@@ -54,9 +50,9 @@ public class Hmwd.MapReader : Hmwd.DataReader, Object {
 		print("\n\n");
 	}
 
-	public Hmwd.Map parse(string filename) {	
+	public Hmwd.Map parse(string filename) {
 		map = new Hmwd.Map(filename, tilesetmanager);
-		reader = new MarkupReader (path+filename, reporter);
+		reader = new XMLStreamReader (path+filename);
 		next ();
 		while(!is_start_element("map")){next ();}
 		parse_map();

@@ -68,6 +68,8 @@ namespace Hmwd {
 			get { return (uint) (width / tilewidth); }
 		}
 
+		public GdkTexture tex { get; set; }
+
 		/**
 		 * Konstruktor
 		 */
@@ -113,7 +115,7 @@ namespace Hmwd {
 		 * Zur Zeit alle noch als RegularTile.
 		 */
 		public void loadTiles(string folder) {
-			GdkTexture tex = new GdkTexture.fromFile(folder+source);
+			tex = new GdkTexture.fromFile(folder+source);
 			int split_width = (int) tilewidth;
 			int split_height = (int) tileheight;
 			tile = new Tile[count_x,count_y];

@@ -7,14 +7,16 @@ using Gee;
  *
  * @see Hmwd.MapManager
  */
-public class Hmwd.TileSetReader : Hmwd.DataReader, Object {
+public class Hmwd.TileSetReader : Sxml.DataReader, Object {
 
 	protected MarkupTokenType current_token {get; set;}
 	protected MarkupSourceLocation begin {get; set;}
 	protected MarkupSourceLocation end {get; set;}
-	protected ErrorReporter reporter {get; set;}
-	protected MarkupReader reader {get; set;}
+	protected XMLStreamReader reader {get; set;}
 
+	/**
+	 * Path of Data
+	 */
 	public string path { get; construct set; }
 
 	protected Hmwd.TileSet tileset;
@@ -23,14 +25,9 @@ public class Hmwd.TileSetReader : Hmwd.DataReader, Object {
 		Object(path:path);
 	}
 
-	construct {
-		//print("new TileSetReader\n");
-		reporter = new ErrorReporter();
-	}
-
 	public Hmwd.TileSet parse(string filename) {	
 		tileset = new Hmwd.TileSet(filename);
-		reader = new MarkupReader (path+filename, reporter);
+		reader = new XMLStreamReader (path+filename);
 		next ();
 		while(!is_start_element("tileset")){next ();}
 		parse_tileset();
