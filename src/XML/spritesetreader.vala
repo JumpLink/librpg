@@ -12,7 +12,7 @@ public class Hmwd.SpriteSetReader : Sxml.DataReader, Object {
 	protected MarkupTokenType current_token {get; set;}
 	protected MarkupSourceLocation begin {get; set;}
 	protected MarkupSourceLocation end {get; set;}
-	protected XMLStreamReader reader {get; set;}
+	protected XmlStreamReader reader {get; set;}
 
 	/**
 	 * Path of Data
@@ -32,7 +32,7 @@ public class Hmwd.SpriteSetReader : Sxml.DataReader, Object {
 
 	public Hmwd.SpriteSet parse(string filename) {	
 		spriteset = new Hmwd.SpriteSet.fromPath(path, filename);
-		reader = new XMLStreamReader (path+filename);
+		reader = new XmlStreamReader (path+filename);
 		next ();
 		while(!is_start_element("spriteset")){next ();}
 		parse_spriteset();

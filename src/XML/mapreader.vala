@@ -22,7 +22,7 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 	protected MarkupTokenType current_token {get; set;}
 	protected MarkupSourceLocation begin {get; set;}
 	protected MarkupSourceLocation end {get; set;}
-	protected XMLStreamReader reader {get; set;}
+	protected XmlStreamReader reader {get; set;}
 
 	/**
 	 * Path of Data
@@ -52,7 +52,7 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 
 	public Hmwd.Map parse(string filename) {
 		map = new Hmwd.Map(filename, tilesetmanager);
-		reader = new XMLStreamReader (path+filename);
+		reader = new XmlStreamReader (path+filename);
 		next ();
 		while(!is_start_element("map")){next ();}
 		parse_map();
