@@ -8,8 +8,8 @@ datadir=${datarootdir}
 
 Name: HMworld Data
 Description: The Data-Library for HMWorld
-Version: 0.1
+Version: 0.2
 Requires: gee-1.0 gdk-pixbuf-2.0 gio-2.0 Sxml-0.1
 Libs: -L${libdir} -lhmwd
-Cflags: -I${includedir}/Hmwd-0.1
+Cflags: -I${includedir}/Hmwd-0.2
 ~                                             

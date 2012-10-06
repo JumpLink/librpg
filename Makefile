@@ -5,7 +5,7 @@ export GI_TYPELIB_PATH := $(shell pwd)/lib
 
 # Variablen und Flags
 # Version des Pakets
-VERSION        = 0.1
+VERSION        = 0.2
 
 # Name des Pakets
 PKG_NAME       = Hmwd
@@ -68,14 +68,10 @@ BIN_DIR              = $(LIB_DIR)
 DOC_DIR              = doc/
 # Verzeichnis fuer Doku
 TST_DOC_DIR          = test/doc/
-# Öffentliches Verzeichnis für die Dokumentationsveröffentlichung
-PUB_DIR              = ~/Dropbox/Public/hmp/
 # Verzeichnis fuer Temporaere Dateien
 TMP_DIR		         = tmp/
 
 
-# Bazaar-Repository
-BZR_REPO      = bzr+ssh://bazaar.launchpad.net/%2Bbranch/hmproject/0.1/
 # Vala-Compiler
 VC            = valac
 # Gir-Compiler
@@ -84,8 +80,6 @@ GC            = g-ir-compiler
 VD            = valadoc
 # Valadoc Driver
 VDD           = 0.15.3
-# Bazaar
-BZR           = bzr
 
 
 # Allgemeine Quelldateien mit Pfad
@@ -188,6 +182,11 @@ install:
 unstall:
 	@sudo rm /usr/lib/$(SHARED_LIBRARY_TARGET)
 	@sudo rm /usr/include/$(HEADER_TARGET)
+	@sudo rm /usr/share/vala/vapi/$(VAPI_TARGET)
+	@sudo rm /usr/share/gir-1.0/$(GIR_TARGET)
+	@sudo rm /usr/lib/girepository-1.0/$(TYPELIB_TARGET)
+	@sudo rm /usr/lib/pkgconfig/$(LIBRARY).pc
+
 ## * make run: Library compilieren und node ausfuehren
 run: all
 	@echo "Running node src/main.js..."
@@ -225,10 +224,6 @@ typelib: shared_library
 c: dirs $(SRC_FILES)
 	@echo "Compiling Binary..."
 	@$(VC) $(COMP) -C
-## * make doc-test: Dokumentation fuer die Tests generieren, inkl. nicht oeffentlicher Bereiche
-doc-test: $(SRC_FILES)
-	@echo "Generating internal Documentation for Tests..."
-	@$(VD) --driver $(VDD) -o $(TST_DOC_DIR) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(TSRC_FILES) --package-name $(PKG_NAME) --package-version=$(VERSION) --private --internal
 ## * make doc: Dokumentation generieren
 doc: $(SRC_FILES)
 	@echo "Generating Documentation..."
@@ -240,12 +235,6 @@ doc-internal: $(SRC_FILES)
 	@echo "Generating internal Documentation"
 	@$(VD) --driver $(VDD) -o $(DOC_DIR) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(SRC_FILES) --package-name $(PKG_NAME) --package-version=$(VERSION) --private --internal --importdir=$(TST_DOC_DIR) #fix importdir
 	@gnome-open ./doc/index.html
-
-## * make doc-publish: Zuvor generierte Doc veroeffentlichen
-doc-publish: $(SRC_FILES)
-	@mkdir -p $(PUB_DIR)
-	@cp $(DOC_DIR) $(PUB_DIR) -r
-	@gnome-open http://dl.dropbox.com/u/55722973/hmp/doc/index.html
 
 ## * make clean: Raeumt die erzeugten Dateien auf
 clean:
@@ -264,13 +253,6 @@ clean:
 help:
 	@grep '^##' 'Makefile' | sed -e 's/## //g'
 
-## * Valadate aus dem Repo installieren, unfollstaendig, fehlerhaft.
-install-valadate:
-	@sudo apt-get install gobject-introspection -y
-	@rm tmp -rf
-	@mkdir tmp
-	@git clone git://gitorious.org/~serbanjora/valadate/serbanjora-valadate.git ./tmp/
-	@cd ./tmp && ./waf configure && ./waf install
 ## * Fuehrt das Testprogramm aus.
 test: dirs all
 	@echo "Testing.."
