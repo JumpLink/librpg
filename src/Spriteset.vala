@@ -18,16 +18,16 @@ using Gdk;
 using Hmwd;
 namespace Hmwd {
 	/**
-	 * Klasse fuer SpriteSets
+	 * Klasse fuer Spritesets
 	 */
-	public class SpriteSet : Object {
+	public class Spriteset : Object {
 		/**
-		 * Dateiname des SpriteSets.
+		 * Dateiname des Spritesets.
 		 */
 		public string filename { get; construct set; }
 		public string folder { get; construct set; }
 		/**
-		 * Name des SpriteSets.
+		 * Name des Spritesets.
 		 */
 		public string name { get; set; }
 		/**
@@ -39,27 +39,27 @@ namespace Hmwd {
 		 */
 		public uint spriteheight { get; set; }
 		/**
-		 * Gesamtbreite des SpriteSets in Sprites
+		 * Gesamtbreite des Spritesets in Sprites
 		 */
 		public uint width { get; set; }
 		/**
-		 * Gesamthoehe des SpriteSets in Sprites
+		 * Gesamthoehe des Spritesets in Sprites
 		 */
 		public uint height { get; set; }
 		/**
-		 * Gesamtbreite des SpriteSets in Pixel
+		 * Gesamtbreite des Spritesets in Pixel
 		 */
 		public uint pixelwidth {
 			get {return (uint) (width * spritewidth);}
 		}
 		/**
-		 * Gesamthoehe des SpriteSets in Pixel
+		 * Gesamthoehe des Spritesets in Pixel
 		 */
 		public uint pixelheight {
 			get {return (uint) (height * spriteheight);}
 		}
 		/**
-		 * Die Version des SpriteSets-XML-Formates
+		 * Die Version des Spritesets-XML-Formates
 		 */
 		public string version { get; set; }
 		/**
@@ -84,23 +84,23 @@ namespace Hmwd {
 		/**
 		 * Konstruktor
 		 */
-		public SpriteSet() {
+		public Spriteset() {
 
 		}
 		/**
-		 * Konstrukter, ladet SpriteSet mit Daten einer SpriteSetDatei
+		 * Konstrukter, ladet Spriteset mit Daten einer SpritesetDatei
 		 *
 		 * @param folder Das Verzeichnis aus dem gelesen werden soll
 		 * @param filename Der Dateiname der gelesen werden soll
 		 */
-		public SpriteSet.fromPath (string folder, string filename) {
+		public Spriteset.fromPath (string folder, string filename) {
 			Object(folder:folder, filename:filename);
 
 		}
 		construct {
 			spritelayers = new Gee.ArrayList<SpriteLayer>();
 			animations = new Gee.ArrayList<Animation>();
-			// print("Lade SpriteSetdateien von %s + %s\n", folder, filename);
+			// print("Lade Spritesetdateien von %s + %s\n", folder, filename);
 		}
 
 		/**
@@ -173,12 +173,12 @@ namespace Hmwd {
 			}
 		}
 		/**
-		 * Gibt alle Werte des SpriteSets auf der Konsole aus.
+		 * Gibt alle Werte des Spritesets auf der Konsole aus.
 		 */
 		public void printValues()
 		requires (name != null)
 		{
-			print("SpriteSetValues\n");
+			print("SpritesetValues\n");
 			print("name: %s\n", name);
 			print("filename: %s\n", filename);
 			print("spritewidth: %u\n", spritewidth);
@@ -187,7 +187,7 @@ namespace Hmwd {
 			print("height: %u\n", height);
 		}
 		/**
-		 * Gibt alles vom SpriteSet auf der Konsole aus.
+		 * Gibt alles vom Spriteset auf der Konsole aus.
 		 */
 		public void printAll() {
 			printValues();

@@ -24,7 +24,7 @@ namespace Hmwd {
 	public class MapManager : GLib.Object {
 		Gee.List<Hmwd.Map> map;
 		public string folder { get; construct set; }
-		public Hmwd.TileSetManager tilesetmanager { get; construct set; } //TODO remove?
+		public Hmwd.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
 		public int length {
 			get { return map.size; }
 		}
@@ -35,7 +35,7 @@ namespace Hmwd {
 		 * Konstruktor mit uebergebenem Ordner fuer das Map-Verzeichnis.
 		 * @param folder Verzeichnis der Maps, default ist: "./data/map/".
 		 */
-		public MapManager(string folder,  Hmwd.TileSetManager tilesetmanager )
+		public MapManager(string folder,  Hmwd.TilesetManager tilesetmanager )
 		//requires (tilesetmanager != null)
 		{
 			GLib.Object(folder: folder, tilesetmanager : tilesetmanager);
@@ -61,7 +61,7 @@ namespace Hmwd {
 		 *
 		 * @param folder der Ordnername aus dem gelesen werden soll.
 		 */
-		private void loadAllFromFolder(string folder, Hmwd.TileSetManager tilesetmanager) {
+		private void loadAllFromFolder(string folder, Hmwd.TilesetManager tilesetmanager) {
 			//print("Fuehre MapManager.loadAllFromPath mit folder %s aus.\n", folder);
 			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tmx");
 			MapReader mapreader = new MapReader(folder, tilesetmanager);

@@ -20,15 +20,15 @@ using Gdk;
 using Hmwd;
 namespace Hmwd {
 	/**
-	 * Klasse fuer TileSets
+	 * Klasse fuer Tilesets
 	 */
-	public class TileSet : Object {
+	public class Tileset : Object {
 		/**
-		 * Name des TileSets.
+		 * Name des Tilesets.
 		 */
 		public string name { get; set; }
 		/**
-		 * Dateiname des TileSets.
+		 * Dateiname des Tilesets.
 		 */
 		public string filename { get; construct set; }
 		/**
@@ -40,23 +40,23 @@ namespace Hmwd {
 		 */
 		public uint tileheight { get; set; }
 		/**
-		 * Dateiname des TileSet-Bildes
+		 * Dateiname des Tileset-Bildes
 		 */
 		public string source { get; set; } //TODO gibt es mehrere sources?
 		/**
-		 * Transparente Farbe im TileSet
+		 * Transparente Farbe im Tileset
 		 */
 		public string trans { get; set; }
 		/**
-		 * Gesamtbreite des TileSets
+		 * Gesamtbreite des Tilesets
 		 */
 		public uint width { get; set; }
 		/**
-		 * Gesamthoehe des TileSets
+		 * Gesamthoehe des Tilesets
 		 */
 		public uint height { get; set; }
 		/**
-		 * Die Tiles in Form eines 2D-Array des TileSets
+		 * Die Tiles in Form eines 2D-Array des Tilesets
 		 */
 		public Tile[,] tile { get; set; }
 
@@ -73,14 +73,14 @@ namespace Hmwd {
 		/**
 		 * Konstruktor
 		 */
-		public TileSet(string filename) {
+		public Tileset(string filename) {
 			Object(filename:filename);
 		}
 		/**
 		 * Dekonstruktor
 		 */
-		~TileSet() {
-			//print("Lösche TileSet Objekt\n");
+		~Tileset() {
+			//print("Lösche Tileset Objekt\n");
 		}
 		/**
 		 * Gibt ein gesuchtes Tile anhand seines Index zurueck.
@@ -161,7 +161,7 @@ namespace Hmwd {
 			print("\nWenn du dies siehst konnten alle Tiles durchlaufen werden\n");
 		}
 		/**
-		 * Gibt alle Werte des TileSets auf der Konsole aus
+		 * Gibt alle Werte des Tilesets auf der Konsole aus
 		 */
 		public void printValues() {
 			print("name: %s\n", name);
@@ -174,7 +174,7 @@ namespace Hmwd {
 			print("height: %u\n", height);
 		}
 		/**
-		 * Gibt alle Werte und die Tiles des TileSets auf der Konsole aus
+		 * Gibt alle Werte und die Tiles des Tilesets auf der Konsole aus
 		 */
 		public void printAll() {
 			printValues();

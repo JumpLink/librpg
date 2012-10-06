@@ -47,9 +47,9 @@ namespace Hmwd {
 			
 		}
 		/**
-		 * SpriteSet der Entity, beinhaltet Animationen und deren Grafiken.
+		 * Spriteset der Entity, beinhaltet Animationen und deren Grafiken.
 		 */
-		public SpriteSet spriteset { get; set;}
+		public Spriteset spriteset { get; set;}
 
 		public static int compare (Entity a, Entity b) {
 			return (int) (a.pos.y - b.pos.y);

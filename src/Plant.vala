@@ -50,7 +50,7 @@ namespace Hmwd {
 	 	/**
 	 	 * Spriteset der Pflanze.
 	 	 */
-	 	public SpriteSet spriteset;
+	 	public Spriteset spriteset;
 
 	 	/**
 	 	 * Konstruktor.

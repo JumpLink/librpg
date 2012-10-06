@@ -17,8 +17,8 @@ using Hmwd;
 class Main : Object {
 	public static int main (string[] args) {
 		var data = new Hmwd.Data();
-		data.loadSpriteSetManager("./data/spriteset/");
-		data.loadTileSetManager("./data/tileset/");
+		data.loadSpritesetManager("./data/spriteset/");
+		data.loadTilesetManager("./data/tileset/");
 		data.loadMapManager("./data/map/");
 		var map = data.mapmanager.getFromFilename("testmap.tmx");
 		var layer = map.getLayerFromIndex(0);

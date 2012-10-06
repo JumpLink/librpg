@@ -7,7 +7,7 @@ using Gee;
  *
  * @see Hmwd.MapManager
  */
-public class Hmwd.SpriteSetReader : Sxml.DataReader, Object {
+public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 
 	protected MarkupTokenType current_token {get; set;}
 	protected MarkupSourceLocation begin {get; set;}
@@ -19,19 +19,19 @@ public class Hmwd.SpriteSetReader : Sxml.DataReader, Object {
 	 */
 	public string path { get; construct set; }
 
-	protected Hmwd.SpriteSet spriteset;
+	protected Hmwd.Spriteset spriteset;
 
 	/**
 	 * Anzahl der geparsedten Layer
 	 */
 	protected int layer_count = 0;
 
-	public SpriteSetReader (string path) {
+	public SpritesetReader (string path) {
 		Object(path:path);
 	}
 
-	public Hmwd.SpriteSet parse(string filename) {	
-		spriteset = new Hmwd.SpriteSet.fromPath(path, filename);
+	public Hmwd.Spriteset parse(string filename) {	
+		spriteset = new Hmwd.Spriteset.fromPath(path, filename);
 		reader = new XmlStreamReader (path+filename);
 		next ();
 		while(!is_start_element("spriteset")){next ();}

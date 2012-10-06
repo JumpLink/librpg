@@ -17,9 +17,9 @@ using Hmwd;
 namespace Hmwd {
 
 	public class Data : Object {
-		public Hmwd.TileSetManager tilesetmanager { get; set; }
+		public Hmwd.TilesetManager tilesetmanager { get; set; }
 		public Hmwd.MapManager mapmanager { get; set; }
-		public Hmwd.SpriteSetManager spritesetmanager { get; set; }
+		public Hmwd.SpritesetManager spritesetmanager { get; set; }
 
 		public Data() {
 			Object();
@@ -29,9 +29,9 @@ namespace Hmwd {
 
 		}
 
-		public void loadTileSetManager(string folder) {
-			//print("erstelle loadTileSetManager mit folder: %s",folder);
-			tilesetmanager = new Hmwd.TileSetManager(folder);
+		public void loadTilesetManager(string folder) {
+			//print("erstelle loadTilesetManager mit folder: %s",folder);
+			tilesetmanager = new Hmwd.TilesetManager(folder);
 		}
 
 		public void loadMapManager(string folder) {
@@ -42,9 +42,9 @@ namespace Hmwd {
 			}
 		}
 
-		public void loadSpriteSetManager(string folder) {
-			//print("erstelle SpriteSetManager mit folder: %s",folder);
-			spritesetmanager = new Hmwd.SpriteSetManager(folder);
+		public void loadSpritesetManager(string folder) {
+			//print("erstelle SpritesetManager mit folder: %s",folder);
+			spritesetmanager = new Hmwd.SpritesetManager(folder);
 		}
 
 		public void printAll() {
@@ -56,12 +56,12 @@ namespace Hmwd {
 		// public static void load() {
 
 		// 	public Hmwd.Data DATA = new Hmwd.Data();
-		// 	public Hmwd.TileSetManager DATA.TILESETMANAGER = new Hmwd.TileSetManager("./data/tileset/");
+		// 	public Hmwd.TilesetManager DATA.TILESETMANAGER = new Hmwd.TilesetManager("./data/tileset/");
 		// 	public Hmwd.MapManager DATA.MAPMANAGER = new Hmwd.MapManager("./data/map/");
-		// 	public Hmwd.SpriteSetManager DATA.SPRITESETMANAGER = new Hmwd.SpriteSetManager();
+		// 	public Hmwd.SpritesetManager DATA.SPRITESETMANAGER = new Hmwd.SpritesetManager();
 		// 	DATA.SPRITESETMANAGER.loadAllFromFolder("./data/spriteset/"); // WORKAROUND
 
-		// 	// Hmwd.SPRITESETMANAGER = new Hmwd.SpriteSetManager();
+		// 	// Hmwd.SPRITESETMANAGER = new Hmwd.SpritesetManager();
 		// 	// SPRITESETMANAGER.loadAllFromFolder("./data/spriteset/"); // WORKAROUND
 		// 	//Gee.List<Player> PLAYERS = new Gee.ArrayList<Player>();
 		// 	//PLAYERS.add (new Player("Hero", SPRITESETMANAGER.getFromName("Hero")));

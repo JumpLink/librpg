@@ -72,7 +72,7 @@ namespace Hmwd {
 		/**
 		 * Tilesets die für auf der Map verwendet werden
 		 */
-		public Gee.List<Hmwd.TileSetReference> tileset  { get; set; default=new Gee.ArrayList<TileSetReference>();}
+		public Gee.List<Hmwd.TilesetReference> tileset  { get; set; default=new Gee.ArrayList<TilesetReference>();}
 		public int tileset_size {
 			get { return tileset.size; }
 		}
@@ -101,7 +101,7 @@ namespace Hmwd {
 
 		public LogicalTile [,] tiles { get; set; }
 
-		public Hmwd.TileSetManager tilesetmanager { get; construct set; } //TODO remove?
+		public Hmwd.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
 
 
 		// public double shift_x {
@@ -114,7 +114,7 @@ namespace Hmwd {
 		/**
 		 * Konstruktor fuer eine leere Map
 		 */
-		public Map(string filename, Hmwd.TileSetManager tilesetmanager) {
+		public Map(string filename, Hmwd.TilesetManager tilesetmanager) {
 			Object(filename:filename, tilesetmanager:tilesetmanager);
 		}
 		construct {
@@ -122,55 +122,55 @@ namespace Hmwd {
 		}
 
 		/**
-		 * Gibt das zur gid passende TileSetReference zurueck.
+		 * Gibt das zur gid passende TilesetReference zurueck.
 		 * Dabei wird nach der firstgid gesucht die kleiner ist als die gid
 		 * aber groesser ist als alle anderen firstgids
-		 * @param tilesetrefs Liste von TileSetReference's in der gesucht werden soll.
-		 * @param gid Die zu der das passende TileSet gesucht werden soll.
-		 * @return Das gefundene TileSetReference.
+		 * @param tilesetrefs Liste von TilesetReference's in der gesucht werden soll.
+		 * @param gid Die zu der das passende Tileset gesucht werden soll.
+		 * @return Das gefundene TilesetReference.
 		 */
-		public static TileSetReference getTileSetRefFromGid(Gee.List<Hmwd.TileSetReference> tilesetrefs, uint gid) {	
-			Hmwd.TileSetReference found = tilesetrefs[0];
-			foreach (Hmwd.TileSetReference tsr in tilesetrefs) {
+		public static TilesetReference getTilesetRefFromGid(Gee.List<Hmwd.TilesetReference> tilesetrefs, uint gid) {	
+			Hmwd.TilesetReference found = tilesetrefs[0];
+			foreach (Hmwd.TilesetReference tsr in tilesetrefs) {
 				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
 					found = tsr;
 			}
-			//print("Das passende TileSet ist %s\n", found.source.name);
+			//print("Das passende Tileset ist %s\n", found.source.name);
 			return found;
 		}
-		public TileSetReference getTileSetRefFromGidFromOwn(int gid) {	
-			Hmwd.TileSetReference found = tileset[0];
-			foreach (Hmwd.TileSetReference tsr in tileset) {
+		public TilesetReference getTilesetRefFromGidFromOwn(int gid) {	
+			Hmwd.TilesetReference found = tileset[0];
+			foreach (Hmwd.TilesetReference tsr in tileset) {
 				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
 					found = tsr;
 			}
-			//print("Das passende TileSet ist %s\n", found.source.name);
+			//print("Das passende Tileset ist %s\n", found.source.name);
 			return found;
 		}
-		public int getTileSetIndexFromGid(int gid) {	
-			TileSetReference tref = getTileSetRefFromGidFromOwn(gid);
+		public int getTilesetIndexFromGid(int gid) {	
+			TilesetReference tref = getTilesetRefFromGidFromOwn(gid);
 			if (tref == null)
 				return 0;
 			else
 				return tileset.index_of(tref);
 		}
-		public string getTileSetSourceFromIndex(int index) {	
+		public string getTilesetSourceFromIndex(int index) {	
 			return tileset[index].source.source;
 		}
-		public TileSetReference getTileSetRefFromIndex(int index) {	
+		public TilesetReference getTilesetRefFromIndex(int index) {	
 			return tileset[index];
 		}
-		public TileSet getTileSetRefFromPosition(int x, int y, int layer_index) {
-			return getTileSetFromIndex(getTileSetIndexFromPosition(x,y,layer_index));
+		public Tileset getTilesetRefFromPosition(int x, int y, int layer_index) {
+			return getTilesetFromIndex(getTilesetIndexFromPosition(x,y,layer_index));
 		}
-		public TileSet getTileSetFromIndex(int index) {	
+		public Tileset getTilesetFromIndex(int index) {	
 			return tileset[index].source;
 		}
-		public int getTileSetIndexFromPosition(int x, int y, int layer_index) {
-			return getTileSetIndexFromGid(getTileGIDFromPosition(x,y,layer_index));
+		public int getTilesetIndexFromPosition(int x, int y, int layer_index) {
+			return getTilesetIndexFromGid(getTileGIDFromPosition(x,y,layer_index));
 		}
 		public int getTileIDFromGid(int gid) {	
-			TileSetReference tref = getTileSetRefFromGidFromOwn(gid);
+			TilesetReference tref = getTilesetRefFromGidFromOwn(gid);
 			return (int) gid - (int) (tref.firstgid-1);
 		}
 		public int getTileIDFromPosition(int x, int y, int layer_index) {
@@ -180,7 +180,7 @@ namespace Hmwd {
 			Hmwd.Tile tile = layer.getTileXY(x,y);
 			if (tile == null)
 				return 0;
-			Hmwd.TileSetReference tref = getTileSetRefFromGidFromOwn(tile.gid);
+			Hmwd.TilesetReference tref = getTilesetRefFromGidFromOwn(tile.gid);
 			if (tref == null)
 				return 0;
 			return (int) tile.gid - (int) (tref.firstgid-1);
@@ -195,7 +195,7 @@ namespace Hmwd {
 			Hmwd.Tile tile = layer.getTileXY(x,y);
 			if (tile == null)
 				return 0;
-			Hmwd.TileSetReference tref = getTileSetRefFromGidFromOwn(tile.gid);
+			Hmwd.TilesetReference tref = getTilesetRefFromGidFromOwn(tile.gid);
 			if (tref == null)
 				return 0;
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
@@ -219,7 +219,7 @@ namespace Hmwd {
 			Hmwd.Tile tile = layer.getTileXY(x,y);
 			if (tile == null)
 				return 0;
-			Hmwd.TileSetReference tref = getTileSetRefFromGidFromOwn(tile.gid);
+			Hmwd.TilesetReference tref = getTilesetRefFromGidFromOwn(tile.gid);
 			if (tref == null)
 				return 0;
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
@@ -384,13 +384,13 @@ namespace Hmwd {
 			}
 		}
 		/**
-		 * Gibt die Werte aller TileSets der Map auf der Konsole aus
+		 * Gibt die Werte aller Tilesets der Map auf der Konsole aus
 		 */
-		public void printTileSets()
+		public void printTilesets()
 		requires (tileset != null)
 		{
 			print("====ALL TILESETS FROM MAP %s====\n", filename);
-			foreach (Hmwd.TileSetReference tsr in tileset) {
+			foreach (Hmwd.TilesetReference tsr in tileset) {
 				tsr.printValues();
 			}
 		}
@@ -400,7 +400,7 @@ namespace Hmwd {
 		public void printAll() {
 			printValues();
 			printLayers();
-			printTileSets();
+			printTilesets();
 		}
 
 		/**

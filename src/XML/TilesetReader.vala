@@ -1,13 +1,13 @@
 using Sxml;
 using Gee;
 /**
- * MapReader als Hilfe fuer das Laden einer XML-basierten TileSet-Datei.
+ * MapReader als Hilfe fuer das Laden einer XML-basierten Tileset-Datei.
  * Wir verwenden dafuer das Dateiformat von "Tiled", einem Mapeditor
  * der hier zu finden ist: [[http://www.mapeditor.org/|mapeditor.org]]<<BR>>
  *
  * @see Hmwd.MapManager
  */
-public class Hmwd.TileSetReader : Sxml.DataReader, Object {
+public class Hmwd.TilesetReader : Sxml.DataReader, Object {
 
 	protected MarkupTokenType current_token {get; set;}
 	protected MarkupSourceLocation begin {get; set;}
@@ -19,14 +19,14 @@ public class Hmwd.TileSetReader : Sxml.DataReader, Object {
 	 */
 	public string path { get; construct set; }
 
-	protected Hmwd.TileSet tileset;
+	protected Hmwd.Tileset tileset;
 
-	public TileSetReader (string path) {
+	public TilesetReader (string path) {
 		Object(path:path);
 	}
 
-	public Hmwd.TileSet parse(string filename) {	
-		tileset = new Hmwd.TileSet(filename);
+	public Hmwd.Tileset parse(string filename) {	
+		tileset = new Hmwd.Tileset(filename);
 		reader = new XmlStreamReader (path+filename);
 		next ();
 		while(!is_start_element("tileset")){next ();}

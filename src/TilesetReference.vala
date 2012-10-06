@@ -18,38 +18,38 @@ using Hmwd;
 
 namespace Hmwd {
 	/**
-	 * Klasse zur Speicherung einer TileSet Referenz.
+	 * Klasse zur Speicherung einer Tileset Referenz.
 	 * Jede Map hat eine oder mehrere Tiles die aber vom TileManager verwaltet werden.
 	 * Daher dient diese Klasse fuer Maps zur Speicherung der Referenzdaten und Zusatzinformatioen.
 	 * @see Hmwd.Map
-	 * @see Hmwd.TileSet
-	 * @see Hmwd.TileSetManager
+	 * @see Hmwd.Tileset
+	 * @see Hmwd.TilesetManager
 	 */
-	public class TileSetReference : GLib.Object {
+	public class TilesetReference : GLib.Object {
 		/**
-		 * Quelle des TileSets.
+		 * Quelle des Tilesets.
 		 */
-		public Hmwd.TileSet source { get; construct set; }
+		public Hmwd.Tileset source { get; construct set; }
 		/**
 		 * The first global tile ID of this tileset (this global ID maps to the first tile in this tileset).
 		 */
 		public uint firstgid { get; construct set; }
 		/**
 		 * Konstrukter
-		 * @param firstgid Die erste gid die von diesem diesem TileSet verwendet wird
-		 * @param source TileSet-Quelle als Referenzangabe.
+		 * @param firstgid Die erste gid die von diesem diesem Tileset verwendet wird
+		 * @param source Tileset-Quelle als Referenzangabe.
 		 */
-		public TileSetReference(uint firstgid, Hmwd.TileSet source) {
+		public TilesetReference(uint firstgid, Hmwd.Tileset source) {
 			GLib.Object(firstgid:firstgid, source:source);
 		}
 		construct {
 			
 		}
 		/**
-		 * Gibt alle Werte des TileSets und der Reference auf der Konsole aus
+		 * Gibt alle Werte des Tilesets und der Reference auf der Konsole aus
 		 */
 		public void printValues() {
-			print("==TileSetReference==\n");
+			print("==TilesetReference==\n");
 			print("firstgid: %u\n", firstgid);
 			source.printValues();
 		}

@@ -34,11 +34,11 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 	 */
 	protected int layer_count = 0;
 
-	public Hmwd.TileSetManager tilesetmanager { get; construct set; } //TODO remove?
+	public Hmwd.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
 
 	protected Hmwd.Map map;
 
-	public MapReader (string path, Hmwd.TileSetManager tilesetmanager) {
+	public MapReader (string path, Hmwd.TilesetManager tilesetmanager) {
 		Object(path:path, tilesetmanager:tilesetmanager);
 	}
 
@@ -132,10 +132,10 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		Gee.Map<string,string> attributes = reader.get_attributes();
 
 		string ts_filename = Hmwd.File.PathToFilename( attributes.get ("source"));
-		Hmwd.TileSet ts_source = tilesetmanager.getFromFilename(ts_filename);
+		Hmwd.Tileset ts_source = tilesetmanager.getFromFilename(ts_filename);
 		int firstgid = int.parse(attributes.get ("firstgid"));
-		//Den zusammengestellten neuen TileSet in die Liste einfuegen
-		map.tileset.add( new TileSetReference(firstgid, ts_source));
+		//Den zusammengestellten neuen Tileset in die Liste einfuegen
+		map.tileset.add( new TilesetReference(firstgid, ts_source));
 		next();
 		end_element("tileset");
 	}
@@ -307,10 +307,10 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 
 	protected Hmwd.Tile resolve_tile(int gid) {
 		Hmwd.Tile tmp_tile;
-		Hmwd.TileSetReference tmp_tilesetref;
+		Hmwd.TilesetReference tmp_tilesetref;
 		// TODO bestimmung des tiles vereinfachen
 		if(gid > 0) {
-			tmp_tilesetref = Hmwd.Map.getTileSetRefFromGid(map.tileset, gid);
+			tmp_tilesetref = Hmwd.Map.getTilesetRefFromGid(map.tileset, gid);
 			tmp_tile = tmp_tilesetref.source.getTileFromIndex(gid - tmp_tilesetref.firstgid);	
 			tmp_tile.gid = gid;
 			tmp_tile.tile_type = TileType.EMPTY_TILE; //TODO anhand der ID den echten TileTyp bestimmen.
