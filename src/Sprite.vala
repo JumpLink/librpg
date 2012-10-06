@@ -42,7 +42,6 @@ namespace Hmwd {
 		 * 
 		 */
 		public void printValues ()
-		requires (tex != null)
 		{
 			print("ich bin ein Sprite: ");
 			tex.printValues();

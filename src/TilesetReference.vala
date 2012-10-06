@@ -33,13 +33,13 @@ namespace Hmwd {
 		/**
 		 * The first global tile ID of this tileset (this global ID maps to the first tile in this tileset).
 		 */
-		public uint firstgid { get; construct set; }
+		public int firstgid { get; construct set; }
 		/**
 		 * Konstrukter
 		 * @param firstgid Die erste gid die von diesem diesem Tileset verwendet wird
 		 * @param source Tileset-Quelle als Referenzangabe.
 		 */
-		public TilesetReference(uint firstgid, Hmwd.Tileset source) {
+		public TilesetReference(int firstgid, Hmwd.Tileset source) {
 			GLib.Object(firstgid:firstgid, source:source);
 		}
 		construct {

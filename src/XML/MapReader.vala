@@ -102,12 +102,10 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		start_element("properties");
 		next();
 		while(!is_end_element("properties")) {
-			string prop_value = null;
-			string prop_name = null;
+			string prop_value;
+			string prop_name;
 			parse_property(out prop_value, out prop_name);
-			if(prop_name != null && prop_value != null)
-				map.properties.set(prop_name, prop_value);
-
+			map.properties.set(prop_name, prop_value);
 		}
 		end_element("properties");
 	}
@@ -115,14 +113,20 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 	protected void parse_property(out string prop_name, out string prop_value) {
 		start_element("property");
 		Gee.Map<string,string> attributes = reader.get_attributes();
-		prop_value = null;
-		prop_name = null;
+		string? _prop_value = null;
+		string? _prop_name = null;
 		foreach (var key in attributes.keys) {
 			if(key == "value")
-				prop_value =  attributes.get (key);
+				_prop_value = attributes.get (key);
 			else
-				prop_name =  attributes.get (key);
+				_prop_name = attributes.get (key);
 		}
+		if(_prop_name == null)
+			error("can't find property 'name'");
+		if(_prop_value == null)
+			error("can't find property 'value'");
+		prop_name = (!) _prop_name;
+		prop_value = (!) _prop_value;
 		next();
 		end_element("property");
 	}
@@ -143,29 +147,28 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 	protected void parse_layer() {
 		start_element("layer");
 		Gee.Map<string,string> attributes = reader.get_attributes();
-		string layer_name = null;
-		int layer_width = 0;
-		int layer_height = 0;
-		bool collision = false;
-		DrawLevel drawlayer = DrawLevel.UNDER;
+		bool collision;
+		DrawLevel drawlayer;
+		Hmwd.Layer new_layer = new Layer();
 
 		foreach (var key in attributes.keys) {
 			switch (key) {
 			case "width":
-				layer_width = int.parse(attributes.get (key));
+				new_layer.width = int.parse(attributes.get (key));
 				break;
 			case "height":
-				layer_height = int.parse(attributes.get (key));
+				new_layer.height = int.parse(attributes.get (key));
 				break;
 			case "name":
-				layer_name =  attributes.get (key);
+				new_layer.name =  attributes.get (key);
 				break;
+			default:
+				error ("expected property of '%s'".printf (key));
 			}
 		}
 		next();
 		parse_layer_properties(out drawlayer, out collision);
-
-		Hmwd.Layer new_layer = new Layer.all( layer_name, layer_count+1, collision, layer_width, layer_height);
+		new_layer.collision = collision;
 
 		new_layer.tiles = parse_data();
 		switch (drawlayer) {
@@ -191,8 +194,8 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		_drawlayer =DrawLevel.UNDER;
 		_collision = false;
 		while(!is_end_element("properties")) {
-			string prop_value = null;
-			string prop_name = null;
+			string prop_value;
+			string prop_name;
 			parse_property(out prop_value, out prop_name);
 			switch (prop_name) {
 			case "drawlayer":
@@ -208,14 +211,14 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 
 	protected Hmwd.Tile[,] parse_data() {
 		start_element("data");
-		Hmwd.Tile[,] _tiles = null;
+		Hmwd.Tile[,] _tiles;
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		if (attributes.has_key("compression")) {
 			// parse data with encoding and compression
 			next();
 			if (!attributes.has_key("encoding") || attributes.get("encoding") != "base64")
 				error ("unknown encoding '%s'".printf (attributes.get("encoding")));
-			uint8[] data = null;
+			uint8[] data;
 			switch(attributes.get("compression")) {
 			case "zlib":
 				data = inflate(Base64.decode(reader.content), ZlibCompressorFormat.ZLIB);

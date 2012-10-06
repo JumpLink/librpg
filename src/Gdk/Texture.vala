@@ -25,24 +25,24 @@ namespace Hmwd {
 		 */
 		public Pixbuf pixbuf { get; set construct; }
 		public string path { get; set construct; }
-		public double width {
+		public int width {
 			get { return pixbuf.get_width(); }
 			set { width = value;}
 		}
-		public double height {
+		public int height {
 			get { return pixbuf.get_height(); }
 			set { height = value;}
 		}
 		public Hmwd.Colorspace colorspace {
 			get { return Hmwd.Colorspace.fromGdkPixbuf(pixbuf); }
 		}
-		public uint length {
+		public int length {
 			get { return pixbuf.rowstride*pixbuf.height; }
 		}
-		public uint size {
+		public int size {
 			get { return pixbuf.rowstride*pixbuf.height; }
 		}
-		public uint png_length {
+		public int png_length {
 			get { return png_buffer.length; }
 		}
 		/**
@@ -126,9 +126,7 @@ namespace Hmwd {
 			loadFromPixbuf(pixbuf);
 		}
 		construct {
-			if(path != null) {
-				loadFromFile(path);
-			}	
+			loadFromFile(path);
 		}
 		/**
 		 * Ladet eine Textur aus einer Datei.

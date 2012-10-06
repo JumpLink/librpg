@@ -34,33 +34,28 @@ namespace Hmwd {
 		 * @param extension die Dateiendung die beruecksichtigt werden soll.
 		 */
 		public static Gee.List<string> loadAllFromFolder(string folder, string extension) {
-			//print("Fuehre Hmwd.File.loadAllFromPath mit folder %s und extension %s aus.\n", folder, extension);
 			GLib.File directory = GLib.File.new_for_path(folder);
 			FileEnumerator enumerator;
 			Gee.List<string> files = new Gee.ArrayList<string>();
 			try {
-				FileInfo file_info;
+				FileInfo? file_info;
 				// 'Oeffnet' das Verzeichnis path
 				directory = GLib.File.new_for_path (folder);
 				// Ladet die Dateien die sich im Verzeichnis path befinden
 				enumerator = directory.enumerate_children (GLib.FileAttribute.STANDARD_NAME, 0);
-				// Durchläuft alle gefundenen Dateien und werte desen Informationen zur Weiterverarbeitung aus
+				// Durchläuft alle gefundenen Dateien und wertet dessen Informationen zur Weiterverarbeitung aus
 				while ((file_info = enumerator.next_file ()) != null) {
-					string filename = file_info.get_name ();
+					string filename = ((!) file_info).get_name (); // https://live.gnome.org/Vala/Tutorial#Strict_Non-Null_Mode
 					string tmp_extension;
 
-					//print ("%s\n", filename);
-					//print ("Content type: %s\n", file_info.get_content_type ());
 					//extrahiert die Dateiendung
 					tmp_extension = filename.substring(filename.last_index_of (".", 0), -1);
-					//print ("extension: %s\n", tmp_extension);
 					if (tmp_extension == extension) {
 						files.add(filename);
 					}
 				}
 			} catch (Error e) {
 				error ("Error: %s\n", e.message);
-				//return 1;
 			}
 			return files;
 		}

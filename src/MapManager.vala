@@ -82,22 +82,17 @@ namespace Hmwd {
 		 * @param filename Dateiname der gesuchten Map
 		 * @return Bei Erfolg die gefundene Map, sonst ein neues Objekt Map
 		 */
-		public Hmwd.Map? getFromFilename(string filename) {
-			foreach (Hmwd.Map m in map)
-					if (m.filename == filename) {
-						//print("Map gefunden!\n");
-						return m;
-					}
-						
-			return null;
+		public Hmwd.Map getFromFilename(string filename) {
+			foreach (Hmwd.Map m in map) if (m.filename == filename) { return m;}
+			error("Map %s nicht gefunden", filename);
 		}
 		/**
 		 * Gibt die Werte aller Maps in der Liste aus.
 		 */
-		public void printAll() {
+		public void print_all() {
 			print("=====ALL MAPS====\n");
 			foreach (Hmwd.Map m in map) {
-					m.printAll();
+					m.print_all();
 	   		}
 		}
 

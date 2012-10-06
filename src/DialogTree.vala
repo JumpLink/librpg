@@ -40,7 +40,7 @@ namespace Hmwd {
 		 * Konstruktor.
 		 * @param q Frage.
 		 * @param a Antwort.
-		 * @param c Nachfolger.	
+		 * @param c Nachfolger.
 		 */
 		public DialogTree (string q, string a, Hmwd.DialogTree[] c) { 
 			Object(question: q, answer: a/*, children: c, choice: 0*/); //FIXME

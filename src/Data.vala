@@ -30,45 +30,21 @@ namespace Hmwd {
 		}
 
 		public void loadTilesetManager(string folder) {
-			//print("erstelle loadTilesetManager mit folder: %s",folder);
 			tilesetmanager = new Hmwd.TilesetManager(folder);
 		}
 
 		public void loadMapManager(string folder) {
-			if(tilesetmanager != null)
-				mapmanager = new Hmwd.MapManager(folder, tilesetmanager);
-			else {
-				printerr("MapManager: You must load tilesetmanager first!\n");
-			}
+			mapmanager = new Hmwd.MapManager(folder, tilesetmanager);
 		}
 
 		public void loadSpritesetManager(string folder) {
-			//print("erstelle SpritesetManager mit folder: %s",folder);
 			spritesetmanager = new Hmwd.SpritesetManager(folder);
 		}
 
-		public void printAll() {
-			tilesetmanager.printAll();
-			mapmanager.printAll();
-			spritesetmanager.printAll();
+		public void print_all() {
+			tilesetmanager.print_all();
+			mapmanager.print_all();
+			spritesetmanager.print_all();
 		}
-
-		// public static void load() {
-
-		// 	public Hmwd.Data DATA = new Hmwd.Data();
-		// 	public Hmwd.TilesetManager DATA.TILESETMANAGER = new Hmwd.TilesetManager("./data/tileset/");
-		// 	public Hmwd.MapManager DATA.MAPMANAGER = new Hmwd.MapManager("./data/map/");
-		// 	public Hmwd.SpritesetManager DATA.SPRITESETMANAGER = new Hmwd.SpritesetManager();
-		// 	DATA.SPRITESETMANAGER.loadAllFromFolder("./data/spriteset/"); // WORKAROUND
-
-		// 	// Hmwd.SPRITESETMANAGER = new Hmwd.SpritesetManager();
-		// 	// SPRITESETMANAGER.loadAllFromFolder("./data/spriteset/"); // WORKAROUND
-		// 	//Gee.List<Player> PLAYERS = new Gee.ArrayList<Player>();
-		// 	//PLAYERS.add (new Player("Hero", SPRITESETMANAGER.getFromName("Hero")));
-		// 	//MAPMANAGER.printAll();
-		// 	//this.SPRITESETMANAGER.printAll();
-		// 	//PLAYERS[0].printAll();
-		// 	//this.CURRENT_MAP = MAPMANAGER.getFromFilename("testmap.tmx");
-		// }
 	}
 }

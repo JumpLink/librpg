@@ -36,20 +36,7 @@ namespace Hmwd {
 		}
 		construct {
 			spriteset = new Gee.ArrayList<Spriteset>();
-			if(folder!=null) {
-
-			} else {
-				printerr("folder is undefined, using default: ./data/spriteset/\n");
-				folder = "bla/data/spriteset/";
-			}
-			//print("Erstelle SpritesetManager\n");
 			loadAllFromFolder(folder);
-		}
-		/**
-		 * Dekonstruktor
-		 */
-		~SpritesetManager() {
-			//print("Loesche SpritesetManager\n");
 		}
 
 		/**
@@ -61,7 +48,7 @@ namespace Hmwd {
 		 * @param folder Ordnername aus dem gelesen werden soll.
 		 */
 		public void loadAllFromFolder(string folder) {
-			if(folder == null || folder.length < 1) {
+			if(folder.length < 1) {
 				printerr("folder is undefined, using default: ./data/spriteset/\n");
 				folder = "./data/spriteset/";
 			}
@@ -81,16 +68,14 @@ namespace Hmwd {
 		 * @param name name des gesuchten Spriteset
 		 * @return Bei Erfolg das gefundene Spriteset, sonst ein neues Objekt Spriteset
 		 */
-		public Spriteset? getFromName(string name) {
+		public Spriteset getFromName(string name) {
 			foreach (Spriteset ss in spriteset)
 					if (ss.name == name) {
-						//print("Spriteset gefunden!\n");
 						return ss;
 					}
-						
-			return null;
+			error("Spriteset %s nicht gefunden!", name);
 		}
-		public Spriteset? getFromIndex(int index) {
+		public Spriteset getFromIndex(int index) {
 			return spriteset[index];
 		}
 		/**
@@ -99,27 +84,24 @@ namespace Hmwd {
 		 * @param filename Dateiname des gesuchten Spritesets
 		 * @return Bei Erfolg das gefundene Spriteset, sonst ein neues Objekt Spriteset
 		 */
-		public Spriteset? getFromFilename(string filename)
+		public Spriteset getFromFilename(string filename)
 		requires (filename.length > 0)
 		{
-			Spriteset result = null;
 			foreach (Spriteset ss in spriteset)
 					if (ss.filename == filename) {
-						//print("Spriteset mit gleichem Namen %s gefunden!\n", filename);
-						result = ss;
-						break;
+						return ss;
 					}		
-			return result;
+			error("Spriteset %s nicht gefunden!", filename);
 		}
 		/**
 		 * Gibt die Werte aller Spritesets in der Liste aus.
 		 */
-		public void printAll() {
+		public void print_all() {
 			print("==Print All Spritesets==\n");
 			int count = 0;
 			foreach (Spriteset ss in spriteset) {
 					print("Nr. %i: ", count);
-					ss.printAll();
+					ss.print_all();
 					count++;
 	    	}
 		}

@@ -34,11 +34,11 @@ namespace Hmwd {
 		/**
 		 * Breite eines Tiles
 		 */
-		public uint tilewidth { get; set; }
+		public int tilewidth { get; set; }
 		/**
 		 * Hoehe eines Tiles
 		 */
-		public uint tileheight { get; set; }
+		public int tileheight { get; set; }
 		/**
 		 * Dateiname des Tileset-Bildes
 		 */
@@ -50,22 +50,22 @@ namespace Hmwd {
 		/**
 		 * Gesamtbreite des Tilesets
 		 */
-		public uint width { get; set; }
+		public int width { get; set; }
 		/**
 		 * Gesamthoehe des Tilesets
 		 */
-		public uint height { get; set; }
+		public int height { get; set; }
 		/**
 		 * Die Tiles in Form eines 2D-Array des Tilesets
 		 */
 		public Tile[,] tile { get; set; }
 
-		public uint count_y {
-			get { return (uint) (height / tileheight); }
+		public int count_y {
+			get { return (height / tileheight); }
 		}
 
-		public uint count_x {
-			get { return (uint) (width / tilewidth); }
+		public int count_x {
+			get { return (width / tilewidth); }
 		}
 
 		public GdkTexture tex { get; set; }
@@ -77,38 +77,23 @@ namespace Hmwd {
 			Object(filename:filename);
 		}
 		/**
-		 * Dekonstruktor
-		 */
-		~Tileset() {
-			//print("Lösche Tileset Objekt\n");
-		}
-		/**
 		 * Gibt ein gesuchtes Tile anhand seines Index zurueck.
 		 *
 		 * @param index Index des gesuchten Tiles
 		 */
-		public Hmwd.Tile getTileFromIndex(uint index)
+		public Hmwd.Tile getTileFromIndex(int index)
 		requires (index >= 0)
 		{
-			//print("==GETTILEFROMINDEX==\n");
-			uint count = 0;
-			bool found = false;
-			Hmwd.Tile result = null;
-			//print(" index: %u \n", index);
-			for (int y=0;(y<count_y&&!found);y++) {
-				for (int x=0;(x<count_x&&!found);x++) {
-					//print("- ");
+			int count = 0;
+			for (int y=0;(y<count_y);y++) {
+				for (int x=0;(x<count_x);x++) {
 					if (count == index) {
-						//print("X ");
-						found = true;
-						result = tile[x,y];
+						return tile[x,y];
 					}
 					count++;
 				}
-				//print("\n");
 			}
-			//print("\n");
-			return result;
+			error("Tile mit index %i nicht gefunden!", index);
 		}
 		/**
 		 * Ladet die Pixel fuer die Tiles.
@@ -139,8 +124,8 @@ namespace Hmwd {
 		 * @param folder Ordner in dem die Bilder gespeichert werden sollen.
 		 */
 		public void save(string folder = "./tmp/") {
-			for (uint y=0;y<count_y;y++) {
-				for (uint x=0;x<count_x;x++) {
+			for (int y=0;y<count_y;y++) {
+				for (int x=0;x<count_x;x++) {
 					tile[x,y].save(folder+name+"_y"+y.to_string()+"_x"+x.to_string()+".png");
 					//print("speichere "+folder+name+"_y"+y.to_string()+"_x"+x.to_string()+".png\n");
 				}
@@ -151,8 +136,8 @@ namespace Hmwd {
 		 */
 		public void printTiles() {
 			print("==Tiles==\n");
-			for (uint y=0;y<count_y;y++) {
-				for (uint x=0;x<count_x;x++) {
+			for (int y=0;y<count_y;y++) {
+				for (int x=0;x<count_x;x++) {
 					//print("%u ", tile[y,x].type);
 					tile[x,y].printValues();
 				}

@@ -26,9 +26,9 @@ TSRCS          = main.vala
 # ausfuehrbares Ziel
 TARGET                   = $(LIBRARY).o
 
-SHARED_LIBRARY_TARGET    = $(LIB_NAME).so
+SHARED_LIBRARY_TARGET    = $(LIB_NAME)-$(VERSION).so
 
-STATIC_LIBRARY_TARGET    = $(LIB_NAME).a
+STATIC_LIBRARY_TARGET    = $(LIB_NAME)-$(VERSION).a
 
 TYPELIB_TARGET           = $(LIBRARY).typelib
 
@@ -116,6 +116,7 @@ COMP                  = \
 							$(CC_FLAGS)                               \
 							$(SRC_FILES)                              \
 							--enable-experimental                     \
+							--enable-experimental-non-null
 # Alle g-ir-compiler obtionen
 TYPELIB_COMP              = \
 							--shared-library=$(SHARED_LIBRARY_TARGET) \
@@ -124,7 +125,6 @@ TYPELIB_COMP              = \
 # Alle Kombilerobtionen fuer shared-library
 SHARED_LIBRARY_COMP   = \
 							-o $(SHARED_LIBRARY_TARGET_FILE)          \
-							--enable-experimental	           	      \
 							--library=$(LIBRARY)                      \
 							-H $(HEADER_TARGET_FILE)                  \
 							--girdir=$(GIR_DIR)                       \
@@ -135,6 +135,8 @@ SHARED_LIBRARY_COMP   = \
 							-X -shared                                \
 							$(CC_FLAGS)                               \
 							$(SRC_FILES)                              \
+							--enable-experimental                     \
+							--enable-experimental-non-null
 
 # STATIC_LIBRARY_COMP = \
 # 							ar                                        \
@@ -150,8 +152,9 @@ TEST_COMP   = \
 							test/main.vala                            \
 							-X lib/$(SHARED_LIBRARY_TARGET)           \
 							-X -I$(LIB_DIR)                           \
+							-o test.o                                 \
 							--enable-experimental                     \
-							-o test.o
+							--enable-experimental-non-null
 
 DEBUG_COMP   = \
 							-g                                        \
@@ -161,8 +164,9 @@ DEBUG_COMP   = \
 							$(PKG_FLAGS)                              \
 							$(CC_FLAGS)                               \
 							$(SRC_FILES)                              \
+							test/main.vala                            \
 							--enable-experimental                     \
-							test/main.vala
+							--enable-experimental-non-null
 
 # Targets
 
@@ -227,7 +231,7 @@ c: dirs $(SRC_FILES)
 ## * make doc: Dokumentation generieren
 doc: $(SRC_FILES)
 	@echo "Generating Documentation..."
-	@$(VD) --driver $(VDD) -o $(DOC_DIR) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(SRC_FILES) --package-name $(PKG_NAME) --package-version=$(VERSION)
+	@$(VD) -o $(DOC_DIR) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(SRC_FILES) --package-name $(PKG_NAME) --package-version=$(VERSION) --enable-experimental
 	@gnome-open ./doc/index.html
 
 ## * make doc-internal: Dokumentation generieren, inkl. nicht oeffentlicher Bereiche

@@ -108,12 +108,9 @@ namespace Hmwd {
 		 * dadurch wird dann durch draw das entsprechende Sprite verwendet.
 		 */
 		public void set_Animation(string name, Direction direction)
-		requires (spritelayers != null)
-		ensures (current_animation != null)
 		{
 			/*Wenn es sich um eine neue Bewegung handelt*/
-			if (current_animation == null || name != current_animation.name || current_animation.direction != direction) {
-				//if (current_animation != null) print(@"neue Bewegung!\n	$name $(current_animation.name) $direction  $(current_animation.direction)\n");
+			if (name != current_animation.name || current_animation.direction != direction) {
 				foreach (Animation ani in animations) {
 					if (ani.name == name && ani.direction == direction) {
 						current_animation = ani;
@@ -131,7 +128,6 @@ namespace Hmwd {
 		}
 
 		public SpriteLayer? get_baseLayer()
-		requires (spritelayers != null)
 		{
 			foreach (SpriteLayer sl in spritelayers) {
 				if (sl.sprite_layer_type == Hmwd.SpriteLayerType.BASE)
@@ -144,14 +140,13 @@ namespace Hmwd {
 		 * Gibt alle Werte SpriteLayer auf der Konsole aus.
 		 */
 		public void printSpriteLayers()
-		requires (spritelayers != null)
 		{
 			if (spritelayers.size > 0) {
 				print("==SpriteLayer==\n");
 				int count=0;
 				foreach (SpriteLayer sl in spritelayers) {
 					print("Nr. %i: ",count);
-					sl.printAll();
+					sl.print_all();
 					count++;
 				}
 			} else {
@@ -162,13 +157,12 @@ namespace Hmwd {
 		 * Gibt alle Animationen auf der Konsole aus.
 		 */
 		public void printAnimation()
-		requires (animations != null)
 		{
 			print("==Animations==\n");
 			int count=0;
 			foreach (Animation ani in animations) {
 				print("Nr. %i: ",count);
-				ani.printAll();
+				ani.print_all();
 				count++;
 			}
 		}
@@ -176,7 +170,6 @@ namespace Hmwd {
 		 * Gibt alle Werte des Spritesets auf der Konsole aus.
 		 */
 		public void printValues()
-		requires (name != null)
 		{
 			print("SpritesetValues\n");
 			print("name: %s\n", name);
@@ -189,7 +182,7 @@ namespace Hmwd {
 		/**
 		 * Gibt alles vom Spriteset auf der Konsole aus.
 		 */
-		public void printAll() {
+		public void print_all() {
 			printValues();
 			printSpriteLayers();
 			printAnimation();

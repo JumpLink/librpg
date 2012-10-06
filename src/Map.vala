@@ -36,31 +36,31 @@ namespace Hmwd {
 		/**
 		 * Gesamtbreite der Map in Tiles
 		 */
-		public uint width { get; set; }
+		public int width { get; set; }
 		/**
 		 * Gesamthoehe der Map in Tiles
 		 */
-		public uint height { get; set; }
+		public int height { get; set; }
 		/**
 		 * Gesamtbreite der Map in Pixel
 		 */
-		public uint pxl_width {
+		public int pxl_width {
 			get {return width*tilewidth;}
 		}
 		/**
 		 * Gesamthoehe der Map in Pixel
 		 */
-		public uint pxl_height {
+		public int pxl_height {
 			get {return height*tileheight;}
 		}
 		/**
 		 * Breite eines Tiles
 		 */
-		public uint tilewidth { get; set; }
+		public int tilewidth { get; set; }
 		/**
 		 * Höhe eines Tiles
 		 */
-		public uint tileheight { get; set; }
+		public int tileheight { get; set; }
 		/**
 		 * Dateiname der Map
 		 */
@@ -135,7 +135,6 @@ namespace Hmwd {
 				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
 					found = tsr;
 			}
-			//print("Das passende Tileset ist %s\n", found.source.name);
 			return found;
 		}
 		public TilesetReference getTilesetRefFromGidFromOwn(int gid) {	
@@ -144,15 +143,10 @@ namespace Hmwd {
 				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
 					found = tsr;
 			}
-			//print("Das passende Tileset ist %s\n", found.source.name);
 			return found;
 		}
 		public int getTilesetIndexFromGid(int gid) {	
-			TilesetReference tref = getTilesetRefFromGidFromOwn(gid);
-			if (tref == null)
-				return 0;
-			else
-				return tileset.index_of(tref);
+			return tileset.index_of(getTilesetRefFromGidFromOwn(gid));
 		}
 		public string getTilesetSourceFromIndex(int index) {	
 			return tileset[index].source.source;
@@ -175,14 +169,8 @@ namespace Hmwd {
 		}
 		public int getTileIDFromPosition(int x, int y, int layer_index) {
 			Hmwd.Layer layer = getLayerFromIndex(layer_index);
-			if (layer == null)
-				return 0;
 			Hmwd.Tile tile = layer.getTileXY(x,y);
-			if (tile == null)
-				return 0;
 			Hmwd.TilesetReference tref = getTilesetRefFromGidFromOwn(tile.gid);
-			if (tref == null)
-				return 0;
 			return (int) tile.gid - (int) (tref.firstgid-1);
 		}
 		/**
@@ -190,52 +178,25 @@ namespace Hmwd {
 		 */
 		public uint getTileImageXCoordFromPosition(int x, int y, int layer_index) {
 			Hmwd.Layer layer = getLayerFromIndex(layer_index);
-			if (layer == null)
-				return 0;
 			Hmwd.Tile tile = layer.getTileXY(x,y);
-			if (tile == null)
-				return 0;
 			Hmwd.TilesetReference tref = getTilesetRefFromGidFromOwn(tile.gid);
-			if (tref == null)
-				return 0;
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
-
 			uint res = (id%tref.source.count_x)*tilewidth;
-			// if (id == 30) {
-			// 	print("res: %u\n",res);
-			// 	print("id: %i\n",id);
-			// 	print("tref.source.count_x: %u\n",tref.source.count_x);
-			// }
-
 			return res == 0 && id != 0 ? tref.source.count_x*tilewidth : res;
 		}
 		/**
 		 * tile X-Coord of the tilesetimage
 		 */
-		public uint getTileImageYCoordFromPosition(int x, int y, int layer_index) {
+		public int getTileImageYCoordFromPosition(int x, int y, int layer_index) {
 			Hmwd.Layer layer = getLayerFromIndex(layer_index);
-			if (layer == null)
-				return 0;
 			Hmwd.Tile tile = layer.getTileXY(x,y);
-			if (tile == null)
-				return 0;
 			Hmwd.TilesetReference tref = getTilesetRefFromGidFromOwn(tile.gid);
-			if (tref == null)
-				return 0;
-			int id = (int) tile.gid - (int) (tref.firstgid-1);
-			uint res = (id/tref.source.count_x)*tileheight;
-			return (uint) id%tref.source.count_x == 0 && id != 0 ? res-1*tileheight : res;
+			int id = tile.gid - (tref.firstgid-1);
+			int res = (id/tref.source.count_x)*tileheight;
+			return id%tref.source.count_x == 0 && id != 0 ? res-1*tileheight : res;
 		}
 		public int getTileGIDFromPosition(int x, int y, int layer_index) {
-			Hmwd.Layer layer = getLayerFromIndex(layer_index);
-			if (layer == null)
-				return 0;
-			Hmwd.Tile tile = layer.getTileXY(x,y);
-			if (tile != null)
-				return tile.gid;
-			else {
-				return 0;
-			}
+			return getLayerFromIndex(layer_index).getTileXY(x,y).gid;
 		}
 		/**
 		 * Gibt den Layer eines gesuchten Layers mit dem Namen name zurueck.
@@ -243,7 +204,7 @@ namespace Hmwd {
 		 * @param name Gesichter Layername
 		 * @return Layer aus der Layerliste
 		 */
-		public Layer? getLayerFromName(string name){
+		public Layer getLayerFromName(string name){
 			foreach (Layer i in layers_under) {
 				if (name == i.name) {
 					return i;
@@ -259,11 +220,10 @@ namespace Hmwd {
 					return i;
 				}
 			}
-			printerr("keinen Layer mit diesem Namen gefunden\n");
-			return null;
+			error("keinen Layer mit diesem Namen gefunden\n");
 		}
 
-		public Layer? getLayerFromIndex(int index){
+		public Layer getLayerFromIndex(int index){
 			int count = 0;
 			foreach (Layer i in layers_over) {
 				if (count == index) {
@@ -283,11 +243,10 @@ namespace Hmwd {
 				}
 				count++;
 			}
-			printerr("keinen Layer mit dem Index %i gefunden\n",index);
-			return null;
+			error("keinen Layer mit dem Index %i gefunden\n",index);
 		}
 
-		public Layer? getLayerFromIndexInverse(int index){
+		public Layer getLayerFromIndexInverse(int index){
 			int count = 0;
 			for(int i=layers_under.size-1;i>=0;i++,count++) {
 				if (count == index)
@@ -301,8 +260,7 @@ namespace Hmwd {
 				if (count == index)
 					return layers_over[i];
 			}
-			printerr("keinen Layer mit dem Index %i gefunden\n",index);
-			return null;
+			error("keinen Layer mit dem Index %i gefunden\n",index);
 		}
 		/**
 		 * Gibt den Index eines gesuchten Layers mit dem Namen name zurueck.
@@ -330,7 +288,7 @@ namespace Hmwd {
 		 * @param x X-Koordinate.
 		 * @param y Y-Koordinate.
 		 */
-		public bool walkable (uint x, uint y) {
+		public bool walkable (int x, int y) {
 			if (x >= width || y >= height)
 				return false;
 			//print ("Zielposition: %u, %u\n", y, x);
@@ -344,7 +302,6 @@ namespace Hmwd {
 		 * Gibt alle Werte (bis auf die Layer) der Map auf der Konsole aus
 		 */
 		public void printValues()
-		requires (filename != null)
 		{
 			print("==MAP==\n");
 			print("filename: %s\n", filename);
@@ -359,12 +316,6 @@ namespace Hmwd {
 		 * Gibt die Werte aller Layer der Map auf der Konsole aus
 		 */
 		public void printLayers()
-		requires (layers_same != null)
-		requires (layers_under != null)
-		requires (layers_over != null)
-		requires (layers_same[0] != null)
-		requires (layers_under[0] != null)
-		requires (layers_over[0] != null)
 		{
 			print("====ALL LAYERS FROM MAP %s====\n", filename);
 			print("under ");
@@ -387,7 +338,6 @@ namespace Hmwd {
 		 * Gibt die Werte aller Tilesets der Map auf der Konsole aus
 		 */
 		public void printTilesets()
-		requires (tileset != null)
 		{
 			print("====ALL TILESETS FROM MAP %s====\n", filename);
 			foreach (Hmwd.TilesetReference tsr in tileset) {
@@ -397,24 +347,10 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Werte und alle Layer der Map auf der Konsole aus
 		 */
-		public void printAll() {
+		public void print_all() {
 			printValues();
 			printLayers();
 			printTilesets();
 		}
-
-		/**
-		 * Altert alle Entitaeten und Pflanzen um einen Tag.
-		 */
-		// public void age () {
-		// 	foreach (Entity e in entities) {
-		// 		e.age();
-		// 	}
-		// 	for (uint x = 0; x < width; ++x)
-		// 		for (uint y = 0; y < height; ++y) {
-		// 			if (tiles[x, y].plant != null)
-		// 				tiles[x, y].plant.grow ();
-		// 	}
-		// }
 	}
 }

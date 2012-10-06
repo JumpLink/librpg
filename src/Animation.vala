@@ -36,7 +36,7 @@ namespace Hmwd {
 		public int current_frame_index {
 			get { return _current_frame_index; }
 			set {
-				if(animationdata == null || value >= animationdata.size) {
+				if(value >= animationdata.size) {
 					_current_frame_index = 0;
 				}
 				else if ( value < 0) {
@@ -52,33 +52,21 @@ namespace Hmwd {
 		public Animation.all(string name, bool repeat, Direction direction, Gee.List<AnimationData> animationdata) {
 			Object(name: name, repeat: repeat, direction: direction, animationdata:animationdata);
 		}
-		construct {
-			// if (animationdata == null) {
-			// 	printerr("animationdata == null create new animationdata\n");
-			// 	animationdata = new Gee.ArrayList<AnimationData>();
-			// }
-		}
 
-		public AnimationData get_AnimationData ()
-		requires (animationdata != null)
-		requires (animationdata[current_frame_index] != null)
+		public AnimationData get_animation_data ()
 		{
 			return animationdata[current_frame_index];
 		}
-		// public void time() {
-		// 	timer += STATE.interval;
-		// 	if (timer * frame_ps >= 1) {
-		// 		current_frame_index++;
-		// 		timer = 0;
-		// 	}
-		// }
-		public void time() {
+		/**
+		 * Setzt das nächste Frame der Animation
+		 */
+		public void next_frame() {
 			current_frame_index++;
 		}
 		/**
 		 * Gibt alle Werte des SpriteSets auf der Konsole aus
 		 */
-		public void printAnimationData() {
+		public void print_animation_data() {
 			print("SpriteSetAnimationData\n");
 			int count = 0;
 			foreach (AnimationData ad in animationdata) {
@@ -89,7 +77,7 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Werte des SpriteSets auf der Konsole aus
 		 */
-		public void printValues() {
+		public void print_values() {
 			print("SpriteSetAnimationValues\n");
 			print("name: %s\n", name);
 			print("direction: %s\n", direction.to_string());
@@ -98,9 +86,9 @@ namespace Hmwd {
 		/**
 		 * Gibt alles des SpriteSets auf der Konsole aus
 		 */
-		public void printAll() {
-			printValues();
-			printAnimationData();
+		public void print_all() {
+			print_values();
+			print_animation_data();
 		}
 	}
 }

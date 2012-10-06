@@ -63,7 +63,6 @@ namespace Hmwd {
 		 * Ladet die Pixel fuer die Sprites.
 		 */
 		public void loadSprites()
-		requires (image_filename != null)
 		{
 			if (image_filename != "") {
 				GdkTexture tex = new GdkTexture.fromFile(folder+image_filename);
@@ -88,7 +87,6 @@ namespace Hmwd {
 			}
 		}
 		public void printSprites()
-		requires (sprites != null)
 		{
 			print("==Sprites==\n");
 			for (uint y=0;y<width;y++) {
@@ -99,13 +97,12 @@ namespace Hmwd {
 				print("\n");
 			}
 		}
-		public void printAll() {
+		public void print_all() {
 			print("SpriteLayerAll\n");
 			printValues();
 			//printSprites();
 		}
 		public void printValues()
-		requires (image_filename != null)
 		requires (image_filename.length > 0)
 		{
 			print("SpriteLayerValues\n");

@@ -23,23 +23,19 @@ namespace Hmwd {
 		/**
 		 * Tiletextur, die Pixel des Tiles
 		 */
-		public GdkTexture tex { get; construct set; } //TODO noch noetig?
+		public GdkTexture tex { get; construct set; }
 
-		public int gid { get; set; } //neu
-		/**
-		 * Quelle des TileSets.
-		 */
-		//public Hmwd.TileSet source { get; set; } //neu
+		public int gid { get; set; }
 		/**
 		 * Gibt die Breite eines Tiles zurueck.
 		 */
-		public double width {
+		public int width {
 			get { if (tile_type != TileType.NO_TILE) return tex.width; else return 0; }
 		}
 		/**
 		 * Gibt die Hoehe eines Tiles zurueck.
 		 */
-		public double height {
+		public int height {
 			get { if (tile_type != TileType.NO_TILE) return tex.height; else return 0; }
 		}
 		/**
