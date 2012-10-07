@@ -149,7 +149,7 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 		}
 		
 		next();
-		ani.animationdata = parse_data();
+		ani.Frame = parse_data();
 		end_element("animation");
 		return ani;
 	}
@@ -177,9 +177,9 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 		next();
 		end_element("image");
 	}
-	protected Gee.List<AnimationData> parse_data() {
+	protected Gee.List<Frame> parse_data() {
 		start_element("data");
-		Gee.List<AnimationData> datas = new Gee.ArrayList<AnimationData>();
+		Gee.List<Frame> datas = new Gee.ArrayList<Frame>();
 		next();
 		while(is_start_element("sprite")) {
 			datas.add(parse_sprite());
@@ -187,9 +187,9 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 		end_element("data");
 		return datas;
 	}
-	protected AnimationData parse_sprite() {
+	protected Frame parse_sprite() {
 		start_element("sprite");
-		AnimationData sprite = new AnimationData();
+		Frame sprite = new Frame();
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		foreach (var key in attributes.keys) {
 			switch (key) {

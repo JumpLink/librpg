@@ -16,7 +16,7 @@ namespace Hmwd {
 	/**
 	 * Verwaltet die Frames einer Animation.
 	 */
-	public class AnimationData:GLib.Object {
+	public class Frame:GLib.Object {
 		public Coord coord { public get; private set; }
 		construct {
 			coord = new Coord();

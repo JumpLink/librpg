@@ -35,7 +35,7 @@ namespace Hmwd {
 		/**
 		 * Anzahl der Frames
 		 */
-		public int size {get{return animationdata.size;}}
+		public int size {get{return Frame.size;}}
 		/**
 		 * Anzahl der Frames
 		 */
@@ -45,25 +45,25 @@ namespace Hmwd {
 		 */
 		public double frame_ps { get; set; default=6; }
 
-		public Gee.List<AnimationData> animationdata { get; construct set; }
+		public Gee.List<Frame> Frame { get; construct set; }
 
 		private int _current_frame_index = 0;
 		public int current_frame_index {
 			get { return _current_frame_index; }
 			set {
-				if(value >= animationdata.size) _current_frame_index = 0;
-				else if ( value < 0) _current_frame_index = animationdata.size -1;
+				if(value >= Frame.size) _current_frame_index = 0;
+				else if ( value < 0) _current_frame_index = Frame.size -1;
 				else _current_frame_index = value;
 			}
 		}
 
-		public Animation.all(string name, bool repeat, Direction direction, Gee.List<AnimationData> animationdata) {
-			Object(name: name, repeat: repeat, direction: direction, animationdata:animationdata);
+		public Animation.all(string name, bool repeat, Direction direction, Gee.List<Frame> Frame) {
+			Object(name: name, repeat: repeat, direction: direction, Frame:Frame);
 		}
 
-		public AnimationData get_animation_data ()
+		public Frame get_animation_data ()
 		{
-			return animationdata[current_frame_index];
+			return Frame[current_frame_index];
 		}
 		/**
 		 * Setzt das nächste Frame der Animation
@@ -75,9 +75,9 @@ namespace Hmwd {
 		 * Gibt alle Werte des SpriteSets auf der Konsole aus
 		 */
 		public void print_animation_data() {
-			print("SpriteSetAnimationData\n");
+			print("SpriteSetFrame\n");
 			int count = 0;
-			foreach (AnimationData ad in animationdata) {
+			foreach (Frame ad in Frame) {
 				print(@"# $count AniData: $ad \n");
 				count++;
 			}
