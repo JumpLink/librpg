@@ -10,28 +10,18 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Sxml;
 using Gee;
 /**
  * MapReader als Hilfe fuer das Laden einer XML-basierten Map-Datei.
- * Wir verwenden dafuer das Dateiformat von "Tiled", einem Mapeditor
- * der hier zu finden ist: [[http://www.mapeditor.org/|mapeditor.org]]<<BR>>
- * Derzeit werden noch keine komprimierten Dateien unterstuetzt.
- * Die zu ladenden Maps werden fuer gewoehnlich von der Klasse Hmwd.MapManager
- * uebernommen.<<BR>>
- * Die definitionen des Kartenformats sind [[https://github.com/bjorn/tiled/wiki/TMX-Map-Format|hier]] zu finden.
+ * Wir verwenden dafuer das [[https://github.com/bjorn/tiled/wiki/TMX-Map-Format|Dateiformat]] von "Tiled", einem Mapeditor
+ * der hier zu finden ist: [[http://www.mapeditor.org/|mapeditor.org]]
  *
+ * @see Hmwd.SpritesetReader
+ * @see Hmwd.TilesetReader
  * @see Hmwd.MapManager
  */
-
-// Bits on the far end of the 32-bit global tile ID are used for tile flags
-const uint64 FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
-const uint64 FLIPPED_VERTICALLY_FLAG   = 0x40000000;
-const uint64 FLIPPED_DIAGONALLY_FLAG   = 0x20000000;
-
 public class Hmwd.MapReader : Sxml.DataReader, Object {
 
 	protected MarkupTokenType current_token {get; set;}
@@ -328,7 +318,7 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		Hmwd.TilesetReference tmp_tilesetref;
 		// TODO bestimmung des tiles vereinfachen
 		if(gid > 0) {
-			tmp_tilesetref = Hmwd.Map.get_extern_tilesetref_from_gid(map.tileset, gid);
+			tmp_tilesetref = Hmwd.get_tilesetref_from_gid(map.tileset, gid);
 			tmp_tile = tmp_tilesetref.source.get_tile_from_index(gid - tmp_tilesetref.firstgid);	
 			tmp_tile.gid = gid;
 			tmp_tile.tile_type = TileType.EMPTY_TILE; //TODO anhand der ID den echten TileTyp bestimmen.

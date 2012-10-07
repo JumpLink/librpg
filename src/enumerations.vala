@@ -15,52 +15,6 @@
  */
 using Hmwd;
 namespace Hmwd {
-	const int TIMER_CALLS_PS = 30;
-
-	/**
-	 * Kapazitaet der Giesskanne.
-	 */
-	const uint WATER_CAPACITY = 10;
-
-	/**
-	 * Samen pro Sack.
-	 */
-	const uint SEED_PER_BAG = 10;
-
-	/**
-	 * Standardausdauer des Spielers.
-	 */
-	const int DEFAULT_STAMINA = 25;
-
-	/**
-	 * Multiplikator fuer Stufenabhaengige Zusatzausdauer.
-	 */
-	const int STAMINA_MULTIPLIER = 10;
-
-	/**
-	 * Erfahrungsfaktor, benoetigt zum Erreichen hoeherer Spielerstufen.
-	 */
-	const int EXPERIENCE = 100;
-
-	/**
-	 * Sonnenaufgang/Tagesbeginn (6 Uhr).
-	 */
-	const uint DAWN = 6;
-
-	/**
-	 * Sonnenuntergang/Tagesende (18 Uhr).
-	 */
-	const uint DUSK = 18;
-
-	/**
-	 * Tage pro Jahreszeit.
-	 */
-	const uint DAYS_PER_SEASON = 30;
-
-	/**
-	 * Szenenhintergrundfarbe
-	 */
-	// const GL.GLclampf colBG[] = {0.0f, 0.0f, 0.0f, 0.0f};
 	/**
 	 * Benamsung der Farbindizes
 	 */
@@ -226,61 +180,6 @@ namespace Hmwd {
 			}
 		}
 	}
-	public class Coord:Vector {
-		public Coord() {
-			base(2);
-		}
-		public Coord.nondefault (double x, double y) {
-			this();
-			this.x = x;
-			this.y = y;
-		}
-		construct {
-
-		}
-		public double x {
-			get { return vec[1]; }
-			set { vec[1] = value; }
-		}
-		public double y {
-			get { return vec[0]; }
-			set { vec[0] = value; }
-		}
-	}	
-	public class AnimationData:GLib.Object {
-		public Coord coord { public get; private set; }
-		public AnimationData () {
- 			
-		}
-		construct {
-			coord = new Coord();
-		}
-		public Mirror mirror;
-		public double x {
-			get { return coord.x; }
-			set { coord.x = value; }
-		}
-		public double y {
-			get { return coord.y; }
-			set { coord.y = value; }
-		}
-
-		public string to_string () {
-			return @"x: $x y: $y mirror: $mirror";
-		}
-		public string x_to_string () {
-			return @"$x";
-		}
-		public string y_to_string () {
-			return @"$y";
-		}
-		public string mirror_to_string () {
-			return @"$mirror";
-		}
-		public string to_string_for_split (string s) {
-			return @"$x$s$y$s$mirror";
-		}
-	}
 
 	public enum Mirror {
 		NONE,
@@ -405,13 +304,6 @@ namespace Hmwd {
 					assert_not_reached();
 			}
 		}
-	}
-	public static int Round(double num) {
-		(num > 0) ? (num+= 0.5) : (num+= (-0.5));
-		return (int)num;
-	}
-	public static bool toggle(bool b) {
-		return b ? false : true;
 	}
 	public enum ViewEngine {
 		SDL,

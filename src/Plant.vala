@@ -30,15 +30,15 @@ namespace Hmwd {
 	 	/**
 	 	 * Tage, die bis zur naechsten Ernte vergehen muessen.
 	 	 */
-	 	protected uint daysUntilHarvest;
+	 	protected uint days_until_harvest;
 	 	/**
 	 	 * Pflanze kann noch so oft geerntet werden.
 	 	 */
-	 	protected uint cropsLeft;
+	 	protected uint crops_left;
 	 	/**
 	 	 * Minimale Zeit zwischen Ernten.
 	 	 */
-	 	protected static uint timeBetweenCrops;
+	 	protected static uint time_between_crops;
 	 	/**
 	 	 * Maximale Anzahl an Ernten.
 	 	 */
@@ -63,16 +63,16 @@ namespace Hmwd {
 		construct {
 	 		alive = true;
 	 		watered = false;
-	 		daysUntilHarvest = timeBetweenCrops;
-	 		cropsLeft = maxCrops;
+	 		days_until_harvest = time_between_crops;
+	 		crops_left = maxCrops;
 		}
 
 	 	/**
 	 	 * Pflanze wachsen lassen.
 	 	 */
 	 	public void grow () {
-	 		if (watered && daysUntilHarvest > 0)
-	 			--daysUntilHarvest;
+	 		if (watered && days_until_harvest > 0)
+	 			--days_until_harvest;
 	 		watered = false;
 	 	}
 
@@ -88,9 +88,9 @@ namespace Hmwd {
 	 	 * @return Die Ernte.
 	 	 */
 	 	public CropType harvest () {
-	 		if (daysUntilHarvest == 0) {
-	 			--cropsLeft;
-	 			daysUntilHarvest = timeBetweenCrops;
+	 		if (days_until_harvest == 0) {
+	 			--crops_left;
+	 			days_until_harvest = time_between_crops;
 	 			return crop;
 	 		}
 	 		return CropType.EMPTY_CROP;

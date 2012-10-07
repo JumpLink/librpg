@@ -10,8 +10,6 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
 using Gdk;	
@@ -21,15 +19,32 @@ namespace Hmwd {
 	 * Allgemeine Klasse fuer Spriteanimationen
 	 */
 	public class Animation : Object {
+		/**
+		 * Name der Animation, z.B. "go" oder "stay".
+		 */
 		public string name { get; construct set; }
+		/**
+		 * Bewegungsrichtung fuer die die Animation ausgelegt ist,
+		 * z.B. die Laufanimation eines Sprites in Richtung "north".
+		 */
 		public Direction direction { get; construct set; }
+		/**
+		 * Wenn true wird die Animation nach durchlauf wiederholt.
+		 */
 		public bool repeat { get; construct set; }
+		/**
+		 * Anzahl der Frames
+		 */
 		public int size {get{return animationdata.size;}}
+		/**
+		 * Anzahl der Frames
+		 */
+		public int length {get{return size;}}
 		/**
 		 * Animationsframes pro Sekunde
 		 */
 		public double frame_ps { get; set; default=6; }
-		//private double timer = 0;
+
 		public Gee.List<AnimationData> animationdata { get; construct set; }
 
 		private int _current_frame_index = 0;

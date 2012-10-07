@@ -170,7 +170,7 @@ DEBUG_COMP   = \
 
 # Targets
 
-.PHONY: all run dirs pull commit commit-* push push-* help clean test
+.PHONY: all run dirs help clean test doc
 
 ## * make (all): Programm compilieren
 all: dirs shared_library typelib
@@ -184,12 +184,12 @@ install:
 	@sudo cp -u ./$(LIBRARY).pc /usr/lib/pkgconfig/$(LIBRARY).pc	                    # .pc //TODO fixme for debian
 ## * make unstall: Programm deinstallieren
 unstall:
-	@sudo rm /usr/lib/$(SHARED_LIBRARY_TARGET)
-	@sudo rm /usr/include/$(HEADER_TARGET)
-	@sudo rm /usr/share/vala/vapi/$(VAPI_TARGET)
-	@sudo rm /usr/share/gir-1.0/$(GIR_TARGET)
-	@sudo rm /usr/lib/girepository-1.0/$(TYPELIB_TARGET)
-	@sudo rm /usr/lib/pkgconfig/$(LIBRARY).pc
+	@sudo rm -f /usr/lib/$(SHARED_LIBRARY_TARGET)
+	@sudo rm -f /usr/include/$(HEADER_TARGET)
+	@sudo rm -f /usr/share/vala/vapi/$(VAPI_TARGET)
+	@sudo rm -f /usr/share/gir-1.0/$(GIR_TARGET)
+	@sudo rm -f /usr/lib/girepository-1.0/$(TYPELIB_TARGET)
+	@sudo rm -f /usr/lib/pkgconfig/$(LIBRARY).pc
 
 ## * make run: Library compilieren und node ausfuehren
 run: all
@@ -231,6 +231,7 @@ c: dirs $(SRC_FILES)
 ## * make doc: Dokumentation generieren
 doc: $(SRC_FILES)
 	@echo "Generating Documentation..."
+	@rm $(DOC_DIR) -rf
 	@$(VD) -o $(DOC_DIR) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(SRC_FILES) --package-name $(LIBRARY) --package-version=$(VERSION) --enable-experimental
 	@gnome-open ./doc/index.html
 

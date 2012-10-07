@@ -103,24 +103,12 @@ namespace Hmwd {
 
 		public Hmwd.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
 
-
-		// public double shift_x {
-		// 	get { return (VIEW.window_width - width * tile_width)/2;}
-		// }
-		// public double shift_y {
-		// 	get { return (VIEW.window_height - height * tile_height)/2;}
-		// }
-
 		/**
 		 * Konstruktor fuer eine leere Map
 		 */
 		public Map(string filename, Hmwd.TilesetManager tilesetmanager) {
 			Object(filename:filename, tilesetmanager:tilesetmanager);
 		}
-		construct {
-
-		}
-
 		/**
 		 * Gibt das zur gid passende TilesetReference zurueck.
 		 * Dabei wird nach der firstgid gesucht die kleiner ist als die gid
@@ -131,22 +119,6 @@ namespace Hmwd {
 		public TilesetReference get_tilesetref_from_gid(int gid) {	
 			Hmwd.TilesetReference found = tileset[0];
 			foreach (Hmwd.TilesetReference tsr in tileset) {
-				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
-					found = tsr;
-			}
-			return found;
-		}
-		/**
-		 * Gibt eines der übergebenen TilesetReference's zur gid passenden TilesetReference zurueck.
-		 * Dabei wird nach der firstgid gesucht die kleiner ist als die gid
-		 * aber groesser ist als alle anderen firstgids
-		 * @param tilesetrefs Liste von TilesetReference's in der gesucht werden soll.
-		 * @param gid Die zu der das passende Tileset gesucht werden soll.
-		 * @return Das gefundene TilesetReference.
-		 */
-		public static TilesetReference get_extern_tilesetref_from_gid(Gee.List<Hmwd.TilesetReference> tilesetrefs, uint gid) {	
-			Hmwd.TilesetReference found = tilesetrefs[0];
-			foreach (Hmwd.TilesetReference tsr in tilesetrefs) {
 				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
 					found = tsr;
 			}
