@@ -10,8 +10,6 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 
 /**
@@ -26,7 +24,7 @@ namespace Hmwd {
 		return b ? false : true;
 	}
 	/**
-	 * Gibt eines der übergebenen TilesetReference's zur gid passenden TilesetReference zurueck.
+	 * Gibt eines der uebergebenen TilesetReference's zur gid passenden TilesetReference zurueck.
 	 * Dabei wird nach der firstgid gesucht die kleiner ist als die gid
 	 * aber groesser ist als alle anderen firstgids
 	 * @param tilesetrefs Liste von TilesetReference's in der gesucht werden soll.
