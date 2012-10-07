@@ -81,7 +81,7 @@ namespace Hmwd {
 			this.m = m.m;
 			this.sq = m.sq;
 			this.mat = new double[m.n,m.m];
-			this.copyMatrix(m);
+			this.copy_matrix(m);
 		}
 
 		/* Initialisierung und Besetzung der Matrix mit Werten. */
@@ -91,7 +91,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix (Zur Verkettung).
 		 */
-		public Matrix unityMatrix() {
+		public Matrix unity_matrix() {
 			for (int x = 0; x < n; ++x)
 				for (int y = 0; y < m; ++y)
 					mat[x,y] = x == y ? 1 : 0;
@@ -104,7 +104,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix.
 		 */
-		public Matrix nullMatrix() {
+		public Matrix null_matrix() {
 			for (int x = 0; x < n; ++x)
 				for (int y = 0; y < m; ++y)
 					mat[x,y] = 0;
@@ -119,7 +119,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix.
 		 */
-		public Matrix copyMatrix(Matrix c) {
+		public Matrix copy_matrix(Matrix c) {
 			assert(this.m == c.m);
 			assert(this.n == c.n);
 
@@ -137,7 +137,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix.
 		 */
-		public Matrix translationMatrix(Vector t) {
+		public Matrix translation_matrix(Vector t) {
 			/* assertion: Matrix ist mindestens einen hoeher als Vektor */
 			assert(this.m > t.dim);
 			
@@ -157,7 +157,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix.
 		 */
-		public Matrix scalingMatrix(Vector s) {
+		public Matrix scaling_matrix(Vector s) {
 			/* assertion: Matrix ist mindestens so gross wie Vektor */
 			assert(this.m >= s.dim);
 			
@@ -178,7 +178,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix.
 		 */
-		public Matrix rotationMatrix(double angle, Vector axis) {
+		public Matrix rotation_matrix(double angle, Vector axis) {
 			/* TODO allgemeine rot-matrix */
 			return this;
 		}
@@ -191,7 +191,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix.
 		 */
-		public Matrix multMatrix(Matrix l, Matrix r) {
+		public Matrix mult_matrix(Matrix l, Matrix r) {
 			/* Spaltenanzahl links muss Zeilenanzahl rechts entsprechen */
 			assert(l.n == r.m);
 			/* Neue Spalten = Linke Zeilen, neue Zeilen = rechte Spalten */
@@ -218,7 +218,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix.
 		 */
-		public Matrix multMatrixScalar(Matrix o, double s) {
+		public Matrix mult_matrix_scalar(Matrix o, double s) {
 			/* Neue Spalten = Linke Zeilen, neue Zeilen = rechte Spalten */
 			assert(this.n == o.m);
 			assert(this.m == o.n);
@@ -239,7 +239,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix.
 		 */
-		public Matrix addMatrix(Matrix l, Matrix r) {
+		public Matrix add_matrix(Matrix l, Matrix r) {
 			assert(l.n == r.n);
 			assert(l.m == r.m);
 			assert(this.n == l.n);
@@ -260,7 +260,7 @@ namespace Hmwd {
 		 * 
 		 * @return Referenz auf diese Matrix.
 		 */
-		public Matrix transposeMatrix(Matrix op) {
+		public Matrix transpose_matrix(Matrix op) {
 			assert(this.n == op.m);
 			assert(this.m == op.n);
 
@@ -279,8 +279,8 @@ namespace Hmwd {
 		 * 
 		 * @return neue Matrix die entsprechend verschiebt.
 		 */
-		public Matrix mkTrans(Vector t) {
-			return new Matrix.square(t.dim+1).translationMatrix(t);
+		public Matrix mk_trans(Vector t) {
+			return new Matrix.square(t.dim+1).translation_matrix(t);
 		}
 		
 		/**
@@ -290,8 +290,8 @@ namespace Hmwd {
 		 * 
 		 * @return neue Matrix die entsprechend skaliert.
 		 */
-		public Matrix mkScale(Vector s) {
-			return new Matrix.square(s.dim).scalingMatrix(s);
+		public Matrix mk_scale(Vector s) {
+			return new Matrix.square(s.dim).scaling_matrix(s);
 		}
 		
 		/**
@@ -302,8 +302,8 @@ namespace Hmwd {
 		 * 
 		 * @return neue Matrix die entsprechend rotiert.
 		 */
-		public Matrix mkRot(double arc, Vector axis) {
-			return new Matrix.square(axis.dim).rotationMatrix(arc, axis);
+		public Matrix mk_rot(double arc, Vector axis) {
+			return new Matrix.square(axis.dim).rotation_matrix(arc, axis);
 		}
 
 		/* Rechenoperationen */
@@ -316,7 +316,7 @@ namespace Hmwd {
 		 * @return neue Matrix mit dem Ergebnis der Multiplikation.
 		 */
 		public Matrix mult(Matrix r) {
-			return new Matrix(this.m, r.n).multMatrix(this, r);
+			return new Matrix(this.m, r.n).mult_matrix(this, r);
 		}
 		
 		/**
@@ -326,8 +326,8 @@ namespace Hmwd {
 		 * 
 		 * @return neue Matrix mit dem Ergebnis der Multiplikation.
 		 */
-		public Matrix multScalar(double s) {
-			return new Matrix(this.n, this.m).multMatrixScalar(this, s);
+		public Matrix mult_scalar(double s) {
+			return new Matrix(this.n, this.m).mult_matrix_scalar(this, s);
 			/* TODO: Methode, die direkt multipliziert auch. */
 		}
 
@@ -338,8 +338,8 @@ namespace Hmwd {
 		 * 
 		 * @return neuer Vektor mit dem Ergebnis der Multiplikation.
 		 */
-		public Vector multVector(Vector v) {
-			return new Vector(v.dim).multMatrix(this, v);
+		public Vector mult_vector(Vector v) {
+			return new Vector(v.dim).mult_matrix(this, v);
 		}
 
 		/**
@@ -350,7 +350,7 @@ namespace Hmwd {
 		 * @return neue Ergebnismatrix.
 		 */
 		public Matrix add(Matrix r) {
-			return new Matrix(this.m, this.n).addMatrix(this, r);
+			return new Matrix(this.m, this.n).add_matrix(this, r);
 		}
 		
 		/**
@@ -359,17 +359,17 @@ namespace Hmwd {
 		 * @return eine neue Matrix mit dem Ergebnis der Transponierung.
 		 */
 		public Matrix transpose() {
-			return new Matrix(this.m, this.n).transposeMatrix(this);
+			return new Matrix(this.m, this.n).transpose_matrix(this);
 		}
 		
 		/* Sonstige Operationen */
 		
 		/**
-		 * toString-Methode zur Ausgabe von Matrizen.
+		 * to_string-Methode zur Ausgabe von Matrizen.
 		 * 
 		 * @return Matrix als Stringdarstellung.
 		 */
-		public string toString() {
+		public string to_string() {
 			StringBuilder sb = new StringBuilder();
 			for (int x = 0; x < n; ++x) {
 				for (int y = 0; y < m; ++y) {

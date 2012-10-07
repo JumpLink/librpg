@@ -47,7 +47,7 @@ namespace Hmwd {
 		 * @param v1 Erster Punkt.
 		 * @param v2 Zweiter Punkt.
 		 */
-		public Vector.fromDifference (Vector v1, Vector v2) //TODO
+		public Vector.from_difference (Vector v1, Vector v2) //TODO
 		requires (v1.dim == v2.dim)
 		{
 			GLib.Object(dim:dim);
@@ -60,14 +60,14 @@ namespace Hmwd {
 			this.vec = new double[dim];
 		}
 		 
-		public Vector addVector (Vector v) {
+		public Vector add_vector (Vector v) {
 			if (dim == v.dim)
 				for (int i = 0; i < dim; ++i)
 					vec[i] += v.vec[i];
 			return this;
 		}
 		
-		public double ScalarProduct (Vector v) {
+		public double scalar_product (Vector v) {
 			double r = 0.0;
 			if (dim == v.dim)
 				for (int i = 0; i < dim; ++i)
@@ -80,7 +80,7 @@ namespace Hmwd {
 		 * @param v Vektor.
 		 * @return Das Kreuzprodukt.
 		 */
-		public Vector VectorProduct (Vector v) {
+		public Vector vector_product (Vector v) {
 			Vector r = new Vector (dim);
 			if (dim == 3 && v.dim == 3) {
 				r.vec[0] = vec[1] * v.vec[2] - vec[2] * v.vec[1];
@@ -95,7 +95,7 @@ namespace Hmwd {
 		 * @param s Skalar.
 		 * @return Der Vektor.
 		 */
-		public Vector divideByScalar (double s) {
+		public Vector divide_by_scalar (double s) {
 			if (s != 0.0)
 				for (int i = 0; i < dim; ++i)
 					vec[i] /= s;
@@ -107,7 +107,7 @@ namespace Hmwd {
 		 * @param s Skalar.
 		 * @return Der Vektor.
 		 */
-		public Vector multScalar (double s) {
+		public Vector mult_scalar (double s) {
 			for (int i = 0; i < dim; ++i)
 				vec[i] *= s;
 			return this;
@@ -117,7 +117,7 @@ namespace Hmwd {
 		 * Berechnet Betrag eines Vektors.
 		 * @return Der Betrag.
 		 */
-		public double VectorNorm () {
+		public double vector_norm () {
 			double r = 0.0;
 			for (int i = 0; i < dim; ++i)
 				r += vec[i] * vec[i];
@@ -128,8 +128,8 @@ namespace Hmwd {
 		 * Normiert Vektor.
 		 * @return Der Vektor.
 		 */
-		public Vector normVector () {
-			return divideByScalar (VectorNorm ());	
+		public Vector norm_vector () {
+			return divide_by_scalar (vector_norm ());	
 		}
 		
 		/**
@@ -138,7 +138,7 @@ namespace Hmwd {
 		 * @param v irgendein anderer Vektor ?????.
 		 * @return Der Vektor.
 		 */
-		public Vector multMatrix(Matrix m, Vector v) {
+		public Vector mult_matrix(Matrix m, Vector v) {
 			for (int i = 0; i < dim; ++i) {
 				vec[i] = 0;
 				for (int j = 0; j < dim; ++j)

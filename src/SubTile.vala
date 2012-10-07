@@ -18,7 +18,7 @@ namespace Hmwd {
 	/**
 	 * Klasse fuer Subtiles, ein Tile kann auch aus mehreren Subtiles bestehen.
 	 * Sie wird fuer zusammengesetzte Tiles verwendet um beispielsweise Wegkanten
-	 * darzustellen. TODDO an OLE, ueberpruefen
+	 * darzustellen.
 	 */
 	public class SubTile : Object {
 	 	public EdgeShape edge { get; construct set; }

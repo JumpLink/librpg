@@ -11,7 +11,6 @@
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
  *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Hmwd;
 namespace Hmwd {

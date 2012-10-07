@@ -13,6 +13,10 @@
  */
 using Hmwd;
 namespace Hmwd {
+	/**
+	 * 2D Koordinaten, bei Koordinaten-opperationen kann die Vector-Klasse
+	 * verwendet werden von der diese Klasse erbt.
+	 */
 	public class Coordinate2D:Vector {
 		public Coordinate2D() {
 			base(2);
