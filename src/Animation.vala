@@ -36,19 +36,12 @@ namespace Hmwd {
 		public int current_frame_index {
 			get { return _current_frame_index; }
 			set {
-				if(value >= animationdata.size) {
-					_current_frame_index = 0;
-				}
-				else if ( value < 0) {
-					_current_frame_index = animationdata.size -1;
-				}
-				else {
-					_current_frame_index = value;
-				}
+				if(value >= animationdata.size) _current_frame_index = 0;
+				else if ( value < 0) _current_frame_index = animationdata.size -1;
+				else _current_frame_index = value;
 			}
 		}
-		public Animation() {
-		}
+
 		public Animation.all(string name, bool repeat, Direction direction, Gee.List<AnimationData> animationdata) {
 			Object(name: name, repeat: repeat, direction: direction, animationdata:animationdata);
 		}

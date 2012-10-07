@@ -29,19 +29,24 @@ namespace Hmwd {
 			get { return pixbuf.get_width(); }
 			set { width = value;}
 		}
+		
 		public int height {
 			get { return pixbuf.get_height(); }
 			set { height = value;}
 		}
+
 		public Hmwd.Colorspace colorspace {
 			get { return Hmwd.Colorspace.fromGdkPixbuf(pixbuf); }
 		}
+
 		public int length {
 			get { return pixbuf.rowstride*pixbuf.height; }
 		}
+
 		public int size {
 			get { return pixbuf.rowstride*pixbuf.height; }
 		}
+
 		public int png_length {
 			get { return png_buffer.length; }
 		}
@@ -93,6 +98,7 @@ namespace Hmwd {
 				GLib.error("%s pixel konnten nicht kopiert werden", path);
 			}
 		}
+
 		public string save_to_buffer_string(string type) {
 	 		try {
 				uint8[] pixel_buffer;
@@ -104,6 +110,7 @@ namespace Hmwd {
 				GLib.error("%s pixel konnten nicht kopiert werden", path);
 			}
 		}
+
 		public uint8 get_pngbuffer_from_index(int index) {
 			return png_buffer[index];
 		}
@@ -114,41 +121,37 @@ namespace Hmwd {
 		public bool has_alpha {
 			get { return this.pixbuf.get_has_alpha(); }
 		}
-		public GdkTexture() {
 
-		}
-		public GdkTexture.fromFile(string path) {
+		public GdkTexture.from_file(string path) {
 			GLib.Object(path:path);
-			loadFromFile(path);
+			load_from_file(path);
 		}
-		public GdkTexture.fromPixbuf(Gdk.Pixbuf pixbuf) {
+
+		public GdkTexture.from_pixbuf(Gdk.Pixbuf pixbuf) {
 			GLib.Object(pixbuf:pixbuf);
-			loadFromPixbuf(pixbuf);
+			load_from_pixbuf(pixbuf);
 		}
 		/**
 		 * Ladet eine Textur aus einer Datei.
 		 * @param path Pfadangabe der zu ladenden Grafikdatei.
 		 */
-		protected void loadFromFile(string path)
+		protected void load_from_file(string path)
 		{
 	 		try {
 				pixbuf = new Pixbuf.from_file (path);
 			}
 			catch (GLib.Error e) {
-				//GLib.error("", e.message);
-				GLib.error("%s konnte nicht geladen werden", path);
+				error("%s konnte nicht geladen werden", path);
 			}
-			//print("GdkTexture: loadFromFile\n");
-			loadFromPixbuf(pixbuf);
+			load_from_pixbuf(pixbuf);
 		}
 
 		/**
 		 * Ladet eine Textur aus einem Pixbuf in die Klasse.
 		 * @param pixbuf Der pixbuf aus dem die Textur erstellt werden soll.
 		 */
-		public void loadFromPixbuf(Gdk.Pixbuf pixbuf)
+		public void load_from_pixbuf(Gdk.Pixbuf pixbuf)
 		{
-			//print("GdkTexture: loadFromPixbuf\n");
 			this.pixbuf = pixbuf;
 			png_buffer = save_to_buffer("png");
 		}
@@ -158,19 +161,14 @@ namespace Hmwd {
 		public void save (string filename) {
 			try {
 				pixbuf.save(filename, "png");
-				//print("GdkTexture: save\n");
 			} catch (GLib.Error e) {
 				error ("Error! Konnte Sprite nicht Speichern: %s\n", e.message);
 			}
 		}
-		public void printPngAsHex() {
+		public void print_png_as_hex() {
 			uint8[] hex = save_to_buffer("png");
 			foreach (uint8 h in hex) { stdout.printf("%02X ",h); }
 		}
-		/**
-		 *
-		 */
-		//public abstract void draw( int x, int y, double zoff, Mirror mirror = Hmwd.Mirror.NONE);
 
 		/**
 		 * Gibt die Werte der Textur auf der Konsole aus.

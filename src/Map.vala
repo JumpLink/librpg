@@ -44,23 +44,23 @@ namespace Hmwd {
 		/**
 		 * Gesamtbreite der Map in Pixel
 		 */
-		public int pxl_width {
-			get {return width*tilewidth;}
+		public int pixel_width {
+			get {return width*tile_width;}
 		}
 		/**
 		 * Gesamthoehe der Map in Pixel
 		 */
-		public int pxl_height {
-			get {return height*tileheight;}
+		public int pixel_height {
+			get {return height*tile_height;}
 		}
 		/**
 		 * Breite eines Tiles
 		 */
-		public int tilewidth { get; set; }
+		public int tile_width { get; set; }
 		/**
 		 * Höhe eines Tiles
 		 */
-		public int tileheight { get; set; }
+		public int tile_height { get; set; }
 		/**
 		 * Dateiname der Map
 		 */
@@ -105,10 +105,10 @@ namespace Hmwd {
 
 
 		// public double shift_x {
-		// 	get { return (VIEW.window_width - width * tilewidth)/2;}
+		// 	get { return (VIEW.window_width - width * tile_width)/2;}
 		// }
 		// public double shift_y {
-		// 	get { return (VIEW.window_height - height * tileheight)/2;}
+		// 	get { return (VIEW.window_height - height * tile_height)/2;}
 		// }
 
 		/**
@@ -176,34 +176,34 @@ namespace Hmwd {
 		}
 		public int get_tileid_from_position(int x, int y, int layer_index) {
 			Hmwd.Layer layer = get_layer_from_index(layer_index);
-			Hmwd.Tile tile = layer.getTileXY(x,y);
+			Hmwd.Tile tile = layer.get_tile_from_coordinate(x,y);
 			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			return (int) tile.gid - (int) (tref.firstgid-1);
 		}
 		/**
 		 * Tile-X-Coord of the tilesetimage
 		 */
-		public uint get_tileimagex_from_position(int x, int y, int layer_index) {
+		public uint get_tile_image_x_from_position(int x, int y, int layer_index) {
 			Hmwd.Layer layer = get_layer_from_index(layer_index);
-			Hmwd.Tile tile = layer.getTileXY(x,y);
+			Hmwd.Tile tile = layer.get_tile_from_coordinate(x,y);
 			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
-			uint res = (id%tref.source.count_x)*tilewidth;
-			return res == 0 && id != 0 ? tref.source.count_x*tilewidth : res;
+			uint res = (id%tref.source.count_x)*tile_width;
+			return res == 0 && id != 0 ? tref.source.count_x*tile_width : res;
 		}
 		/**
 		 * Tile-Y-Coord of the tilesetimage
 		 */
-		public int get_tileimagey_from_position(int x, int y, int layer_index) {
+		public int get_tile_image_y_from_position(int x, int y, int layer_index) {
 			Hmwd.Layer layer = get_layer_from_index(layer_index);
-			Hmwd.Tile tile = layer.getTileXY(x,y);
+			Hmwd.Tile tile = layer.get_tile_from_coordinate(x,y);
 			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = tile.gid - (tref.firstgid-1);
-			int res = (id/tref.source.count_x)*tileheight;
-			return id%tref.source.count_x == 0 && id != 0 ? res-1*tileheight : res;
+			int res = (id/tref.source.count_x)*tile_height;
+			return id%tref.source.count_x == 0 && id != 0 ? res-1*tile_height : res;
 		}
 		public int get_tilegid_from_position(int x, int y, int layer_index) {
-			return get_layer_from_index(layer_index).getTileXY(x,y).gid;
+			return get_layer_from_index(layer_index).get_tile_from_coordinate(x,y).gid;
 		}
 		/**
 		 * Gibt den Layer eines gesuchten Layers mit dem Namen name zurueck.
@@ -235,7 +235,7 @@ namespace Hmwd {
 			error("keinen Layer mit dem Index %i gefunden\n",index);
 		}
 
-		public Layer get_layer_from_indexInverse(int index){
+		public Layer get_layer_from_index_inverse(int index){
 			int count = 0;
 			for(int i=layers_under.size-1;i>=0;i++,count++) {
 				if (count == index) return layers_under[i];
@@ -254,7 +254,7 @@ namespace Hmwd {
 		 * @param name Gesichter Layername
 		 * @return Index aus der Layerliste
 		 */
-		public int get_index_of_layername(string name){
+		public int get_index_of_layer_name(string name){
 			foreach (Layer i in layers_same) if (name == i.name) return layers_same.index_of(i);
 			foreach (Layer i in layers_over) if (name == i.name) return layers_over.index_of(i);
 			error("Layer %s nicht gefunden!", name);
@@ -284,8 +284,8 @@ namespace Hmwd {
 			print("version: %s\n", version);
 			print("width: %u\n", width);
 			print("height: %u\n", height);
-			print("tilewidth: %u\n", tilewidth);
-			print("tileheight: %u\n", tileheight);
+			print("tile_width: %u\n", tile_width);
+			print("tile_height: %u\n", tile_height);
 		}
 		/**
 		 * Gibt die Werte aller Layer der Map auf der Konsole aus

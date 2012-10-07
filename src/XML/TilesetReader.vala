@@ -42,10 +42,10 @@ public class Hmwd.TilesetReader : Sxml.DataReader, Object {
 		foreach (var key in attributes.keys) {
 			switch (key) {
 			case "tilewidth":
-				tileset.tilewidth = int.parse(attributes.get (key));
+				tileset.tile_width = int.parse(attributes.get (key));
 				break;
 			case "tileheight":
-				tileset.tileheight = int.parse(attributes.get (key));
+				tileset.tile_height = int.parse(attributes.get (key));
 				break;
 			case "name":
 				tileset.name =  attributes.get (key);
@@ -75,7 +75,7 @@ public class Hmwd.TilesetReader : Sxml.DataReader, Object {
 				tileset.source =  attributes.get (key);
 				break;
 			case "trans":
-				tileset.trans =  attributes.get (key);
+				tileset.transparency =  attributes.get (key);
 				break;
 			default:
 				error ("unknown property of '%s'".printf (key));

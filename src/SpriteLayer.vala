@@ -56,42 +56,31 @@ namespace Hmwd {
 		public SpriteLayer.all(string folder, int number, string name, string image_filename, SpriteLayerType type, string trans, uint width, uint height, uint spritewidth, uint spriteheight) {			
 			Object(folder:folder, name:name, image_filename:image_filename, sprite_layer_type:type, width:width, height:height, spritewidth:spritewidth, spriteheight:spriteheight, active:true);
 		}
-		construct{
-			//this.loadSprites(folder, height, width, spritewidth, spriteheight);
-		}
 		/**
 		 * Ladet die Pixel fuer die Sprites.
 		 */
-		public void loadSprites()
+		public void split()
 		{
 			if (image_filename != "") {
-				GdkTexture tex = new GdkTexture.fromFile(folder+image_filename);
+				GdkTexture tex = new GdkTexture.from_file(folder+image_filename);
 				sprites = new Sprite[height,width];
-				//int count = 0;
 				Pixbuf pxb = tex.pixbuf;
-				//tex.print_values();
-				//print("=====LOADSPRITES=====\n");
 				for(int y = 0; y < height; y++) {
 					for(int x = 0; x < width; x++) {
 						Pixbuf split = new Pixbuf(Gdk.Colorspace.RGB, pxb.get_has_alpha(), pxb.get_bits_per_sample(), (int) spritewidth, (int) spriteheight);
-						//print("y: %i x:%i spritewidth:%u spriteheight:%u count %i", y, x, spritewidth, spriteheight, count);
 						pxb.copy_area((int) spritewidth*x, (int) spriteheight*y, (int) spritewidth, (int) spriteheight, split, 0, 0);
 						sprites[y,x] = new Hmwd.Sprite(split);
-						//count++;
-						//tile[y,x].print_values();
 					}
 				}
-				//print("Sprites zerteilt\n");
 			} else {
 				GLib.error("Objekt enthaelt keinen Dateinamen fuer das zu splittende Bild!\n");
 			}
 		}
-		public void printSprites()
+		public void print_sprites()
 		{
 			print("==Sprites==\n");
 			for (uint y=0;y<width;y++) {
 				for (uint x=0;x<height;x++) {
-					//print("%u ", tile[y,x].type);
 					sprites[y,x].print_values();
 				}
 				print("\n");
@@ -100,7 +89,6 @@ namespace Hmwd {
 		public void print_all() {
 			print("SpriteLayerAll\n");
 			print_values();
-			//printSprites();
 		}
 		public void print_values()
 		requires (image_filename.length > 0)

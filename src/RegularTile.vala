@@ -33,8 +33,8 @@ namespace Hmwd {
 			 * Konstruktor mit uebergabe eines bereits existierenden und zu verwendenen Pixbuf.
 			 * @param pixbuf Pixelbufer der in das Tile uebernommen werden soll.
 			 */
-			public RegularTile.fromPixbuf (Pixbuf pixbuf) {
-				Object(tex:new GdkTexture.fromPixbuf(pixbuf), tile_type:Hmwd.TileType.EMPTY_TILE);
+			public RegularTile.from_pixbuf (Pixbuf pixbuf) {
+				Object(tex:new GdkTexture.from_pixbuf(pixbuf), tile_type:Hmwd.TileType.EMPTY_TILE);
 			}
 			construct {
 				
@@ -55,7 +55,7 @@ namespace Hmwd {
 			 * {@inheritDoc}
 			 * @see Hmwd.Tile.calcEdges
 			 */
-			public override void calcEdges (TileType[] neighbours) {
+			public override void calc_edges (TileType[] neighbours) {
 				//nichts
 			}
 	}

@@ -78,6 +78,6 @@ namespace Hmwd {
 		 * dies findet beispielsweise bei Wegen, Strassen, Sand oder Grass verwendung.
 		 * TODO an Ole, ueberpruefe diese Beschreibung!
 		 */
-		public abstract void calcEdges (TileType[] neighbours);
+		public abstract void calc_edges (TileType[] neighbours);
 	}
 }

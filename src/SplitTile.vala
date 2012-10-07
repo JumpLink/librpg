@@ -42,9 +42,9 @@ namespace Hmwd {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see Hmwd.Tile.calcEdges
+			 * @see Hmwd.Tile.calc_edges
 			 */
-			public override void calcEdges (TileType[] neighbours) {
+			public override void calc_edges (TileType[] neighbours) {
 				assert (neighbours.length == 8);
 				TileType[] n = new TileType[3];
 				for (uint s = 0; s < 4; ++s) {

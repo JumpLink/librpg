@@ -34,19 +34,19 @@ namespace Hmwd {
 		/**
 		 * Breite eines Tiles
 		 */
-		public int tilewidth { get; set; }
+		public int tile_width { get; set; }
 		/**
 		 * Hoehe eines Tiles
 		 */
-		public int tileheight { get; set; }
+		public int tile_height { get; set; }
 		/**
 		 * Dateiname des Tileset-Bildes
 		 */
 		public string source { get; set; } //TODO gibt es mehrere sources?
 		/**
-		 * Transparente Farbe im Tileset
+		 * transparencyparente Farbe im Tileset
 		 */
-		public string trans { get; set; }
+		public string transparency { get; set; }
 		/**
 		 * Gesamtbreite des Tilesets
 		 */
@@ -61,11 +61,11 @@ namespace Hmwd {
 		public Tile[,] tile { get; set; }
 
 		public int count_y {
-			get { return (height / tileheight); }
+			get { return (height / tile_height); }
 		}
 
 		public int count_x {
-			get { return (width / tilewidth); }
+			get { return (width / tile_width); }
 		}
 
 		public GdkTexture tex { get; set; }
@@ -99,25 +99,19 @@ namespace Hmwd {
 		 * Ladet die Pixel fuer die Tiles.
 		 * Zur Zeit alle noch als RegularTile.
 		 */
-		public void loadTiles(string folder) {
-			tex = new GdkTexture.fromFile(folder+source);
-			int split_width = (int) tilewidth;
-			int split_height = (int) tileheight;
+		public void split(string folder) {
+			tex = new GdkTexture.from_file(folder+source);
+			int split_width = (int) tile_width;
+			int split_height = (int) tile_height;
 			tile = new Tile[count_x,count_y];
-			//int count = 0;
 			Pixbuf pxb = tex.pixbuf;
-			//print("=====LOADTILES=====\n");
 			for(int y = 0; y < count_y; y++) {
 				for(int x = 0; x < count_x; x++) {
 					Pixbuf split = new Pixbuf(Gdk.Colorspace.RGB, pxb.get_has_alpha(), pxb.get_bits_per_sample(), split_width, split_height);
-					//print("y: %i x:%i split_width:%i split_height:%i count %i", y, x, split_width, split_height, count);
 					pxb.copy_area((int) split_width*x, (int) split_height*y, (int) split_width, (int) split_height, split, 0, 0);
-					tile[x,y] = new RegularTile.fromPixbuf(split);
-					//count++;
-					//tile[y,x].print_values();
+					tile[x,y] = new RegularTile.from_pixbuf(split);
 				}
 			}
-			//print("Tiles zerteilt\n");
 		}
 		/**
 		 * Speichert alle Tiles als Datei.
@@ -127,18 +121,16 @@ namespace Hmwd {
 			for (int y=0;y<count_y;y++) {
 				for (int x=0;x<count_x;x++) {
 					tile[x,y].save(folder+name+"_y"+y.to_string()+"_x"+x.to_string()+".png");
-					//print("speichere "+folder+name+"_y"+y.to_string()+"_x"+x.to_string()+".png\n");
 				}
 			}
 		}
 		/**
 		 * Gibt alle Werte Tiles auf der Konsole aus
 		 */
-		public void printTiles() {
+		public void print_tiles() {
 			print("==Tiles==\n");
 			for (int y=0;y<count_y;y++) {
 				for (int x=0;x<count_x;x++) {
-					//print("%u ", tile[y,x].type);
 					tile[x,y].print_values();
 				}
 				print("\n");
@@ -151,10 +143,10 @@ namespace Hmwd {
 		public void print_values() {
 			print("name: %s\n", name);
 			print("filename: %s\n", filename);
-			print("tilewidth: %u\n", tilewidth);
-			print("tileheight: %u\n", tileheight);
+			print("tile_width: %u\n", tile_width);
+			print("tile_height: %u\n", tile_height);
 			print("source: %s\n", source);
-			print("trans: %s\n", trans);
+			print("transparency: %s\n", transparency);
 			print("width: %u\n", width);
 			print("height: %u\n", height);
 		}
@@ -163,7 +155,7 @@ namespace Hmwd {
 		 */
 		public void printAll() {
 			print_values();
-			printTiles();
+			print_tiles();
 		}
 	}
 }

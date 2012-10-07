@@ -110,7 +110,7 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 		parse_image(ref spritelayer);
 		
 		spritelayer.folder = spriteset.folder; //TODO workaround
-		spritelayer.loadSprites();
+		spritelayer.split();
 		spriteset.spritelayers.add(spritelayer);
 		end_element("layer");
 	}

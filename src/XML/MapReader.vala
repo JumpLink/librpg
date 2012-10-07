@@ -81,10 +81,10 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		foreach (var key in attributes.keys) {
 			switch (key) {
 			case "tilewidth":
-				map.tilewidth = int.parse(attributes.get (key));
+				map.tile_width = int.parse(attributes.get (key));
 				break;
 			case "tileheight":
-				map.tileheight = int.parse(attributes.get (key));
+				map.tile_height = int.parse(attributes.get (key));
 				break;
 			case "version":
 				map.version =  attributes.get (key);
@@ -150,8 +150,8 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		start_element("tileset");
 		Gee.Map<string,string> attributes = reader.get_attributes();
 
-		string ts_filename = Hmwd.File.PathToFilename( attributes.get ("source"));
-		Hmwd.Tileset ts_source = tilesetmanager.getFromFilename(ts_filename);
+		string ts_filename = Hmwd.File.path_to_filename( attributes.get ("source"));
+		Hmwd.Tileset ts_source = tilesetmanager.get_from_filename(ts_filename);
 		int firstgid = int.parse(attributes.get ("firstgid"));
 		//Den zusammengestellten neuen Tileset in die Liste einfuegen
 		map.tileset.add( new TilesetReference(firstgid, ts_source));

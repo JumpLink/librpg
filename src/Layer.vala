@@ -50,24 +50,21 @@ namespace Hmwd {
 		public Layer() {
 
 		}
-
-		public Hmwd.Tile getTileXY(uint x, uint y) {
-			return tiles[x,y];
-		}
-
 		/**
 		 * Konstruktor mit Groessenangaben
 		 */
 		public Layer.sized(int width, int height) {
 			Object(name:"new Layer", width:width, height:height, zoff:0);
 		}
-
 		/**
 		 * Konstruktor mit allen Werten non-default
 		 */
 		public Layer.all(string name, double zoff, bool collision, int width, int height) {
 			//this.tiles = tiles; //TODO make this work in node-gir
 			Object(name:name, zoff:zoff, width:width, height:height, collision:collision);
+		}
+		public Hmwd.Tile get_tile_from_coordinate(uint x, uint y) {
+			return tiles[x,y];
 		}
 		/**
 		 * Gibt alle Werte des Layers (bis auf die Tiles) auf der Konsole aus

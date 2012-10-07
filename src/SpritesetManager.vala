@@ -25,7 +25,7 @@ namespace Hmwd {
 		public Gee.List<Spriteset> spriteset;
 
 		public int length { get{return spriteset.size;} }
-		public int size { get{return spriteset.size;} }
+		public int size { get{return length;} }
 
 		public string folder { get; construct set; }
 		/**
@@ -36,7 +36,7 @@ namespace Hmwd {
 		}
 		construct {
 			spriteset = new Gee.ArrayList<Spriteset>();
-			loadAllFromFolder(folder);
+			load_all_from_folder(folder);
 		}
 
 		/**
@@ -47,20 +47,17 @@ namespace Hmwd {
 		 *
 		 * @param folder Ordnername aus dem gelesen werden soll.
 		 */
-		public void loadAllFromFolder(string folder) {
+		public void load_all_from_folder(string folder) {
 			if(folder.length < 1) {
 				printerr("folder is undefined, using default: ./data/spriteset/\n");
 				folder = "./data/spriteset/";
 			}
 
-			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".ssx");
+			Gee.List<string> files = Hmwd.File.load_all_from_folder(folder, ".ssx");
 			SpritesetReader spritesetreader = new SpritesetReader(folder);
 			foreach (string filename in files) {
-				//print("Dateiname: %s\n\n", filename);
-				//Hmwd.Spriteset current_spriteset = new Hmwd.Spriteset.fromPath(folder, filename);
 				spriteset.add(spritesetreader.parse(filename));
 			}
-			//print("spritset size: %i\n",this.size);
 		}
 		/**
 		 * Gibt das Spriteset mit dem Namen "name" zurück
@@ -68,14 +65,14 @@ namespace Hmwd {
 		 * @param name name des gesuchten Spriteset
 		 * @return Bei Erfolg das gefundene Spriteset, sonst ein neues Objekt Spriteset
 		 */
-		public Spriteset getFromName(string name) {
+		public Spriteset get_from_name(string name) {
 			foreach (Spriteset ss in spriteset)
-					if (ss.name == name) {
-						return ss;
-					}
+				if (ss.name == name) {
+					return ss;
+				}
 			error("Spriteset %s nicht gefunden!", name);
 		}
-		public Spriteset getFromIndex(int index) {
+		public Spriteset get_from_index(int index) {
 			return spriteset[index];
 		}
 		/**
@@ -84,13 +81,13 @@ namespace Hmwd {
 		 * @param filename Dateiname des gesuchten Spritesets
 		 * @return Bei Erfolg das gefundene Spriteset, sonst ein neues Objekt Spriteset
 		 */
-		public Spriteset getFromFilename(string filename)
+		public Spriteset get_from_filename(string filename)
 		requires (filename.length > 0)
 		{
 			foreach (Spriteset ss in spriteset)
-					if (ss.filename == filename) {
-						return ss;
-					}		
+				if (ss.filename == filename) {
+					return ss;
+				}		
 			error("Spriteset %s nicht gefunden!", filename);
 		}
 		/**

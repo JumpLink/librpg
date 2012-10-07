@@ -37,7 +37,7 @@ namespace Hmwd {
 		}
 		construct{
 			tileset = new Gee.ArrayList<Tileset>();
-			loadAllFromFolder(folder);
+			load_all_from_folder(folder);
 		}
 
 		/**
@@ -49,12 +49,12 @@ namespace Hmwd {
 		 *
 		 * @param folder der Ordnername aus dem gelesen werden soll.
 		 */
-		private void loadAllFromFolder(string folder) {
-			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tsx");
+		private void load_all_from_folder(string folder) {
+			Gee.List<string> files = Hmwd.File.load_all_from_folder(folder, ".tsx");
 			TilesetReader tilesetreader = new TilesetReader(folder);
 			foreach (string filename in files) {
 				Tileset tmp_tileset = tilesetreader.parse(filename);
-				tmp_tileset.loadTiles(folder);
+				tmp_tileset.split(folder);
 				tileset.add(tmp_tileset);
 			}
 		}
@@ -64,7 +64,7 @@ namespace Hmwd {
 		 * @param name name des gesuchten Tilesets
 		 * @return Bei Erfolg das gefundene Tileset, sonst ein neues Objekt Tileset
 		 */
-		public Tileset getFromName(string name) {
+		public Tileset get_from_name(string name) {
 			foreach (Tileset ts in tileset) if (ts.name == name) return ts;
 			error("Kein TileSet %s gefunden",name);
 		}
@@ -74,7 +74,7 @@ namespace Hmwd {
 		 * @param filename Dateiname des gesuchten Tilesets
 		 * @return Bei Erfolg das gefundene Tileset, sonst null
 		 */
-		public Tileset getFromFilename(string filename)
+		public Tileset get_from_filename(string filename)
 		requires (filename.length > 0)
 		{
 			foreach (Tileset ts in tileset) if (ts.filename == filename) return ts;
@@ -86,15 +86,15 @@ namespace Hmwd {
 		 * @param source Ort des gesuchten Tilesets
 		 * @return Bei Erfolg das gefundene Tileset, sonst ein neues Objekt Tileset
 		 */
-		public Tileset getFromSource(string source) {
+		public Tileset get_From_source(string source) {
 			foreach (Tileset ts in tileset) if (ts.source == source) { return ts; }
 			error("Tileset %s nicht gefunden!", source);
 		}
 
-		public string getSourcesFromIndex(int index) {
+		public string get_sources_from_index(int index) {
 			return tileset[index].source;
 		}
-		public Tileset getFromIndex(int index) {
+		public Tileset get_from_index(int index) {
 			return tileset[index];
 		}
 

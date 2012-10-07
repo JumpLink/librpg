@@ -23,7 +23,7 @@ namespace Hmwd {
 		 * Extrahiert den Dateinamen eines kompletten Pfades.
 		 * @param path Der pfad dessen Dateiname zurueck gegeben werden soll.
 		 */
-		public static string PathToFilename(string path) {
+		public static string path_to_filename(string path) {
 			return path.substring(path.last_index_of ("/", 0)+1, -1);
 		}
 		/**
@@ -33,7 +33,7 @@ namespace Hmwd {
 		 * @param folder der Ordnername aus dem gelesen werden soll.
 		 * @param extension die Dateiendung die beruecksichtigt werden soll.
 		 */
-		public static Gee.List<string> loadAllFromFolder(string folder, string extension) {
+		public static Gee.List<string> load_all_from_folder(string folder, string extension) {
 			GLib.File directory = GLib.File.new_for_path(folder);
 			FileEnumerator enumerator;
 			Gee.List<string> files = new Gee.ArrayList<string>();

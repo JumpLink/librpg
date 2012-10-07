@@ -16,28 +16,20 @@
 using Hmwd;
 namespace Hmwd {
 
-	public class Data : Object {
+	public class ResourceManager : Object {
 		public Hmwd.TilesetManager tilesetmanager { get; set; }
 		public Hmwd.MapManager mapmanager { get; set; }
 		public Hmwd.SpritesetManager spritesetmanager { get; set; }
 
-		public Data() {
-			Object();
-		}
-
-		construct{
-
-		}
-
-		public void loadTilesetManager(string folder) {
+		public void load_tileset_manager(string folder) {
 			tilesetmanager = new Hmwd.TilesetManager(folder);
 		}
 
-		public void loadMapManager(string folder) {
+		public void load_map_manager(string folder) {
 			mapmanager = new Hmwd.MapManager(folder, tilesetmanager);
 		}
 
-		public void loadSpritesetManager(string folder) {
+		public void load_spriteset_manager(string folder) {
 			spritesetmanager = new Hmwd.SpritesetManager(folder);
 		}
 

@@ -56,7 +56,7 @@ namespace Hmwd {
 		 */
 		private void load_all_from_folder(string folder, Hmwd.TilesetManager tilesetmanager) {
 			//print("Fuehre MapManager.loadAllFromPath mit folder %s aus.\n", folder);
-			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tmx");
+			Gee.List<string> files = Hmwd.File.load_all_from_folder(folder, ".tmx");
 			MapReader mapreader = new MapReader(folder, tilesetmanager);
 			foreach (string filename in files) {
 

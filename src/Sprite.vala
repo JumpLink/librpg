@@ -33,7 +33,7 @@ namespace Hmwd {
 		 * @param pixbuf Pixelbufer der in das Tile uebernommen werden soll.
 		 */
 		public Sprite (Pixbuf pixbuf) {
-			Object(tex: new Hmwd.GdkTexture.fromPixbuf(pixbuf));
+			Object(tex: new Hmwd.GdkTexture.from_pixbuf(pixbuf));
 		}
 		construct {
 
@@ -46,7 +46,7 @@ namespace Hmwd {
 			print("ich bin ein Sprite: ");
 			tex.print_values();
 		}
-		public void printAll (){
+		public void print_all (){
 			print_values();
 		}
 		/**
