@@ -41,15 +41,8 @@ namespace Hmwd {
 			GLib.Object(folder: folder, tilesetmanager : tilesetmanager);
 		}
 		construct {
-			//print("Erstelle MapManager\n");
 			map = new Gee.ArrayList<Hmwd.Map>();
-			loadAllFromFolder(folder, tilesetmanager);
-		}
-		/**
-		 * Dekonstruktor
-		 */
-		~MapManager() {
-			//print("Lösche MapManager\n");
+			load_all_from_folder(folder, tilesetmanager);
 		}
 
 		/**
@@ -61,7 +54,7 @@ namespace Hmwd {
 		 *
 		 * @param folder der Ordnername aus dem gelesen werden soll.
 		 */
-		private void loadAllFromFolder(string folder, Hmwd.TilesetManager tilesetmanager) {
+		private void load_all_from_folder(string folder, Hmwd.TilesetManager tilesetmanager) {
 			//print("Fuehre MapManager.loadAllFromPath mit folder %s aus.\n", folder);
 			Gee.List<string> files = Hmwd.File.loadAllFromFolder(folder, ".tmx");
 			MapReader mapreader = new MapReader(folder, tilesetmanager);
@@ -70,10 +63,10 @@ namespace Hmwd {
 				map.add(mapreader.parse(filename));
 			}
 		}
-		public Hmwd.Map getMapFromIndex(int index) {
+		public Hmwd.Map get_map_from_index(int index) {
 			return map[index];
 		}
-		public string getMapFilenameFromIndex(int index) {
+		public string get_map_filename_from_index(int index) {
 			return map[index].filename;
 		}
 		/**
@@ -82,7 +75,7 @@ namespace Hmwd {
 		 * @param filename Dateiname der gesuchten Map
 		 * @return Bei Erfolg die gefundene Map, sonst ein neues Objekt Map
 		 */
-		public Hmwd.Map getFromFilename(string filename) {
+		public Hmwd.Map get_from_filename(string filename) {
 			foreach (Hmwd.Map m in map) if (m.filename == filename) { return m;}
 			error("Map %s nicht gefunden", filename);
 		}
@@ -95,13 +88,5 @@ namespace Hmwd {
 					m.print_all();
 	   		}
 		}
-
-		/**
-		 * Altert alle Maps um einen Tag.
-		 */
-		// public void age () {
-		// 	foreach (Hmwd.Map m in map)
-		// 		m.age();
-		// }
 	}
 }

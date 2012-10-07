@@ -18,7 +18,7 @@ using Gdk;
 using Hmwd;
 namespace Hmwd {
 	/**
-	 * Allgemeine Klasse fuer Sprites
+	 * Allgemeine Klasse fuer Spriteanimationen
 	 */
 	public class Animation : Object {
 		public string name { get; construct set; }

@@ -48,10 +48,10 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Werte des Tilesets und der Reference auf der Konsole aus
 		 */
-		public void printValues() {
+		public void print_values() {
 			print("==TilesetReference==\n");
 			print("firstgid: %u\n", firstgid);
-			source.printValues();
+			source.print_values();
 		}
 	}
 }

@@ -72,7 +72,7 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Werte eines Tiles auf der Konsole aus.
 		 */
-		public abstract void printValues ();
+		public abstract void print_values ();
 		/**
 		 * Berechnet anhand der Nachbartiles das aussehen dieses Tiles,
 		 * dies findet beispielsweise bei Wegen, Strassen, Sand oder Grass verwendung.

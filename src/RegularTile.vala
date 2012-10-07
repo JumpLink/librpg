@@ -26,8 +26,6 @@ namespace Hmwd {
 			 * @see Hmwd.TileType.EMPTY_TILE
 			 */
 			public RegularTile () {
-				// tex = TEXTUREFACTORY.empty();
-				// type = Hmwd.TileType.NO_TILE;
 				Object(tex:new GdkTexture(), tile_type:Hmwd.TileType.NO_TILE);
 			}
 
@@ -36,8 +34,6 @@ namespace Hmwd {
 			 * @param pixbuf Pixelbufer der in das Tile uebernommen werden soll.
 			 */
 			public RegularTile.fromPixbuf (Pixbuf pixbuf) {
-				// tex = TEXTUREFACTORY.fromPixbuf(pixbuf);
-				// type = Hmwd.TileType.EMPTY_TILE;
 				Object(tex:new GdkTexture.fromPixbuf(pixbuf), tile_type:Hmwd.TileType.EMPTY_TILE);
 			}
 			construct {
@@ -45,14 +41,14 @@ namespace Hmwd {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see Hmwd.Tile.printValues
+			 * @see Hmwd.Tile.print_values
 			 */
-			public override void printValues (){
+			public override void print_values (){
 				print("ich bin ein RegularTile: ");
 				//print("gid: %u",gid);
 				print("type: %u\n",tile_type);
 				if(tile_type != TileType.NO_TILE) {
-					tex.printValues();
+					tex.print_values();
 				}
 			}
 			/**

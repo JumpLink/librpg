@@ -20,8 +20,8 @@ class Main : Object {
 		data.loadSpritesetManager("./data/spriteset/");
 		data.loadTilesetManager("./data/tileset/");
 		data.loadMapManager("./data/map/");
-		var map = data.mapmanager.getFromFilename("testmap.tmx");
-		var layer = map.getLayerFromIndex(0);
+		var map = data.mapmanager.get_from_filename("testmap.tmx");
+		var layer = map.get_layer_from_index(0);
 		//get tile x y
 		var tile = layer.tiles[0,0];
 

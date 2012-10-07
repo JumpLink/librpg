@@ -231,7 +231,7 @@ c: dirs $(SRC_FILES)
 ## * make doc: Dokumentation generieren
 doc: $(SRC_FILES)
 	@echo "Generating Documentation..."
-	@$(VD) -o $(DOC_DIR) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(SRC_FILES) --package-name $(PKG_NAME) --package-version=$(VERSION) --enable-experimental
+	@$(VD) -o $(DOC_DIR) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(SRC_FILES) --package-name $(LIBRARY) --package-version=$(VERSION) --enable-experimental
 	@gnome-open ./doc/index.html
 
 ## * make doc-internal: Dokumentation generieren, inkl. nicht oeffentlicher Bereiche

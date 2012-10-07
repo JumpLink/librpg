@@ -125,19 +125,10 @@ namespace Hmwd {
 		 * Gibt das zur gid passende TilesetReference zurueck.
 		 * Dabei wird nach der firstgid gesucht die kleiner ist als die gid
 		 * aber groesser ist als alle anderen firstgids
-		 * @param tilesetrefs Liste von TilesetReference's in der gesucht werden soll.
 		 * @param gid Die zu der das passende Tileset gesucht werden soll.
 		 * @return Das gefundene TilesetReference.
 		 */
-		public static TilesetReference getTilesetRefFromGid(Gee.List<Hmwd.TilesetReference> tilesetrefs, uint gid) {	
-			Hmwd.TilesetReference found = tilesetrefs[0];
-			foreach (Hmwd.TilesetReference tsr in tilesetrefs) {
-				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
-					found = tsr;
-			}
-			return found;
-		}
-		public TilesetReference getTilesetRefFromGidFromOwn(int gid) {	
+		public TilesetReference get_tilesetref_from_gid(int gid) {	
 			Hmwd.TilesetReference found = tileset[0];
 			foreach (Hmwd.TilesetReference tsr in tileset) {
 				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
@@ -145,58 +136,74 @@ namespace Hmwd {
 			}
 			return found;
 		}
-		public int getTilesetIndexFromGid(int gid) {	
-			return tileset.index_of(getTilesetRefFromGidFromOwn(gid));
+		/**
+		 * Gibt eines der übergebenen TilesetReference's zur gid passenden TilesetReference zurueck.
+		 * Dabei wird nach der firstgid gesucht die kleiner ist als die gid
+		 * aber groesser ist als alle anderen firstgids
+		 * @param tilesetrefs Liste von TilesetReference's in der gesucht werden soll.
+		 * @param gid Die zu der das passende Tileset gesucht werden soll.
+		 * @return Das gefundene TilesetReference.
+		 */
+		public static TilesetReference get_extern_tilesetref_from_gid(Gee.List<Hmwd.TilesetReference> tilesetrefs, uint gid) {	
+			Hmwd.TilesetReference found = tilesetrefs[0];
+			foreach (Hmwd.TilesetReference tsr in tilesetrefs) {
+				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
+					found = tsr;
+			}
+			return found;
 		}
-		public string getTilesetSourceFromIndex(int index) {	
+		public int get_tileset_index_from_gid(int gid) {	
+			return tileset.index_of(get_tilesetref_from_gid(gid));
+		}
+		public string get_tileset_source_from_index(int index) {	
 			return tileset[index].source.source;
 		}
-		public TilesetReference getTilesetRefFromIndex(int index) {	
+		public TilesetReference get_tilesetref_from_index(int index) {	
 			return tileset[index];
 		}
-		public Tileset getTilesetRefFromPosition(int x, int y, int layer_index) {
-			return getTilesetFromIndex(getTilesetIndexFromPosition(x,y,layer_index));
+		public Tileset get_tilesetref_from_position(int x, int y, int layer_index) {
+			return get_tileset_from_index(get_tileset_index_from_position(x,y,layer_index));
 		}
-		public Tileset getTilesetFromIndex(int index) {	
+		public Tileset get_tileset_from_index(int index) {	
 			return tileset[index].source;
 		}
-		public int getTilesetIndexFromPosition(int x, int y, int layer_index) {
-			return getTilesetIndexFromGid(getTileGIDFromPosition(x,y,layer_index));
+		public int get_tileset_index_from_position(int x, int y, int layer_index) {
+			return get_tileset_index_from_gid(get_tilegid_from_position(x,y,layer_index));
 		}
-		public int getTileIDFromGid(int gid) {	
-			TilesetReference tref = getTilesetRefFromGidFromOwn(gid);
+		public int get_tileid_from_gid(int gid) {	
+			TilesetReference tref = get_tilesetref_from_gid(gid);
 			return (int) gid - (int) (tref.firstgid-1);
 		}
-		public int getTileIDFromPosition(int x, int y, int layer_index) {
-			Hmwd.Layer layer = getLayerFromIndex(layer_index);
+		public int get_tileid_from_position(int x, int y, int layer_index) {
+			Hmwd.Layer layer = get_layer_from_index(layer_index);
 			Hmwd.Tile tile = layer.getTileXY(x,y);
-			Hmwd.TilesetReference tref = getTilesetRefFromGidFromOwn(tile.gid);
+			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			return (int) tile.gid - (int) (tref.firstgid-1);
 		}
 		/**
-		 * tile X-Coord of the tilesetimage
+		 * Tile-X-Coord of the tilesetimage
 		 */
-		public uint getTileImageXCoordFromPosition(int x, int y, int layer_index) {
-			Hmwd.Layer layer = getLayerFromIndex(layer_index);
+		public uint get_tileimagex_from_position(int x, int y, int layer_index) {
+			Hmwd.Layer layer = get_layer_from_index(layer_index);
 			Hmwd.Tile tile = layer.getTileXY(x,y);
-			Hmwd.TilesetReference tref = getTilesetRefFromGidFromOwn(tile.gid);
+			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
 			uint res = (id%tref.source.count_x)*tilewidth;
 			return res == 0 && id != 0 ? tref.source.count_x*tilewidth : res;
 		}
 		/**
-		 * tile X-Coord of the tilesetimage
+		 * Tile-Y-Coord of the tilesetimage
 		 */
-		public int getTileImageYCoordFromPosition(int x, int y, int layer_index) {
-			Hmwd.Layer layer = getLayerFromIndex(layer_index);
+		public int get_tileimagey_from_position(int x, int y, int layer_index) {
+			Hmwd.Layer layer = get_layer_from_index(layer_index);
 			Hmwd.Tile tile = layer.getTileXY(x,y);
-			Hmwd.TilesetReference tref = getTilesetRefFromGidFromOwn(tile.gid);
+			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = tile.gid - (tref.firstgid-1);
 			int res = (id/tref.source.count_x)*tileheight;
 			return id%tref.source.count_x == 0 && id != 0 ? res-1*tileheight : res;
 		}
-		public int getTileGIDFromPosition(int x, int y, int layer_index) {
-			return getLayerFromIndex(layer_index).getTileXY(x,y).gid;
+		public int get_tilegid_from_position(int x, int y, int layer_index) {
+			return get_layer_from_index(layer_index).getTileXY(x,y).gid;
 		}
 		/**
 		 * Gibt den Layer eines gesuchten Layers mit dem Namen name zurueck.
@@ -204,61 +211,40 @@ namespace Hmwd {
 		 * @param name Gesichter Layername
 		 * @return Layer aus der Layerliste
 		 */
-		public Layer getLayerFromName(string name){
-			foreach (Layer i in layers_under) {
-				if (name == i.name) {
-					return i;
-				}
-			}
-			foreach (Layer i in layers_same) {
-				if (name == i.name) {
-					return i;
-				}
-			}
-			foreach (Layer i in layers_over) {
-				if (name == i.name) {
-					return i;
-				}
-			}
+		public Layer get_layer_from_name(string name){
+			foreach (Layer i in layers_under) if (name == i.name) return i;
+			foreach (Layer i in layers_same) if (name == i.name) return i;
+			foreach (Layer i in layers_over) if (name == i.name) return i;
 			error("keinen Layer mit diesem Namen gefunden\n");
 		}
 
-		public Layer getLayerFromIndex(int index){
+		public Layer get_layer_from_index(int index){
 			int count = 0;
 			foreach (Layer i in layers_over) {
-				if (count == index) {
-					return i;
-				}
+				if (count == index) return i;
 				count++;
 			}
 			foreach (Layer i in layers_same) {
-				if (count == index) {
-					return i;
-				}
+				if (count == index) return i;
 				count++;
 			}
 			foreach (Layer i in layers_under) {
-				if (count == index) {
-					return i;
-				}
+				if (count == index) return i;
 				count++;
 			}
 			error("keinen Layer mit dem Index %i gefunden\n",index);
 		}
 
-		public Layer getLayerFromIndexInverse(int index){
+		public Layer get_layer_from_indexInverse(int index){
 			int count = 0;
 			for(int i=layers_under.size-1;i>=0;i++,count++) {
-				if (count == index)
-					return layers_under[i];
+				if (count == index) return layers_under[i];
 			}
 			for(int i=layers_same.size-1;i>=0;i++,count++) {
-				if (count == index)
-					return layers_same[i];
+				if (count == index) return layers_same[i];
 			}
 			for(int i=layers_over.size-1;i>=0;i++,count++) {
-				if (count == index)
-					return layers_over[i];
+				if (count == index) return layers_over[i];
 			}
 			error("keinen Layer mit dem Index %i gefunden\n",index);
 		}
@@ -268,19 +254,10 @@ namespace Hmwd {
 		 * @param name Gesichter Layername
 		 * @return Index aus der Layerliste
 		 */
-		public int getIndexOfLayerName(string name){
-			
-			foreach (Layer i in layers_same) {
-				if (name == i.name) {
-					return layers_same.index_of(i);
-				}
-			}
-			foreach (Layer i in layers_over) {
-				if (name == i.name) {
-					return layers_over.index_of(i);
-				}
-			}
-			return -1;
+		public int get_index_of_layername(string name){
+			foreach (Layer i in layers_same) if (name == i.name) return layers_same.index_of(i);
+			foreach (Layer i in layers_over) if (name == i.name) return layers_over.index_of(i);
+			error("Layer %s nicht gefunden!", name);
 		}
 
 		/**
@@ -289,9 +266,7 @@ namespace Hmwd {
 		 * @param y Y-Koordinate.
 		 */
 		public bool walkable (int x, int y) {
-			if (x >= width || y >= height)
-				return false;
-			//print ("Zielposition: %u, %u\n", y, x);
+			if (x >= width || y >= height) return false;
 			bool obstacle = false;
 			foreach (Layer l in layers_same) {
 				obstacle = obstacle || (l.collision && l.tiles[x, y].tile_type != TileType.NO_TILE);
@@ -301,7 +276,7 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Werte (bis auf die Layer) der Map auf der Konsole aus
 		 */
-		public void printValues()
+		public void print_values()
 		{
 			print("==MAP==\n");
 			print("filename: %s\n", filename);
@@ -315,42 +290,42 @@ namespace Hmwd {
 		/**
 		 * Gibt die Werte aller Layer der Map auf der Konsole aus
 		 */
-		public void printLayers()
+		public void print_layers()
 		{
 			print("====ALL LAYERS FROM MAP %s====\n", filename);
 			print("under ");
 			foreach (Hmwd.Layer l in layers_under) {
-				l.printValues();
-				l.printTiles();
+				l.print_values();
+				l.print_tiles();
 			}
 			print("same ");
 			foreach (Hmwd.Layer l in layers_same) {
-				l.printValues();
-				l.printTiles();
+				l.print_values();
+				l.print_tiles();
 			}
 			print("over ");
 			foreach (Hmwd.Layer l in layers_over) {
-				l.printValues();
-				l.printTiles();
+				l.print_values();
+				l.print_tiles();
 			}
 		}
 		/**
 		 * Gibt die Werte aller Tilesets der Map auf der Konsole aus
 		 */
-		public void printTilesets()
+		public void print_tilesets()
 		{
 			print("====ALL TILESETS FROM MAP %s====\n", filename);
 			foreach (Hmwd.TilesetReference tsr in tileset) {
-				tsr.printValues();
+				tsr.print_values();
 			}
 		}
 		/**
 		 * Gibt alle Werte und alle Layer der Map auf der Konsole aus
 		 */
 		public void print_all() {
-			printValues();
-			printLayers();
-			printTilesets();
+			print_values();
+			print_layers();
+			print_tilesets();
 		}
 	}
 }

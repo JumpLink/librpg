@@ -69,7 +69,7 @@ namespace Hmwd {
 				sprites = new Sprite[height,width];
 				//int count = 0;
 				Pixbuf pxb = tex.pixbuf;
-				//tex.printValues();
+				//tex.print_values();
 				//print("=====LOADSPRITES=====\n");
 				for(int y = 0; y < height; y++) {
 					for(int x = 0; x < width; x++) {
@@ -78,7 +78,7 @@ namespace Hmwd {
 						pxb.copy_area((int) spritewidth*x, (int) spriteheight*y, (int) spritewidth, (int) spriteheight, split, 0, 0);
 						sprites[y,x] = new Hmwd.Sprite(split);
 						//count++;
-						//tile[y,x].printValues();
+						//tile[y,x].print_values();
 					}
 				}
 				//print("Sprites zerteilt\n");
@@ -92,17 +92,17 @@ namespace Hmwd {
 			for (uint y=0;y<width;y++) {
 				for (uint x=0;x<height;x++) {
 					//print("%u ", tile[y,x].type);
-					sprites[y,x].printValues();
+					sprites[y,x].print_values();
 				}
 				print("\n");
 			}
 		}
 		public void print_all() {
 			print("SpriteLayerAll\n");
-			printValues();
+			print_values();
 			//printSprites();
 		}
-		public void printValues()
+		public void print_values()
 		requires (image_filename.length > 0)
 		{
 			print("SpriteLayerValues\n");

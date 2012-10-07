@@ -125,9 +125,6 @@ namespace Hmwd {
 			GLib.Object(pixbuf:pixbuf);
 			loadFromPixbuf(pixbuf);
 		}
-		construct {
-			loadFromFile(path);
-		}
 		/**
 		 * Ladet eine Textur aus einer Datei.
 		 * @param path Pfadangabe der zu ladenden Grafikdatei.
@@ -178,7 +175,7 @@ namespace Hmwd {
 		/**
 		 * Gibt die Werte der Textur auf der Konsole aus.
 		 */
-		public void printValues() {
+		public void print_values() {
 			print("=Tex=\n");
 			print(@"width: $width \n");
 			print(@"height: $height \n");

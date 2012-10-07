@@ -29,7 +29,6 @@ namespace Hmwd {
 				return tileset.size;
 			} 
 		}
-		//string folder;
 		/**
 		 * Konstruktor
 		 */
@@ -65,14 +64,9 @@ namespace Hmwd {
 		 * @param name name des gesuchten Tilesets
 		 * @return Bei Erfolg das gefundene Tileset, sonst ein neues Objekt Tileset
 		 */
-		public Tileset? getFromName(string name) {
-			foreach (Tileset ts in tileset)
-					if (ts.name == name) {
-						//print("Tileset gefunden!\n");
-						return ts;
-					}
-						
-			return null;
+		public Tileset getFromName(string name) {
+			foreach (Tileset ts in tileset) if (ts.name == name) return ts;
+			error("Kein TileSet %s gefunden",name);
 		}
 		/**
 		 * Gibt das Tileset mit dem Dateiname "filename" zurück
@@ -83,26 +77,18 @@ namespace Hmwd {
 		public Tileset getFromFilename(string filename)
 		requires (filename.length > 0)
 		{
-			foreach (Tileset ts in tileset)
-				if (ts.filename == filename) {
-					return ts;
-				}
+			foreach (Tileset ts in tileset) if (ts.filename == filename) return ts;
 			error("Kein TileSet %s gefunden",filename);
 		}
 		/**
-		 * Gibt das Tileset mit dem Namen "name" zurück
+		 * Gibt das Tileset mit dem Dateiname "source" zurück
 		 *
 		 * @param source Ort des gesuchten Tilesets
 		 * @return Bei Erfolg das gefundene Tileset, sonst ein neues Objekt Tileset
 		 */
-		public Tileset? getFromSource(string source) {
-			foreach (Tileset ts in tileset)
-					if (ts.source == source) {
-						//print("Tileset gefunden!\n");
-						return ts;
-					}
-						
-			return null;
+		public Tileset getFromSource(string source) {
+			foreach (Tileset ts in tileset) if (ts.source == source) { return ts; }
+			error("Tileset %s nicht gefunden!", source);
 		}
 
 		public string getSourcesFromIndex(int index) {
@@ -112,17 +98,12 @@ namespace Hmwd {
 			return tileset[index];
 		}
 
-		/*public Tileset loadFromPath(string filename) {
-
-			return loadFromPath(path+filename);
-		}*/
-
 		/**
 		 * Gibt die Werte aller Tilesets in der Liste aus.
 		 */
 		public void print_all() {
 			foreach (Tileset ts in tileset) {
-					ts.printValues ();
+					ts.print_values ();
 	    	}
 		}
 	}

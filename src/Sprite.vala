@@ -41,13 +41,13 @@ namespace Hmwd {
 		/**
 		 * 
 		 */
-		public void printValues ()
+		public void print_values ()
 		{
 			print("ich bin ein Sprite: ");
-			tex.printValues();
+			tex.print_values();
 		}
 		public void printAll (){
-			printValues();
+			print_values();
 		}
 		/**
 		 * 

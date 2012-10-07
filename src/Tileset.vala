@@ -81,7 +81,7 @@ namespace Hmwd {
 		 *
 		 * @param index Index des gesuchten Tiles
 		 */
-		public Hmwd.Tile getTileFromIndex(int index)
+		public Hmwd.Tile get_tile_from_index(int index)
 		requires (index >= 0)
 		{
 			int count = 0;
@@ -114,7 +114,7 @@ namespace Hmwd {
 					pxb.copy_area((int) split_width*x, (int) split_height*y, (int) split_width, (int) split_height, split, 0, 0);
 					tile[x,y] = new RegularTile.fromPixbuf(split);
 					//count++;
-					//tile[y,x].printValues();
+					//tile[y,x].print_values();
 				}
 			}
 			//print("Tiles zerteilt\n");
@@ -139,7 +139,7 @@ namespace Hmwd {
 			for (int y=0;y<count_y;y++) {
 				for (int x=0;x<count_x;x++) {
 					//print("%u ", tile[y,x].type);
-					tile[x,y].printValues();
+					tile[x,y].print_values();
 				}
 				print("\n");
 			}
@@ -148,7 +148,7 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Werte des Tilesets auf der Konsole aus
 		 */
-		public void printValues() {
+		public void print_values() {
 			print("name: %s\n", name);
 			print("filename: %s\n", filename);
 			print("tilewidth: %u\n", tilewidth);
@@ -162,7 +162,7 @@ namespace Hmwd {
 		 * Gibt alle Werte und die Tiles des Tilesets auf der Konsole aus
 		 */
 		public void printAll() {
-			printValues();
+			print_values();
 			printTiles();
 		}
 	}

@@ -350,16 +350,6 @@ namespace Hmwd {
 				assert_not_reached();
 			}
 		}
-		// public static Hmwd.Colorspace fromCogl (Cogl.PixelFormat format) {
-		// 	switch (format) {
-		// 		case Cogl.PixelFormat.RGB_888:
-		// 			return Hmwd.Colorspace.RGB;
-		// 		case Cogl.PixelFormat.RGBA_8888:
-		// 			return Hmwd.Colorspace.RGBA;
-		// 		default:
-		// 			assert_not_reached();
-		// 	}
-		// }
 		public int to_channel () {
 			switch (this) {
 				case Hmwd.Colorspace.RGB:

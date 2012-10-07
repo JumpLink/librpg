@@ -34,9 +34,9 @@ namespace Hmwd {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see Hmwd.Tile.printValues
+			 * @see Hmwd.Tile.print_values
 			 */
-			public override void printValues (){
+			public override void print_values (){
 				print("ich bin ein reftile: ");
 				print("type: %u\n",tile_type);
 			}

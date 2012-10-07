@@ -1,3 +1,18 @@
+/* Copyright (C) 2012  Pascal Garber
+ * Copyright (C) 2012  Ole Lorenzen
+ * Copyright (C) 2012  Patrick König
+ *
+ * This software is free software; you can redistribute it and/or
+ * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
+ * License as published by the Creative Commons organisation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * More informations on: http://creativecommons.org/licenses/by-sa/3.0/ 
+ *
+ * Author:
+ *	Pascal Garber <pascal.garber@gmail.com>
+ *	Ole Lorenzen <ole.lorenzen@gmx.net>
+ *	Patrick König <knuffi@gmail.com>
+ */
 using Sxml;
 using Gee;
 /**
@@ -313,8 +328,8 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		Hmwd.TilesetReference tmp_tilesetref;
 		// TODO bestimmung des tiles vereinfachen
 		if(gid > 0) {
-			tmp_tilesetref = Hmwd.Map.getTilesetRefFromGid(map.tileset, gid);
-			tmp_tile = tmp_tilesetref.source.getTileFromIndex(gid - tmp_tilesetref.firstgid);	
+			tmp_tilesetref = Hmwd.Map.get_extern_tilesetref_from_gid(map.tileset, gid);
+			tmp_tile = tmp_tilesetref.source.get_tile_from_index(gid - tmp_tilesetref.firstgid);	
 			tmp_tile.gid = gid;
 			tmp_tile.tile_type = TileType.EMPTY_TILE; //TODO anhand der ID den echten TileTyp bestimmen.
 		} else {

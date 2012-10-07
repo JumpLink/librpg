@@ -72,7 +72,7 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Werte des Layers (bis auf die Tiles) auf der Konsole aus
 		 */
-		public void printValues() {
+		public void print_values() {
 			print("==Layer==\n");
 			print("name: %s\n", name);
 			print("zoff: %f\n", zoff);
@@ -83,7 +83,7 @@ namespace Hmwd {
 		/**
 		 * Gibt die Tiles des Layers auf der Konsole aus
 		 */
-		public void printTiles() {
+		public void print_tiles() {
 			print("==Tiles==\n");
 			for (int y=0;y<height;y++) {
 				for (int x=0;x<width;x++) {
@@ -95,9 +95,9 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Werte des Layers und dessen Tiles auf der Konsole aus
 		 */
-		public void printAll() {
-			printValues();
-			printTiles();
+		public void print_all() {
+			print_values();
+			print_tiles();
 		}
 	}
 }
