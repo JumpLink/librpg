@@ -31,7 +31,7 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 	}
 
 	public Hmwd.Spriteset parse(string filename) {	
-		spriteset = new Hmwd.Spriteset.fromPath(path, filename);
+		spriteset = new Hmwd.Spriteset.from_path(path, filename);
 		reader = new XmlStreamReader (path+filename);
 		next ();
 		while(!is_start_element("spriteset")){next ();}
@@ -52,10 +52,10 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 				spriteset.height = int.parse(attributes.get (key));
 				break;
 			case "spritewidth":
-				spriteset.spritewidth = int.parse(attributes.get (key));
+				spriteset.sprite_width = int.parse(attributes.get (key));
 				break;
 			case "spriteheight":
-				spriteset.spriteheight = int.parse(attributes.get (key));
+				spriteset.sprite_height = int.parse(attributes.get (key));
 				break;
 			case "version":
 				spriteset.version = attributes.get (key);
@@ -89,10 +89,10 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 				spritelayer.height = int.parse(attributes.get (key));
 				break;
 			case "spritewidth":
-				spritelayer.spritewidth = int.parse(attributes.get (key));
+				spritelayer.sprite_width = int.parse(attributes.get (key));
 				break;
 			case "spriteheight":
-				spritelayer.spriteheight = int.parse(attributes.get (key));
+				spritelayer.sprite_height = int.parse(attributes.get (key));
 				break;
 			case "name":
 				spritelayer.name =  attributes.get (key);
@@ -111,7 +111,7 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 		
 		spritelayer.folder = spriteset.folder; //TODO workaround
 		spritelayer.split();
-		spriteset.spritelayers.add(spritelayer);
+		spriteset.sprite_layers.add(spritelayer);
 		end_element("layer");
 	}
 	protected Hmwd.Animation parse_animation() {
@@ -148,7 +148,7 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 				spritelayer.image_filename = attributes.get (key);
 				break;
 			case "trans":
-				spritelayer.trans = attributes.get (key);
+				spritelayer.transparency = attributes.get (key);
 				break;
 			case "width":
 				//spritelayer.width = int.parse(attributes.get (key));

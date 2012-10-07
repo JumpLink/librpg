@@ -27,7 +27,7 @@ namespace Hmwd {
 		/**
 		 * Position des Entities
 		 */
-		public Coord pos {get; protected set;}
+		public Coord pos {get; protected set; default=new Coord();}
 		/**
 		 * Ausrichtung der Entitaet.
 		 */
@@ -35,17 +35,7 @@ namespace Hmwd {
 
 		public bool motion { get; protected set; default = false;}
 
-		public double collisionRadius { get; protected set; default = 5.0;}
-
-		/**
-		 * Konstruktor
-		 */
-		public Entity() {
-			Object(pos: new Coord());
-		}
-		construct {
-			
-		}
+		public double collision_radius { get; protected set; default = 5.0;}
 		/**
 		 * Spriteset der Entity, beinhaltet Animationen und deren Grafiken.
 		 */
@@ -55,12 +45,12 @@ namespace Hmwd {
 			return (int) (a.pos.y - b.pos.y);
 		}
 
-		public void setMotion (Direction d, bool motion) {
+		public void set_motion_and_direction(Direction d, bool motion) {
 			//Pruefen ob dies eine veraenderung bewirkt, wenn ja..
 			if(direction != d || this.motion != motion) {
 				this.motion = motion;
 				direction = d;
-				spriteset.set_Animation(motion ? "go" : "stay", d);
+				spriteset.set_animation(motion ? "go" : "stay", d);
 			}
 		}
 		/**

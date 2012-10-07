@@ -33,11 +33,11 @@ namespace Hmwd {
 		/**
 		 * Breite eines Sprites
 		 */
-		public uint spritewidth { get; set; }
+		public uint sprite_width { get; set; }
 		/**
 		 * Hoehe eines Sprites
 		 */
-		public uint spriteheight { get; set; }
+		public uint sprite_height { get; set; }
 		/**
 		 * Gesamtbreite des Spritesets in Sprites
 		 */
@@ -49,14 +49,14 @@ namespace Hmwd {
 		/**
 		 * Gesamtbreite des Spritesets in Pixel
 		 */
-		public uint pixelwidth {
-			get {return (uint) (width * spritewidth);}
+		public uint pixel_width {
+			get {return (uint) (width * sprite_width);}
 		}
 		/**
 		 * Gesamthoehe des Spritesets in Pixel
 		 */
-		public uint pixelheight {
-			get {return (uint) (height * spriteheight);}
+		public uint pixel_height {
+			get {return (uint) (height * sprite_height);}
 		}
 		/**
 		 * Die Version des Spritesets-XML-Formates
@@ -66,14 +66,14 @@ namespace Hmwd {
 		 * Ein Sprite kann aus mehreren Layern bestehen, sie werden mit einer Map gespeichert.
 		 * Es gibt aktive und inaktive Layer, die inaktiven Layer werden beim zeichnen uebersprungen.
 		 */
-		public Gee.List<SpriteLayer> spritelayers { get; set; }
-		public SpriteLayer get_spritelayers_from_index(int index) {
-			return spritelayers[index];
+		public Gee.List<SpriteLayer> sprite_layers { get; set; }
+		public SpriteLayer get_sprite_layers_from_index(int index) {
+			return sprite_layers[index];
 		}
-		public int spritelayers_size { get {return spritelayers.size;} }
-		public int spritelayers_length { get {return spritelayers.size;} }
+		public int sprite_layers_size { get {return sprite_layers.size;} }
+		public int sprite_layers_length { get {return sprite_layers.size;} }
 		/**
-		 * Ein Sprite kann mehrere Animationen beinhalten, sie sind als Koordinaten des Sprites der SpriteLayers gespeichert.
+		 * Ein Sprite kann mehrere Animationen beinhalten, sie sind als Koordinaten des Sprites der sprite_layers gespeichert.
 		 * Die Animationen sind unabhaenig von den derzeit aktiven Layern. 
 		 */
 		public Gee.List<Animation> animations { get; set; }
@@ -82,32 +82,24 @@ namespace Hmwd {
 		 */
 		public Animation current_animation { get; set; }
 		/**
-		 * Konstruktor
-		 */
-		public Spriteset() {
-
-		}
-		/**
 		 * Konstrukter, ladet Spriteset mit Daten einer SpritesetDatei
 		 *
 		 * @param folder Das Verzeichnis aus dem gelesen werden soll
 		 * @param filename Der Dateiname der gelesen werden soll
 		 */
-		public Spriteset.fromPath (string folder, string filename) {
+		public Spriteset.from_path (string folder, string filename) {
 			Object(folder:folder, filename:filename);
-
 		}
 		construct {
-			spritelayers = new Gee.ArrayList<SpriteLayer>();
+			sprite_layers = new Gee.ArrayList<SpriteLayer>();
 			animations = new Gee.ArrayList<Animation>();
-			// print("Lade Spritesetdateien von %s + %s\n", folder, filename);
 		}
 
 		/**
 		 * Setzt eine Animation anhand ihres Namens und ihrer Richtung,
 		 * dadurch wird dann durch draw das entsprechende Sprite verwendet.
 		 */
-		public void set_Animation(string name, Direction direction)
+		public void set_animation(string name, Direction direction)
 		{
 			/*Wenn es sich um eine neue Bewegung handelt*/
 			if (name != current_animation.name || current_animation.direction != direction) {
@@ -123,28 +115,27 @@ namespace Hmwd {
 				//kein wechsel
 			}
 		}
-		public void set_Animation_from_string(string name, string direction) {
-			set_Animation(name, Hmwd.Direction.parse(direction));
+		public void set_animation_from_string(string name, string direction) {
+			set_animation(name, Hmwd.Direction.parse(direction));
 		}
 
-		public SpriteLayer? get_baseLayer()
+		public SpriteLayer get_base_layer()
 		{
-			foreach (SpriteLayer sl in spritelayers) {
+			foreach (SpriteLayer sl in sprite_layers) {
 				if (sl.sprite_layer_type == Hmwd.SpriteLayerType.BASE)
 					return sl;
-				else return null;
 			}
-			return null;
+			error("no base layer found!");
 		}
 		/**
 		 * Gibt alle Werte SpriteLayer auf der Konsole aus.
 		 */
-		public void printSpriteLayers()
+		public void print_sprite_layers()
 		{
-			if (spritelayers.size > 0) {
+			if (sprite_layers.size > 0) {
 				print("==SpriteLayer==\n");
 				int count=0;
-				foreach (SpriteLayer sl in spritelayers) {
+				foreach (SpriteLayer sl in sprite_layers) {
 					print("Nr. %i: ",count);
 					sl.print_all();
 					count++;
@@ -156,7 +147,7 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Animationen auf der Konsole aus.
 		 */
-		public void printAnimation()
+		public void print_animation()
 		{
 			print("==Animations==\n");
 			int count=0;
@@ -169,13 +160,13 @@ namespace Hmwd {
 		/**
 		 * Gibt alle Werte des Spritesets auf der Konsole aus.
 		 */
-		public void printValues()
+		public void print_values()
 		{
 			print("SpritesetValues\n");
 			print("name: %s\n", name);
 			print("filename: %s\n", filename);
-			print("spritewidth: %u\n", spritewidth);
-			print("spritewidth: %u\n", spritewidth);
+			print("sprite_width: %u\n", sprite_width);
+			print("sprite_width: %u\n", sprite_width);
 			print("width: %u\n", width);
 			print("height: %u\n", height);
 		}
@@ -183,9 +174,9 @@ namespace Hmwd {
 		 * Gibt alles vom Spriteset auf der Konsole aus.
 		 */
 		public void print_all() {
-			printValues();
-			printSpriteLayers();
-			printAnimation();
+			print_values();
+			print_sprite_layers();
+			print_animation();
 		}
 
 	}

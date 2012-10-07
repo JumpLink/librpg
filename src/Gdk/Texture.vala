@@ -56,26 +56,15 @@ namespace Hmwd {
 		 * kompatibel ist.
 		 */
 		public uint8[] pixels {
-			get {
-				return pixbuf.get_pixels();
-			}
+			get { return pixbuf.get_pixels(); }
 		}
 		public uint8[] png_buffer { get; private set; }	//WORKAROUND for nodejs
 
 		public uint8[] copy_pixels() {
-			//uint size = pixbuf.rowstride*pixbuf.height;
 			uint8[] p = new uint8[size];
-			//uint8[] p = pixbuf.get_pixels()[0:size];
-			//print("pixel size: %u\n",size);
-			// uint8[] tmp =  pixbuf.get_pixels();
-			// uint8[] p = new uint8[size];
-
 			for (int i = 0;i<size;i++) {
 				p[i] = pixbuf.get_pixels()[i];
-				//print("%u ", p[i]);
 			}
-			//p = pixbuf.get_pixels();
-			
 			return p;
 		}
 
@@ -91,7 +80,6 @@ namespace Hmwd {
 			try {
 				uint8[] pixel_buffer;
 				pixbuf.save_to_buffer(out pixel_buffer, type );
-				//print("buffer_size: %u\n",pixel_buffer.length);
 				return pixel_buffer;
 			}
 			catch (GLib.Error e) {
@@ -99,19 +87,7 @@ namespace Hmwd {
 			}
 		}
 
-		public string save_to_buffer_string(string type) {
-	 		try {
-				uint8[] pixel_buffer;
-				pixbuf.save_to_buffer(out pixel_buffer, type);
-				//print("buffer_size: %u\n",pixel_buffer.length);
-				return (string) pixel_buffer;
-			}
-			catch (GLib.Error e) {
-				GLib.error("%s pixel konnten nicht kopiert werden", path);
-			}
-		}
-
-		public uint8 get_pngbuffer_from_index(int index) {
+		public uint8 get_png_buffer_from_index(int index) {
 			return png_buffer[index];
 		}
 		/**

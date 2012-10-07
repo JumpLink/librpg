@@ -48,11 +48,6 @@ namespace Hmwd {
 		 * @param folder Ordnername aus dem gelesen werden soll.
 		 */
 		public void load_all_from_folder(string folder) {
-			if(folder.length < 1) {
-				printerr("folder is undefined, using default: ./data/spriteset/\n");
-				folder = "./data/spriteset/";
-			}
-
 			Gee.List<string> files = Hmwd.File.load_all_from_folder(folder, ".ssx");
 			SpritesetReader spritesetreader = new SpritesetReader(folder);
 			foreach (string filename in files) {

@@ -31,30 +31,25 @@ namespace Hmwd {
 		public int number { get; construct set; }
 		//->image
 		public string image_filename { get; construct set; }
-		public uint image_width { get{ return width*spritewidth; } }
-		public uint image_height { get{ return height*spriteheight; } }
+		public uint image_width { get{ return width*sprite_width; } }
+		public uint image_height { get{ return height*sprite_height; } }
 		public string folder {get; construct set;}
 		/**
 		 * Transparente Farbe im SpriteLayers
 		 */
-		public string trans;
+		public string transparency;
 		//<-image
 		public uint width { get; construct set; }
 		public uint height { get; construct set; }
-		public uint spritewidth { get; construct set; }
-		public uint spriteheight { get; construct set; }
+		public uint sprite_width { get; construct set; }
+		public uint sprite_height { get; construct set; }
 		/**
 		 * Array fuer die einzelnen Sprites
 		 */	
-		public Sprite[,] sprites;
-
-		public SpriteLayer() {
-
-		}	
-
+		public Sprite[,] sprites;	
 	
-		public SpriteLayer.all(string folder, int number, string name, string image_filename, SpriteLayerType type, string trans, uint width, uint height, uint spritewidth, uint spriteheight) {			
-			Object(folder:folder, name:name, image_filename:image_filename, sprite_layer_type:type, width:width, height:height, spritewidth:spritewidth, spriteheight:spriteheight, active:true);
+		public SpriteLayer.all(string folder, int number, string name, string image_filename, SpriteLayerType type, string trans, uint width, uint height, uint sprite_width, uint sprite_height) {			
+			Object(folder:folder, name:name, image_filename:image_filename, sprite_layer_type:type, width:width, height:height, sprite_width:sprite_width, sprite_height:sprite_height, active:true);
 		}
 		/**
 		 * Ladet die Pixel fuer die Sprites.
@@ -67,8 +62,8 @@ namespace Hmwd {
 				Pixbuf pxb = tex.pixbuf;
 				for(int y = 0; y < height; y++) {
 					for(int x = 0; x < width; x++) {
-						Pixbuf split = new Pixbuf(Gdk.Colorspace.RGB, pxb.get_has_alpha(), pxb.get_bits_per_sample(), (int) spritewidth, (int) spriteheight);
-						pxb.copy_area((int) spritewidth*x, (int) spriteheight*y, (int) spritewidth, (int) spriteheight, split, 0, 0);
+						Pixbuf split = new Pixbuf(Gdk.Colorspace.RGB, pxb.get_has_alpha(), pxb.get_bits_per_sample(), (int) sprite_width, (int) sprite_height);
+						pxb.copy_area((int) sprite_width*x, (int) sprite_height*y, (int) sprite_width, (int) sprite_height, split, 0, 0);
 						sprites[y,x] = new Hmwd.Sprite(split);
 					}
 				}
@@ -101,8 +96,8 @@ namespace Hmwd {
 			print("folder: %s\n", folder);
 			print("width: %u\n",width);
 			print("height: %u\n",height);
-			print("spritewidth: %u\n",spritewidth);
-			print("spriteheight: %u\n",spriteheight);
+			print("sprite_width: %u\n",sprite_width);
+			print("sprite_height: %u\n",sprite_height);
 		}
 	}
 }

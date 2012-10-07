@@ -49,18 +49,14 @@ namespace Hmwd {
 		public Tile() {
 			Object(tile_type: TileType.NO_TILE);
 		}
-		construct {
-
-    	}
 		/**
 		 * Speichert das Tile mit dem Dateiname filename als Datei
 		 * @param filename Zu verwendender Dateiname
 		 */
 		public virtual void save (string filename) {
-			//if(tile_type != TileType.NO_TILE && tile_type != TileType.EMPTY_TILE) {
-				//print("Tile save\n");
+			if(tile_type != TileType.NO_TILE && tile_type != TileType.EMPTY_TILE) {
 				tex.save(filename);
-			//}
+			}
 		}
 		/**
 		 * Zeichnet das Tile an einer Bildschirmposition.

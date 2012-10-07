@@ -52,14 +52,14 @@ namespace Hmwd {
 		 * Aendert ausgewaehlte Antwort.
 		 * @param next Naechste Antwort ? sonst vorherige
 		 */
-		public void chooseAnswer (bool next) {
+		public void choose_answer (bool next) {
 			choice = (choice + (next ? 1 : -1)) % children.length;
 		}
 		/**
 		 * Gibt aktuelle Frage und moegliche Antworten aus.
 		 * @return Frage und Antworten als string.
 		 */
-		public string getText () {
+		public string get_text () {
 			if (children.length == 0) {
 				//STATE.dialog = false;
 				return "Dialog beendet!";
@@ -74,7 +74,7 @@ namespace Hmwd {
 		 * Gibt ausgewaehlte Antwort aus.
 		 * @return Die Antwort.
 		 */
-		public DialogTree getAnswer () {
+		public DialogTree get_chosen_answer () {
 			return children[choice];
 		}
 	}

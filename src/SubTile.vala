@@ -29,14 +29,11 @@ namespace Hmwd {
 	 	public SubTile () {
 	 		Object(edge: EdgeShape.FULL);
 	 	}
-		construct {
-
-		}
 	 	/**
 		 * Aehnlich wie: 
-		 * {@link Hmwd.Tile.calcEdges}
+		 * {@link Hmwd.Tile.calc_edges}
 		 */
-	 	public void calcEdge (TileType [] neighbours, TileType type, uint location) {
+	 	public void calc_edges (TileType [] neighbours, TileType type, uint location) {
 	 		assert (neighbours.length == 3);
 	 		if (neighbours[0] == type && neighbours[1] == type && neighbours[2] == type)
 	 			edge = EdgeShape.FULL;
