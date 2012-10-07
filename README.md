@@ -15,6 +15,11 @@ Debian
         make
         make install
         
+Documentation
+-------------
+
+ * [Hmwd-0.2 Reference Manual](http://dl.dropbox.com/u/55722973/hmw/doc/Hmwd-0.2/index.htm)
+        
 Example
 -------
 
