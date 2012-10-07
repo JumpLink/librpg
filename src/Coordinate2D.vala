@@ -13,11 +13,11 @@
  */
 using Hmwd;
 namespace Hmwd {
-	public class Coord:Vector {
-		public Coord() {
+	public class Coordinate2D:Vector {
+		public Coordinate2D() {
 			base(2);
 		}
-		public Coord.nondefault (double x, double y) {
+		public Coordinate2D.nondefault (double x, double y) {
 			this();
 			this.x = x;
 			this.y = y;

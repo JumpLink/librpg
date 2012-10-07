@@ -17,9 +17,9 @@ namespace Hmwd {
 	 * Verwaltet die Frames einer Animation.
 	 */
 	public class Frame:GLib.Object {
-		public Coord coord { public get; private set; }
+		public Coordinate2D coord { public get; private set; }
 		construct {
-			coord = new Coord();
+			coord = new Coordinate2D();
 		}
 		public Mirror mirror;
 		public double x {

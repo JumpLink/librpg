@@ -27,7 +27,7 @@ namespace Hmwd {
 		/**
 		 * Position des Entities
 		 */
-		public Coord pos {get; protected set; default=new Coord();}
+		public Coordinate2D pos {get; protected set; default=new Coordinate2D();}
 		/**
 		 * Ausrichtung der Entitaet.
 		 */
@@ -92,8 +92,8 @@ namespace Hmwd {
 		// 				break;
 		// 		}
 		// 		WORLD.CURRENT_MAP.entities.sort ((CompareFunc) compare);
-		// 		//Coord min = new Coord();
-		// 		//Coord max = new Coord();
+		// 		//Coordinate2D min = new Coordinate2D();
+		// 		//Coordinate2D max = new Coordinate2D();
 		// 		//max.y = map.width;
 		// 		//max.x = map.height;
 		// 		//pos.crop (min, max);

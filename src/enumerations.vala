@@ -102,15 +102,15 @@ namespace Hmwd {
 		/**
 		 * nichts
 		 */
-		EMPTY_CROP,
+		EMPTY_CROP=0,
 		/**
 		 * Grass
 		 */
-		GRASS,
+		GRASS=1,
 		/**
 		 * Kartoffel
 		 */
-		POTATO
+		POTATO=2
 	}
 	/**
 	 * Typ fuer Tiles, beschreibt logische Eigenschaften.
@@ -119,47 +119,47 @@ namespace Hmwd {
 		/**
 		 * Typ fuer Tiles die, nicht gezeichnet werden, bzw. gar nicht existieren.
 		 */
-		NO_TILE,
+		NO_TILE=0,
 		/**
 		 * Typ fuer Tiles ohne besondere Eigenschaften.
 		 */
-		EMPTY_TILE,
+		EMPTY_TILE=1,
 		/**
 		 * Typ fuer Tiles, die bepflanzt werden koennen.
 		 */
-		PLANTABLE,
+		PLANTABLE=2,
 		/**
 		 * Typ fuer Tiles, die bepflanzt sind.
 		 */
-		PLANT,
+		PLANT=3,
 		/**
 		 * Typ fuer Tiles, die mit grass bewachsen sind.
 		 */
-		GRASS,
+		GRASS=4,
 		/**
 		 * Typ fuer Tiles, die von NPCs begehbar sind.
 		 */
-		PATH,
+		PATH=5,
 		/**
 		 * Typ fuer Tiles, die von einem Gebaeude besetzt sind.
 		 */
-		BUILDING,
+		BUILDING=6,
 		/**
 		 * Typ fuer Tiles, die von einem Felsstein besetzt sind.
 		 */
-		ROCK,
+		ROCK=7,
 		/**
 		 * Typ fuer Tiles, die von einem Baumstumpf besetzt sind.
 		 */
-		WOOD,
+		WOOD=8,
 		/**
 		 * Typ fuer Tiles, die von einem Gewaesser besetzt sind.
 		 */
-		WATER
+		WATER=9
 	}
-		/**
-		 * SpriteLayerTypes fuer SpriteLayer, beschreibt die Art des Layers.
-		 */
+	/**
+	 * SpriteLayerTypes fuer SpriteLayer, beschreibt die Art des Layers.
+	 */
 	public enum SpriteLayerType {
 		/**
 		 * Basistyp, die Grundlage eines Sprites
@@ -180,7 +180,9 @@ namespace Hmwd {
 			}
 		}
 	}
-
+	/**
+	 * Wird angewendet wenn eine Textur/Grafik gespiegelt dargestellt werden soll.
+	 */
 	public enum Mirror {
 		NONE,
 		VERTICAL,
@@ -215,6 +217,9 @@ namespace Hmwd {
 			}
 		}
 	}
+	/**
+	 * Colorspace einer Textur / eines Pixelbuffers / einer Grafik
+	 */
 	public enum Colorspace {
 		RGB,
 		RGBA;
@@ -270,6 +275,9 @@ namespace Hmwd {
 			}
 		}
 	}
+	/**
+	 * Zur angabe in welcher Hoehe ein Layer gezeichnet werden soll (ueber oder unter dem Player)
+	 */
 	public enum DrawLevel {
 		/**
 		 * Objekt wird unter einem anderen gezeichnet.
@@ -278,7 +286,7 @@ namespace Hmwd {
 		/**
 		 * Keine genaue Angabe darueber ob das Objekt unter oder ueber einem anderen gezeichnet werden soll.
 		 */
-		SAME = 0,
+		NONE = 0,
 		/**
 		 * Objekt wird ueber einem anderen gezeichnet.
 		 */
@@ -288,10 +296,10 @@ namespace Hmwd {
 		 */
 		public static DrawLevel parse (string str) {
 			switch (str) {
-				case "same":
-				case "Same":
-				case "SAME":
-					return Hmwd.DrawLevel.SAME;
+				case "none":
+				case "None":
+				case "NONE":
+					return Hmwd.DrawLevel.NONE;
 				case "over":
 				case "Over":
 				case "OVER":
@@ -305,6 +313,9 @@ namespace Hmwd {
 			}
 		}
 	}
+	/**
+	 * View Engine die verwendet wird / werden soll.
+	 */
 	public enum ViewEngine {
 		SDL,
 		OPENGL,

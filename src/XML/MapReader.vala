@@ -180,7 +180,7 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 			case DrawLevel.UNDER:
 				map.layers_under.add( new_layer );
 				break;
-			case DrawLevel.SAME:
+			case DrawLevel.NONE:
 				map.layers_same.add( new_layer );
 				break;
 			case DrawLevel.OVER:

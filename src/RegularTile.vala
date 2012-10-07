@@ -53,7 +53,7 @@ namespace Hmwd {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see Hmwd.Tile.calcEdges
+			 * @see Hmwd.Tile.calc_edges
 			 */
 			public override void calc_edges (TileType[] neighbours) {
 				//nichts
