@@ -10,8 +10,6 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 
 using Hmwd;
@@ -41,9 +39,6 @@ namespace Hmwd {
 		 */
 		public TilesetReference(int firstgid, Hmwd.Tileset source) {
 			GLib.Object(firstgid:firstgid, source:source);
-		}
-		construct {
-			
 		}
 		/**
 		 * Gibt alle Werte des Tilesets und der Reference auf der Konsole aus

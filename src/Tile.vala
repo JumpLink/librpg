@@ -54,8 +54,10 @@ namespace Hmwd {
 		 * @param filename Zu verwendender Dateiname
 		 */
 		public virtual void save (string filename) {
-			if(tile_type != TileType.NO_TILE && tile_type != TileType.EMPTY_TILE) {
+			if(tile_type != TileType.NO_TILE ) { // TODO && tile_type != TileType.EMPTY_TILE
 				tex.save(filename);
+			} else {
+				print("Tile ist empty");
 			}
 		}
 		/**

@@ -23,10 +23,13 @@ class Main : Object {
 		var map = data.mapmanager.get_from_filename("testmap.tmx");
 		var layer = map.get_layer_from_index(0);
 		var tile = layer.tiles[0,0]; //get tile x y
+		//layer.merge(16,16);
+		//layer.tex.save("test.png");
+		map.merge();
 
 		print("layers_same(index:0) -> name:%s, width:%u, height:%u, zoff:%f\n", layer.name, layer.width, layer.height, layer.zoff);
 		print("tile(x:0,y:0) -> gid:%i, width:%f, height:%f\n", tile.gid, tile.width, tile.height);
-		print("textur: colorspace:%s\n", tile.tex.colorspace.to_string());
+		//print("textur: colorspace:%s\n", tile.tex.colorspace.to_string());
 		
 		return 0;
 	}

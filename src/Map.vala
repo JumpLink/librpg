@@ -14,6 +14,7 @@
  *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
+using Gdk;
 namespace Hmwd {
 	/**
 	 * Klasse fuer Maps.
@@ -155,12 +156,12 @@ namespace Hmwd {
 		/**
 		 * Tile-X-Coord of the tilesetimage
 		 */
-		public uint get_tile_image_x_from_position(int x, int y, int layer_index) {
+		public int get_tile_image_x_from_position(int x, int y, int layer_index) {
 			Hmwd.Layer layer = get_layer_from_index(layer_index);
 			Hmwd.Tile tile = layer.get_tile_from_coordinate(x,y);
 			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
-			uint res = (id%tref.source.count_x)*tile_width;
+			int res = (id%tref.source.count_x)*tile_width;
 			return res == 0 && id != 0 ? tref.source.count_x*tile_width : res;
 		}
 		/**
@@ -230,6 +231,36 @@ namespace Hmwd {
 			foreach (Layer i in layers_same) if (name == i.name) return layers_same.index_of(i);
 			foreach (Layer i in layers_over) if (name == i.name) return layers_over.index_of(i);
 			error("Layer %s nicht gefunden!", name);
+		}
+
+		public void merge () {
+			int i = 0;
+			//if(layers_over.length > 0) {
+				layers_over.get(0).merge(tile_width, tile_height);
+				Pixbuf over = layers_over.get(0).tex.pixbuf.copy();
+			//}
+			//if(layers_under.length > 0) {
+				layers_under.get(0).merge(tile_width, tile_height);
+				Pixbuf under = layers_under.get(0).tex.pixbuf.copy();
+			//}
+			foreach (Layer layer in layers_over) {
+				if(i!=0) {
+					print("ping");
+					layer.merge(tile_width, tile_height);
+					over = GdkTexture.blit(over, layer.tex.pixbuf);
+				}
+				++i;
+			}
+			i = 0;
+			foreach (Layer layer in layers_under) {
+				if(i!=0) {
+					layer.merge(tile_width, tile_height);
+					under = GdkTexture.blit(under, layer.tex.pixbuf);
+				}
+				++i;
+			}
+			under.save("under.png", "png");
+			over.save("over.png", "png");
 		}
 
 		/**

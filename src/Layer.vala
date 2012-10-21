@@ -30,11 +30,11 @@ namespace Hmwd {
 		/**
 		 * Breite des Layers
 		 */
-		public uint width { get; set; }
+		public int width { get; set; }
 		/**
 		 * Hoehe des Layers
 		 */
-		public uint height { get; set; }
+		public int height { get; set; }
 		/**
 		 * Tiles des Layers
 		 */
@@ -43,6 +43,10 @@ namespace Hmwd {
 		 * Zur ueberpruefung ob dieser Layer Kollision erzeugt.
 		 */
 		public bool collision { get; set; }
+		/**
+		 * Layertextur, die Pixel der zusammen gesetzten Tiles für eine Layer
+		 */
+		public GdkTexture tex { get; construct set; }
 
 		/**
 		 * Konstruktor
@@ -65,6 +69,20 @@ namespace Hmwd {
 		}
 		public Hmwd.Tile get_tile_from_coordinate(uint x, uint y) {
 			return tiles[x,y];
+		}
+		/**
+		 * Ladet die Pixel fuer den Layer.
+		 */
+		public void merge(int tile_width, int tile_height) {
+			tex = new GdkTexture.empty(width*tile_width, height*tile_height);
+
+			for(int x=0; x<width; ++x) {
+				for(int y=0; y<height; ++y) {
+					if(tiles[x,y].tile_type != TileType.NO_TILE)
+						tiles[x,y].tex.pixbuf.copy_area(0, 0, tile_width, tile_height, tex.pixbuf, x*tile_width, y*tile_height);
+				}
+			}
+
 		}
 		/**
 		 * Gibt alle Werte des Layers (bis auf die Tiles) auf der Konsole aus

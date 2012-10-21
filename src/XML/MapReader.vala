@@ -201,7 +201,7 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		while(!is_end_element("properties")) {
 			string prop_value;
 			string prop_name;
-			parse_property(out prop_value, out prop_name);
+			parse_property(out prop_name, out prop_value);
 			switch (prop_name) {
 			case "drawlayer":
 				_drawlayer = DrawLevel.parse(prop_value);
