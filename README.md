@@ -1,4 +1,4 @@
-LibRPG
+librpg
 =========
 
 This Libary is used by [HMWworld](https://github.com/JumpLink/HMWorld) and [HMWorld-Website](https://github.com/JumpLink/HMWorld-Website) to handle the Game Data, but can also be used generally for orthogonally tiled based maps.
