@@ -91,6 +91,8 @@ namespace rpg {
 				return layers_same.size+layers_under.size+layers_over.size;
 			}
 		}
+		public GdkTexture over = new GdkTexture();
+		public GdkTexture under = new GdkTexture();
 		/** 
 		 * Entities auf der Map
 		 */
@@ -231,19 +233,16 @@ namespace rpg {
 
 		public void merge () {
 			int i = 0;
-			//if(layers_over.length > 0) {
-				layers_over.get(0).merge(tile_width, tile_height);
-				Pixbuf over = layers_over.get(0).tex.pixbuf.copy();
-			//}
-			//if(layers_under.length > 0) {
-				layers_under.get(0).merge(tile_width, tile_height);
-				Pixbuf under = layers_under.get(0).tex.pixbuf.copy();
-			//}
+
+			layers_over.get(0).merge(tile_width, tile_height);
+			over.load_from_pixbuf(layers_over.get(0).tex.pixbuf.copy());
+			layers_under.get(0).merge(tile_width, tile_height);
+			under.load_from_pixbuf(layers_under.get(0).tex.pixbuf.copy());
+
 			foreach (Layer layer in layers_over) {
 				if(i!=0) {
-					print("ping");
 					layer.merge(tile_width, tile_height);
-					over = GdkTexture.blit(over, layer.tex.pixbuf);
+					over.pixbuf = GdkTexture.blit(over.pixbuf, layer.tex.pixbuf);
 				}
 				++i;
 			}
@@ -251,12 +250,10 @@ namespace rpg {
 			foreach (Layer layer in layers_under) {
 				if(i!=0) {
 					layer.merge(tile_width, tile_height);
-					under = GdkTexture.blit(under, layer.tex.pixbuf);
+					under.pixbuf = GdkTexture.blit(under.pixbuf, layer.tex.pixbuf);
 				}
 				++i;
 			}
-			under.save("under.png", "png");
-			over.save("over.png", "png");
 		}
 
 		/**

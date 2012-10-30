@@ -5,7 +5,7 @@
   <property name="description" value="This is a simple test map to test our game engine."/>
   <property name="name" value="Test Map"/>
  </properties>
- <tileset firstgid="1" source="../../../HMWorld-Website/site/public/data/tileset/Stadt - Sommer.tsx"/>
+ <tileset firstgid="1" source="../tileset/Stadt - Sommer.tsx"/>
  <layer name="under hero 1" width="100" height="100">
   <properties>
    <property name="drawlayer" value="under"/>
@@ -19,7 +19,7 @@
    <property name="drawlayer" value="under"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3RQQ2AMBREwV8LgBCoEFr/alhMUA4zyd43eVUAAADrbK1qz462+gmvMx2urOvxC3c6jGzqAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACfegBtysQ6QJwAAA==
+   H4sIAAAAAAAAA+3YwQnCUBBF0fktaAqJFqIpzViIsRC1JseFEMStzBfOgbcfuLuJAAAAqLNpEdvc0Kov4WXMDrvcXo8uHLLDMTfpAQAAAAA/c2oR82pn/7gS7w7Lx656lLh8aaFHHT36okdf9OjTbdXinnvoAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwJ96AozJp05AnAAA
   </data>
  </layer>
  <layer name="none as hero 1" width="100" height="100">
@@ -28,7 +28,7 @@
    <property name="drawlayer" value="none"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3cyy4DYQCG4ZkdggvBRbgSG24BV0DitKJLlZTEaUWXFJE4reiSIhKn2/AtRtpM2qQRf+ebzvskX1rd9J95zbZRBABA/mxq5WRbGZ/F1WwcRXPJ5uOw33WinSarhf2q3FpXg41kpcA9HrWnZI2wX5VbR2owqR1r1cA9/mJBZ1o0PFco97rWKe1BqyfXPa3XGZN7sK1z7JicBf3/fOTt+jo9H0vasrairWprvT3Wv/m9vkFtKNlA6u8sV0qdt9P/z662p+1rB9ph8DtXTOkenZ6PK+1au9FutbvgJyumbp+Pd+1D+9S+tO/gJyumbp+PflDTdZ3FzdfzHr9v91klda/TPfpZQ9f+HDdfX3r8vt1nFwXu4eiVHlbo4YUeXujhhR5e6OGFHl7o4YUeXujhhR5e6OGFHl7o4YUeXujhhR5e6OGFHl7o4YUeXujhhR5e6OGFHl7o4YUeXujhhR5e6OGFHl7o4YUeXujhhR5e6OGFHl7o4YUeXujhhR5e6OGFHtkrt/yezKU2rI1oo1o168MVUOvvybxpY9q4NqHVsz4cAAAAAAAAAAAAAAAAAAAAAAAAAAAAgCB+AC+o3JBAnAAA
+   H4sIAAAAAAAAA+3cSUrsUACF4aqZiroQdRGuxIluQV2Bgt1IHaqggt3IcmiLYDdSh7YIdtvwFEQMwYKiyE1Okv+DQ6mTuqn/hTcIWqsBAFA8K9pqtLWcz+JqvF6rTUSbrId9r0PtKNpx2LcqrEU1WIq2HLjHg/YY7SnsWxXWvhoMaw3tIHCPTkzpTNOG5wrlVtc6ot1p99F1j+p1zOQz2NA5Nk3OgvLfH0W7vlb3x4w2q81p89pCtsdKze/1dWs90boS3+e55cR5W/372dK2tR1tV9sL/slVU7JHq/vjQrvUrrRr7Sb4yaqp3fvjXfvQPrUv7Tv4yaqp3fujDI51XSf1v9fTjL/+72fric862aPMnnTtz/W/15eMv/7vZ2cV7uHolR5W6OGFHl7o4SWtHvHnOFk8yymrtHrEn+Nk8SynrNLq0XyO04jN8VlOEaTVo/kc5y62e3p0hP/PvdDDCz280MMLPbzQwws9vNDDCz280MMLPbzQwws9vNDDCz280MMLPbzQwws9vNDDCz280MMLPbzQwws9vNDDCz280MMLPbzQwws9vNDDCz280MMLPfK3Gvt7Mudar9an9Td/DzPvw1VQ/O/JvGkD2qA21Pw9zLwPBwAAAAAAAAAAAAAAAAAAAAAAAAAAACCIH7xnURBAnAAA
   </data>
  </layer>
  <layer name="none as hero 2" width="100" height="100">
@@ -37,7 +37,7 @@
    <property name="drawlayer" value="none"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3UsQkAIBADQJ1MXEMQ99/C4i0sLYRv7pq0gUBKAQB4M7ILwCetRvaa24Mwzw7r2sPfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQaQNo9S4BQJwAAA==
+   H4sIAAAAAAAAA+3ZsQmAUAwE0J/J1DUEdSkncULRWFhaiCl8r0l7cJDmWgMAeGasDgAv6SLvELU5SNPVw3Lrw78BAAAAAIB/OnacPnLHWavDcO44c+SOs1WHAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD42A79VO+UQJwAAA==
   </data>
  </layer>
  <layer name="over hero 1" width="100" height="100">
@@ -45,7 +45,7 @@
    <property name="drawlayer" value="over"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3Uuw3CMBQFUGcsBgAJen4TQM+vhSEYDViHV1AhRTTBsZNzpFu4u7bec0oA0I1Hk9Lzk1fTdxtKN48ZWYx8Tq5x/1shb7CLHvtCuvRlGvefFfIGv/Zjkq/KX9S2/237sYysIuvIJrLNW6szte1/2/wcIsfIKXKOXPLWGo3717m2+Rm62v7XobMfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAULc3uei3aECcAAA=
+   H4sIAAAAAAAAA+3Zuw3CMBQFUGcsBgAJen4TQM+vhSEYDViHV1AgpChNSOzkHOkW6a6t99I4JQBox6NK6fnJq+q7Dbmbx4wsRj4n1zj/LZM72EWPfSZd+jKN888yuYOm/Zh0V+UvStv/uv1YRlaRdWQT2XZbqzWl7X/d/Bwix8gpco5cuq01Gvef79LmZ+hK+78Onf0AAABy8/2O4y0HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmr0BuadlcECcAAA=
   </data>
  </layer>
  <layer name="over hero 2" width="100" height="100">
@@ -53,7 +53,7 @@
    <property name="drawlayer" value="over"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3OQQ0AAAgEoLN/QePYwbn5gQQkAHCr63sAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsDcuvRuWQJwAAA==
+   H4sIAAAAAAAAA+3ZMQ0AMAgAQfBvAWGVUwWEhYTlTsHvHwEAu15eFwAAAAAAANApLwcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGH4yR8OFAnAAA
   </data>
  </layer>
 </map>

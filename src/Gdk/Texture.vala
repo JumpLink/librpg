@@ -60,6 +60,23 @@ namespace rpg {
 		}
 		public uint8[] png_buffer { get; private set; }	//WORKAROUND for nodejs
 
+
+		public GdkTexture.from_file(string path) {
+			GLib.Object(path:path);
+			load_from_file(path);
+		}
+
+		public GdkTexture.from_pixbuf(Gdk.Pixbuf pixbuf) {
+			GLib.Object(pixbuf:pixbuf);
+			load_from_pixbuf(pixbuf);
+		}
+		public GdkTexture.empty(int width, int height) {
+			//GLib.Object(width:width, height:height);
+			//load_from_pixbuf(pixbuf);
+			pixbuf = new Pixbuf(Gdk.Colorspace.RGB, true, 8, width, height);
+
+		}
+
 		public static Pixbuf blit(Pixbuf dst, Pixbuf src) {
 			// uint8[] dst_pixel_data = dst.get_pixels_with_length();
 			uint8[] dst_pixel_data = GdkTexture.copy_pixels(dst);
@@ -119,22 +136,6 @@ namespace rpg {
 		 */
 		public bool has_alpha {
 			get { return this.pixbuf.get_has_alpha(); }
-		}
-
-		public GdkTexture.from_file(string path) {
-			GLib.Object(path:path);
-			load_from_file(path);
-		}
-
-		public GdkTexture.from_pixbuf(Gdk.Pixbuf pixbuf) {
-			GLib.Object(pixbuf:pixbuf);
-			load_from_pixbuf(pixbuf);
-		}
-		public GdkTexture.empty(int width, int height) {
-			//GLib.Object(width:width, height:height);
-			//load_from_pixbuf(pixbuf);
-			pixbuf = new Pixbuf(Gdk.Colorspace.RGB, true, 8, width, height);
-
 		}
 		/**
 		 * Ladet eine Textur aus einer Datei.
