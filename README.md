@@ -1,8 +1,10 @@
-HMWorld-Data
+librpg
 =========
 
 This Libary is used by [HMWworld](https://github.com/JumpLink/HMWorld) and [HMWorld-Website](https://github.com/JumpLink/HMWorld-Website) to handle the Game Data, but can also be used generally for orthogonally tiled based maps.
-This library can also load tiled based tilesets and (in my own format) spritesets.
+This library can also load tiled based tilesets and spritesets (in my own format).
+
+If you want to use OpenGL you could use the OpenGL Extension [libhgl](https://github.com/JumpLink/libhgl).
 
 Install
 -------
