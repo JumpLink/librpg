@@ -38,9 +38,6 @@ namespace rpg {
 		public TilesetReference(int firstgid, rpg.Tileset source) {
 			GLib.Object(firstgid:firstgid, source:source);
 		}
-		construct {
-			
-		}
 		/**
 		 * Gibt alle Werte des Tilesets und der Reference auf der Konsole aus
 		 */

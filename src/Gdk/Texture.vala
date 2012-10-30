@@ -27,12 +27,12 @@ namespace rpg {
 		public string path { get; set construct; }
 		public int width {
 			get { return pixbuf.get_width(); }
-			set { width = value;}
+			//set { width = value;}
 		}
 		
 		public int height {
 			get { return pixbuf.get_height(); }
-			set { height = value;}
+			//set { height = value;}
 		}
 
 		public rpg.Colorspace colorspace {
@@ -60,7 +60,30 @@ namespace rpg {
 		}
 		public uint8[] png_buffer { get; private set; }	//WORKAROUND for nodejs
 
-		public uint8[] copy_pixels() {
+		public static Pixbuf blit(Pixbuf dst, Pixbuf src) {
+			// uint8[] dst_pixel_data = dst.get_pixels_with_length();
+			uint8[] dst_pixel_data = GdkTexture.copy_pixels(dst);
+			uint8[] src_pixel_data = src.get_pixels_with_length();
+			// uint8[] dst_pixel_data = (uint8[]) dst.pixels;
+			// uint8[] src_pixel_data = (uint8[]) src.pixels;
+			print("src %i %i %i %i\n", src_pixel_data[0], src_pixel_data[1], src_pixel_data[2], src_pixel_data[3]);
+			print("dst %i %i %i %i\n", dst_pixel_data[0], dst_pixel_data[1], dst_pixel_data[2], dst_pixel_data[3]);
+
+			for(int i=0; i<dst.rowstride*dst.height-3; i+=4) {
+				double alpha = src_pixel_data[i+3] / 256.0f;
+				dst_pixel_data[i] = (uint8) (src_pixel_data[i] * alpha + dst_pixel_data[i] * (1 - alpha));
+				dst_pixel_data[i+1] = (uint8) (src_pixel_data[i+1] * alpha + dst_pixel_data[i+1] * (1 - alpha));
+				dst_pixel_data[i+2] = (uint8) (src_pixel_data[i+2] * alpha + dst_pixel_data[i+2] * (1 - alpha));
+				dst_pixel_data[i+3] = (uint8) ((int)src_pixel_data[i+3] + dst_pixel_data[i+3]);
+			}
+
+			return new Pixbuf.from_data (dst_pixel_data, dst.colorspace, dst.has_alpha, dst.bits_per_sample, dst.width, dst.height, dst.rowstride);
+
+		}
+
+		public static uint8[] copy_pixels(Pixbuf pixbuf) {
+			int size = pixbuf.rowstride*pixbuf.height;
+			print("size: %i\n",size);
 			uint8[] p = new uint8[size];
 			for (int i = 0;i<size;i++) {
 				p[i] = pixbuf.get_pixels()[i];
@@ -107,6 +130,12 @@ namespace rpg {
 			GLib.Object(pixbuf:pixbuf);
 			load_from_pixbuf(pixbuf);
 		}
+		public GdkTexture.empty(int width, int height) {
+			//GLib.Object(width:width, height:height);
+			//load_from_pixbuf(pixbuf);
+			pixbuf = new Pixbuf(Gdk.Colorspace.RGB, true, 8, width, height);
+
+		}
 		/**
 		 * Ladet eine Textur aus einer Datei.
 		 * @param path Pfadangabe der zu ladenden Grafikdatei.
@@ -138,7 +167,7 @@ namespace rpg {
 			try {
 				pixbuf.save(filename, "png");
 			} catch (GLib.Error e) {
-				error ("Error! Konnte Sprite nicht Speichern: %s\n", e.message);
+				error ("Error! Konnte Tile nicht Speichern: %s\n", e.message);
 			}
 		}
 		public void print_png_as_hex() {

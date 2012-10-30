@@ -278,15 +278,15 @@ namespace rpg {
 		/**
 		 * Objekt wird unter einem anderen gezeichnet.
 		 */
-		UNDER = 1,
+		UNDER = 0,
 		/**
 		 * Keine genaue Angabe darueber ob das Objekt unter oder ueber einem anderen gezeichnet werden soll.
 		 */
-		NONE = 0,
+		NONE = 1,
 		/**
 		 * Objekt wird ueber einem anderen gezeichnet.
 		 */
-		OVER = -1;
+		OVER = 2;
 		/**
 		 * parst einen String zu DrawLevel
 		 */
