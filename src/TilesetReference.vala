@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,26 +8,24 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 
-using Hmwd;
+using rpg;
 
-namespace Hmwd {
+namespace rpg {
 	/**
 	 * Klasse zur Speicherung einer Tileset Referenz.
 	 * Jede Map hat eine oder mehrere Tiles die aber vom TileManager verwaltet werden.
 	 * Daher dient diese Klasse fuer Maps zur Speicherung der Referenzdaten und Zusatzinformatioen.
-	 * @see Hmwd.Map
-	 * @see Hmwd.Tileset
-	 * @see Hmwd.TilesetManager
+	 * @see rpg.Map
+	 * @see rpg.Tileset
+	 * @see rpg.TilesetManager
 	 */
 	public class TilesetReference : GLib.Object {
 		/**
 		 * Quelle des Tilesets.
 		 */
-		public Hmwd.Tileset source { get; construct set; }
+		public rpg.Tileset source { get; construct set; }
 		/**
 		 * The first global tile ID of this tileset (this global ID maps to the first tile in this tileset).
 		 */
@@ -39,7 +35,7 @@ namespace Hmwd {
 		 * @param firstgid Die erste gid die von diesem diesem Tileset verwendet wird
 		 * @param source Tileset-Quelle als Referenzangabe.
 		 */
-		public TilesetReference(int firstgid, Hmwd.Tileset source) {
+		public TilesetReference(int firstgid, rpg.Tileset source) {
 			GLib.Object(firstgid:firstgid, source:source);
 		}
 		construct {

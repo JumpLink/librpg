@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -15,7 +13,7 @@
 /**
  * Library zur Verwaltung von Ressourcen eines 2D-Spiels basierend auf [[http://www.mapeditor.org/|Tiled]].
  */
-namespace Hmwd {
+namespace rpg {
 	public static int Round(double num) {
 		(num > 0) ? (num+= 0.5) : (num+= (-0.5));
 		return (int)num;
@@ -31,9 +29,9 @@ namespace Hmwd {
 	 * @param gid Die zu der das passende Tileset gesucht werden soll.
 	 * @return Das gefundene TilesetReference.
 	 */
-	public static TilesetReference get_tilesetref_from_gid(Gee.List<Hmwd.TilesetReference> tilesetrefs, uint gid) {	
-		Hmwd.TilesetReference found = tilesetrefs[0];
-		foreach (Hmwd.TilesetReference tsr in tilesetrefs) {
+	public static TilesetReference get_tilesetref_from_gid(Gee.List<rpg.TilesetReference> tilesetrefs, uint gid) {	
+		rpg.TilesetReference found = tilesetrefs[0];
+		foreach (rpg.TilesetReference tsr in tilesetrefs) {
 			if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
 				found = tsr;
 		}

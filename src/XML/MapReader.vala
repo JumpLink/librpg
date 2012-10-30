@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -18,11 +16,11 @@ using Gee;
  * Wir verwenden dafuer das [[https://github.com/bjorn/tiled/wiki/TMX-Map-Format|Dateiformat]] von "Tiled", einem Mapeditor
  * der hier zu finden ist: [[http://www.mapeditor.org/|mapeditor.org]]
  *
- * @see Hmwd.SpritesetReader
- * @see Hmwd.TilesetReader
- * @see Hmwd.MapManager
+ * @see rpg.SpritesetReader
+ * @see rpg.TilesetReader
+ * @see rpg.MapManager
  */
-public class Hmwd.MapReader : Sxml.DataReader, Object {
+public class rpg.MapReader : Sxml.DataReader, Object {
 
 	protected MarkupTokenType current_token {get; set;}
 	protected MarkupSourceLocation begin {get; set;}
@@ -39,11 +37,11 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 	 */
 	protected int layer_count = 0;
 
-	public Hmwd.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
+	public rpg.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
 
-	protected Hmwd.Map map;
+	protected rpg.Map map;
 
-	public MapReader (string path, Hmwd.TilesetManager tilesetmanager) {
+	public MapReader (string path, rpg.TilesetManager tilesetmanager) {
 		Object(path:path, tilesetmanager:tilesetmanager);
 	}
 
@@ -55,8 +53,8 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		print("\n\n");
 	}
 
-	public Hmwd.Map parse(string filename) {
-		map = new Hmwd.Map(filename, tilesetmanager);
+	public rpg.Map parse(string filename) {
+		map = new rpg.Map(filename, tilesetmanager);
 		reader = new XmlStreamReader (path+filename);
 		next ();
 		while(!is_start_element("map")){next ();}
@@ -140,8 +138,8 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		start_element("tileset");
 		Gee.Map<string,string> attributes = reader.get_attributes();
 
-		string ts_filename = Hmwd.File.path_to_filename( attributes.get ("source"));
-		Hmwd.Tileset ts_source = tilesetmanager.get_from_filename(ts_filename);
+		string ts_filename = rpg.File.path_to_filename( attributes.get ("source"));
+		rpg.Tileset ts_source = tilesetmanager.get_from_filename(ts_filename);
 		int firstgid = int.parse(attributes.get ("firstgid"));
 		//Den zusammengestellten neuen Tileset in die Liste einfuegen
 		map.tileset.add( new TilesetReference(firstgid, ts_source));
@@ -154,7 +152,7 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		bool collision;
 		DrawLevel drawlayer;
-		Hmwd.Layer new_layer = new Layer();
+		rpg.Layer new_layer = new Layer();
 
 		foreach (var key in attributes.keys) {
 			switch (key) {
@@ -214,9 +212,9 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		end_element("properties");
 	}
 
-	protected Hmwd.Tile[,] parse_data() {
+	protected rpg.Tile[,] parse_data() {
 		start_element("data");
-		Hmwd.Tile[,] _tiles;
+		rpg.Tile[,] _tiles;
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		if (attributes.has_key("compression")) {
 			// parse data with encoding and compression
@@ -276,11 +274,11 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		return outbuf;
 	}
 
-	protected Hmwd.Tile[,] parse_binary(uchar[] data) {
+	protected rpg.Tile[,] parse_binary(uchar[] data) {
 		if(data.length != map.width*map.height*4)
 			error("data.length: %i != map.width*map.height*4: %i\n", data.length, (int) (map.width*map.height*4));
 		uint tile_index = 0;
-		Hmwd.Tile[,] _tiles = new Tile[map.width,map.height];
+		rpg.Tile[,] _tiles = new Tile[map.width,map.height];
 		for (int y = 0; y < map.height; ++y) {
 			for (int x = 0; x < map.width; ++x) {
 				int global_tile_id = data[tile_index] |
@@ -305,20 +303,20 @@ public class Hmwd.MapReader : Sxml.DataReader, Object {
 		return _tiles;
 	}
 
-	protected Hmwd.Tile parse_tile() {
+	protected rpg.Tile parse_tile() {
 		start_element("tile");
-		Hmwd.Tile tmp_tile = resolve_tile(int.parse(reader.get_attributes().get("gid")));
+		rpg.Tile tmp_tile = resolve_tile(int.parse(reader.get_attributes().get("gid")));
 		next();
 		end_element("tile");
 		return tmp_tile;
 	}
 
-	protected Hmwd.Tile resolve_tile(int gid) {
-		Hmwd.Tile tmp_tile;
-		Hmwd.TilesetReference tmp_tilesetref;
+	protected rpg.Tile resolve_tile(int gid) {
+		rpg.Tile tmp_tile;
+		rpg.TilesetReference tmp_tilesetref;
 		// TODO bestimmung des tiles vereinfachen
 		if(gid > 0) {
-			tmp_tilesetref = Hmwd.get_tilesetref_from_gid(map.tileset, gid);
+			tmp_tilesetref = rpg.get_tilesetref_from_gid(map.tileset, gid);
 			tmp_tile = tmp_tilesetref.source.get_tile_from_index(gid - tmp_tilesetref.firstgid);	
 			tmp_tile.gid = gid;
 			tmp_tile.tile_type = TileType.EMPTY_TILE; //TODO anhand der ID den echten TileTyp bestimmen.

@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,23 +8,21 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Gdk;
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer nicht unterteilte Tiles
 	 */
 		public class RegularTile : Tile {
 			/**
-			 * Konstruktor erzeugt standardmaessig ein Tile vom Typ Hmwd.TileType.NO_TILE
+			 * Konstruktor erzeugt standardmaessig ein Tile vom Typ rpg.TileType.NO_TILE
 			 * mit einer leeren Textur
-			 * @see Hmwd.TileType.EMPTY_TILE
+			 * @see rpg.TileType.EMPTY_TILE
 			 */
 			public RegularTile () {
-				Object(tex:new GdkTexture(), tile_type:Hmwd.TileType.NO_TILE);
+				Object(tex:new GdkTexture(), tile_type:rpg.TileType.NO_TILE);
 			}
 
 			/**
@@ -34,14 +30,14 @@ namespace Hmwd {
 			 * @param pixbuf Pixelbufer der in das Tile uebernommen werden soll.
 			 */
 			public RegularTile.from_pixbuf (Pixbuf pixbuf) {
-				Object(tex:new GdkTexture.from_pixbuf(pixbuf), tile_type:Hmwd.TileType.EMPTY_TILE);
+				Object(tex:new GdkTexture.from_pixbuf(pixbuf), tile_type:rpg.TileType.EMPTY_TILE);
 			}
 			construct {
 				
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see Hmwd.Tile.print_values
+			 * @see rpg.Tile.print_values
 			 */
 			public override void print_values (){
 				print("ich bin ein RegularTile: ");
@@ -53,7 +49,7 @@ namespace Hmwd {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see Hmwd.Tile.calc_edges
+			 * @see rpg.Tile.calc_edges
 			 */
 			public override void calc_edges (TileType[] neighbours) {
 				//nichts

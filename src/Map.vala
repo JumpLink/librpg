@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,11 +8,9 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
-namespace Hmwd {
+namespace rpg {
 	/**
 	 * Klasse fuer Maps.
 	 * Diese Klasse dient zur Speicherung von Mapinformationen.
@@ -72,7 +68,7 @@ namespace Hmwd {
 		/**
 		 * Tilesets die für auf der Map verwendet werden
 		 */
-		public Gee.List<Hmwd.TilesetReference> tileset  { get; set; default=new Gee.ArrayList<TilesetReference>();}
+		public Gee.List<rpg.TilesetReference> tileset  { get; set; default=new Gee.ArrayList<TilesetReference>();}
 		public int tileset_size {
 			get { return tileset.size; }
 		}
@@ -101,12 +97,12 @@ namespace Hmwd {
 
 		public LogicalTile [,] tiles { get; set; }
 
-		public Hmwd.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
+		public rpg.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
 
 		/**
 		 * Konstruktor fuer eine leere Map
 		 */
-		public Map(string filename, Hmwd.TilesetManager tilesetmanager) {
+		public Map(string filename, rpg.TilesetManager tilesetmanager) {
 			Object(filename:filename, tilesetmanager:tilesetmanager);
 		}
 		/**
@@ -117,8 +113,8 @@ namespace Hmwd {
 		 * @return Das gefundene TilesetReference.
 		 */
 		public TilesetReference get_tilesetref_from_gid(int gid) {	
-			Hmwd.TilesetReference found = tileset[0];
-			foreach (Hmwd.TilesetReference tsr in tileset) {
+			rpg.TilesetReference found = tileset[0];
+			foreach (rpg.TilesetReference tsr in tileset) {
 				if ( tsr.firstgid < gid && found.firstgid > tsr.firstgid)
 					found = tsr;
 			}
@@ -147,18 +143,18 @@ namespace Hmwd {
 			return (int) gid - (int) (tref.firstgid-1);
 		}
 		public int get_tileid_from_position(int x, int y, int layer_index) {
-			Hmwd.Layer layer = get_layer_from_index(layer_index);
-			Hmwd.Tile tile = layer.get_tile_from_coordinate(x,y);
-			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
+			rpg.Layer layer = get_layer_from_index(layer_index);
+			rpg.Tile tile = layer.get_tile_from_coordinate(x,y);
+			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			return (int) tile.gid - (int) (tref.firstgid-1);
 		}
 		/**
 		 * Tile-X-Coord of the tilesetimage
 		 */
 		public uint get_tile_image_x_from_position(int x, int y, int layer_index) {
-			Hmwd.Layer layer = get_layer_from_index(layer_index);
-			Hmwd.Tile tile = layer.get_tile_from_coordinate(x,y);
-			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
+			rpg.Layer layer = get_layer_from_index(layer_index);
+			rpg.Tile tile = layer.get_tile_from_coordinate(x,y);
+			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
 			uint res = (id%tref.source.count_x)*tile_width;
 			return res == 0 && id != 0 ? tref.source.count_x*tile_width : res;
@@ -167,9 +163,9 @@ namespace Hmwd {
 		 * Tile-Y-Coord of the tilesetimage
 		 */
 		public int get_tile_image_y_from_position(int x, int y, int layer_index) {
-			Hmwd.Layer layer = get_layer_from_index(layer_index);
-			Hmwd.Tile tile = layer.get_tile_from_coordinate(x,y);
-			Hmwd.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
+			rpg.Layer layer = get_layer_from_index(layer_index);
+			rpg.Tile tile = layer.get_tile_from_coordinate(x,y);
+			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = tile.gid - (tref.firstgid-1);
 			int res = (id/tref.source.count_x)*tile_height;
 			return id%tref.source.count_x == 0 && id != 0 ? res-1*tile_height : res;
@@ -266,17 +262,17 @@ namespace Hmwd {
 		{
 			print("====ALL LAYERS FROM MAP %s====\n", filename);
 			print("under ");
-			foreach (Hmwd.Layer l in layers_under) {
+			foreach (rpg.Layer l in layers_under) {
 				l.print_values();
 				l.print_tiles();
 			}
 			print("same ");
-			foreach (Hmwd.Layer l in layers_same) {
+			foreach (rpg.Layer l in layers_same) {
 				l.print_values();
 				l.print_tiles();
 			}
 			print("over ");
-			foreach (Hmwd.Layer l in layers_over) {
+			foreach (rpg.Layer l in layers_over) {
 				l.print_values();
 				l.print_tiles();
 			}
@@ -287,7 +283,7 @@ namespace Hmwd {
 		public void print_tilesets()
 		{
 			print("====ALL TILESETS FROM MAP %s====\n", filename);
-			foreach (Hmwd.TilesetReference tsr in tileset) {
+			foreach (rpg.TilesetReference tsr in tileset) {
 				tsr.print_values();
 			}
 		}

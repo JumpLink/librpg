@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -17,11 +15,11 @@ using Gee;
  * Ladet eine XML-basierte Tileset-Datei.
  * Wir verwenden dafuer ein eigenes Dateiformat, welches an das der Maps angelehnt ist.
  *
- * @see Hmwd.MapReader
- * @see Hmwd.SpritesetReader
- * @see Hmwd.TilesetManager
+ * @see rpg.MapReader
+ * @see rpg.SpritesetReader
+ * @see rpg.TilesetManager
  */
-public class Hmwd.TilesetReader : Sxml.DataReader, Object {
+public class rpg.TilesetReader : Sxml.DataReader, Object {
 
 	protected MarkupTokenType current_token {get; set;}
 	protected MarkupSourceLocation begin {get; set;}
@@ -33,14 +31,14 @@ public class Hmwd.TilesetReader : Sxml.DataReader, Object {
 	 */
 	public string path { get; construct set; }
 
-	protected Hmwd.Tileset tileset;
+	protected rpg.Tileset tileset;
 
 	public TilesetReader (string path) {
 		Object(path:path);
 	}
 
-	public Hmwd.Tileset parse(string filename) {	
-		tileset = new Hmwd.Tileset(filename);
+	public rpg.Tileset parse(string filename) {	
+		tileset = new rpg.Tileset(filename);
 		reader = new XmlStreamReader (path+filename);
 		next ();
 		while(!is_start_element("tileset")){next ();}

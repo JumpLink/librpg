@@ -12,8 +12,8 @@
 
 using Gdk;
 using GLib;
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse zur Speicherung einer Textur und um diese an OpenGL zu binden.
 	 */
@@ -35,8 +35,8 @@ namespace Hmwd {
 			set { height = value;}
 		}
 
-		public Hmwd.Colorspace colorspace {
-			get { return Hmwd.Colorspace.fromGdkPixbuf(pixbuf); }
+		public rpg.Colorspace colorspace {
+			get { return rpg.Colorspace.fromGdkPixbuf(pixbuf); }
 		}
 
 		public int length {

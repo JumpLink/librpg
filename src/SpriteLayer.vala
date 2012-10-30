@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,13 +8,11 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
 using Gdk;	
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Allgemeine Klasse fuer Sprites
 	 */
@@ -64,7 +60,7 @@ namespace Hmwd {
 					for(int x = 0; x < width; x++) {
 						Pixbuf split = new Pixbuf(Gdk.Colorspace.RGB, pxb.get_has_alpha(), pxb.get_bits_per_sample(), (int) sprite_width, (int) sprite_height);
 						pxb.copy_area((int) sprite_width*x, (int) sprite_height*y, (int) sprite_width, (int) sprite_height, split, 0, 0);
-						sprites[y,x] = new Hmwd.Sprite(split);
+						sprites[y,x] = new rpg.Sprite(split);
 					}
 				}
 			} else {

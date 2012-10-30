@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -17,11 +15,11 @@ using Gee;
  * Ladet eine XML-basierte Spriteset-Datei.
  * Wir verwenden dafuer ein eigenes Dateiformat, welches an das der Maps angelehnt ist.
  *
- * @see Hmwd.MapReader
- * @see Hmwd.TilesetReader
- * @see Hmwd.SpritesetManager
+ * @see rpg.MapReader
+ * @see rpg.TilesetReader
+ * @see rpg.SpritesetManager
  */
-public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
+public class rpg.SpritesetReader : Sxml.DataReader, Object {
 
 	protected MarkupTokenType current_token {get; set;}
 	protected MarkupSourceLocation begin {get; set;}
@@ -33,7 +31,7 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 	 */
 	public string path { get; construct set; }
 
-	protected Hmwd.Spriteset spriteset;
+	protected rpg.Spriteset spriteset;
 
 	/**
 	 * Anzahl der geparsedten Layer
@@ -44,8 +42,8 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 		Object(path:path);
 	}
 
-	public Hmwd.Spriteset parse(string filename) {	
-		spriteset = new Hmwd.Spriteset.from_path(path, filename);
+	public rpg.Spriteset parse(string filename) {	
+		spriteset = new rpg.Spriteset.from_path(path, filename);
 		reader = new XmlStreamReader (path+filename);
 		next ();
 		while(!is_start_element("spriteset")){next ();}
@@ -128,9 +126,9 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 		spriteset.sprite_layers.add(spritelayer);
 		end_element("layer");
 	}
-	protected Hmwd.Animation parse_animation() {
+	protected rpg.Animation parse_animation() {
 		start_element("animation");
-		Hmwd.Animation ani = new Hmwd.Animation();
+		rpg.Animation ani = new rpg.Animation();
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		foreach (var key in attributes.keys) {
 			switch (key) {
@@ -138,7 +136,7 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 				ani.name =  attributes.get (key);
 				break;
 			case "direction":
-				ani.direction = Hmwd.Direction.parse(attributes.get (key));
+				ani.direction = rpg.Direction.parse(attributes.get (key));
 				break;
 			case "repeat":
 				ani.repeat = bool.parse(attributes.get (key));
@@ -201,7 +199,7 @@ public class Hmwd.SpritesetReader : Sxml.DataReader, Object {
 				}
 				break;
 			case "mirror":
-				sprite.mirror = Hmwd.Mirror.parse(attributes.get (key));
+				sprite.mirror = rpg.Mirror.parse(attributes.get (key));
 				break;
 			default:
 				error ("unknown property of '%s'".printf (key));

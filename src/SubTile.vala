@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,11 +8,9 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer Subtiles, ein Tile kann auch aus mehreren Subtiles bestehen.
 	 * Sie wird fuer zusammengesetzte Tiles verwendet um beispielsweise Wegkanten
@@ -31,7 +27,7 @@ namespace Hmwd {
 	 	}
 	 	/**
 		 * Aehnlich wie: 
-		 * {@link Hmwd.Tile.calc_edges}
+		 * {@link rpg.Tile.calc_edges}
 		 */
 	 	public void calc_edges (TileType [] neighbours, TileType type, uint location) {
 	 		assert (neighbours.length == 3);

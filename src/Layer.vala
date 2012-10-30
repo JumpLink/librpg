@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,11 +8,9 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer Maplayer.
 	 */
@@ -38,7 +34,7 @@ namespace Hmwd {
 		/**
 		 * Tiles des Layers
 		 */
-		public Hmwd.Tile[,] tiles { get; set; }
+		public rpg.Tile[,] tiles { get; set; }
 		/**
 		 * Zur ueberpruefung ob dieser Layer Kollision erzeugt.
 		 */
@@ -63,7 +59,7 @@ namespace Hmwd {
 			//this.tiles = tiles; //TODO make this work in node-gir
 			Object(name:name, zoff:zoff, width:width, height:height, collision:collision);
 		}
-		public Hmwd.Tile get_tile_from_coordinate(uint x, uint y) {
+		public rpg.Tile get_tile_from_coordinate(uint x, uint y) {
 			return tiles[x,y];
 		}
 		/**

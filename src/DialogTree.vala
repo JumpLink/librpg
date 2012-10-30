@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,11 +8,9 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer einen Dialogbaum.
 	 */
@@ -34,7 +30,7 @@ namespace Hmwd {
 		/**
 		 * Antwortmoeglichkeiten.
 		 */
-		public Hmwd.DialogTree[] children { get; private set; } //FIXME: http://pastebin.com/nEcr7VMe
+		public rpg.DialogTree[] children { get; private set; } //FIXME: http://pastebin.com/nEcr7VMe
 
 		/**
 		 * Konstruktor.
@@ -42,7 +38,7 @@ namespace Hmwd {
 		 * @param a Antwort.
 		 * @param c Nachfolger.
 		 */
-		public DialogTree (string q, string a, Hmwd.DialogTree[] c) { 
+		public DialogTree (string q, string a, rpg.DialogTree[] c) { 
 			Object(question: q, answer: a/*, children: c, choice: 0*/); //FIXME
 		}
 		construct {

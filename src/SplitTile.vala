@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,11 +8,9 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer unterteilte Tiles
 	 */
@@ -34,7 +30,7 @@ namespace Hmwd {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see Hmwd.Tile.print_values
+			 * @see rpg.Tile.print_values
 			 */
 			public override void print_values (){
 				print("ich bin ein reftile: ");
@@ -42,7 +38,7 @@ namespace Hmwd {
 			}
 			/**
 			 * {@inheritDoc}
-			 * @see Hmwd.Tile.calc_edges
+			 * @see rpg.Tile.calc_edges
 			 */
 			public override void calc_edges (TileType[] neighbours) {
 				assert (neighbours.length == 8);

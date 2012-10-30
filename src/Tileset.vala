@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,15 +8,13 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
 using Gdk;
 //using GLib; //Fuer assertions
 
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer Tilesets
 	 */
@@ -81,7 +77,7 @@ namespace Hmwd {
 		 *
 		 * @param index Index des gesuchten Tiles
 		 */
-		public Hmwd.Tile get_tile_from_index(int index)
+		public rpg.Tile get_tile_from_index(int index)
 		requires (index >= 0)
 		{
 			int count = 0;

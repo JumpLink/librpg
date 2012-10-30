@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,10 +8,9 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
  */
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Benamsung der Farbindizes
 	 */
@@ -67,13 +64,13 @@ namespace Hmwd {
 
 		public string to_string () {
 			switch (this) {
-				case Hmwd.Direction.NORTH:
+				case rpg.Direction.NORTH:
 					return "north";
-				case Hmwd.Direction.EAST:
+				case rpg.Direction.EAST:
 					return "east";
-				case Hmwd.Direction.WEST:
+				case rpg.Direction.WEST:
 					return "west";
-				case Hmwd.Direction.SOUTH:
+				case rpg.Direction.SOUTH:
 					return "south";
 				default:
 					assert_not_reached();
@@ -82,13 +79,13 @@ namespace Hmwd {
 		public static Direction parse (string str) {
 			switch (str) {
 				case "north":
-					return Hmwd.Direction.NORTH;
+					return rpg.Direction.NORTH;
 				case "east":
-					return Hmwd.Direction.EAST;
+					return rpg.Direction.EAST;
 				case "west":
-					return Hmwd.Direction.WEST;
+					return rpg.Direction.WEST;
 				case "south":
-					return Hmwd.Direction.SOUTH;
+					return rpg.Direction.SOUTH;
 				default:
 					assert_not_reached();
 			}
@@ -172,10 +169,10 @@ namespace Hmwd {
 		public static SpriteLayerType parse (string str) {
 			switch (str) {
 				case "item":
-					return Hmwd.SpriteLayerType.ITEM;
+					return rpg.SpriteLayerType.ITEM;
 				case "base":
 				default:
-					return Hmwd.SpriteLayerType.BASE;
+					return rpg.SpriteLayerType.BASE;
 			}
 		}
 	}
@@ -189,11 +186,11 @@ namespace Hmwd {
 
 		public string to_string () {
 			switch (this) {
-				case Hmwd.Mirror.VERTICAL:
+				case rpg.Mirror.VERTICAL:
 					return "vertical";
-				case  Hmwd.Mirror.HORIZONTAL:
+				case  rpg.Mirror.HORIZONTAL:
 					return "horizontal";
-				case Hmwd.Mirror.NONE:
+				case rpg.Mirror.NONE:
 					return "none";
 				default:
 					assert_not_reached();
@@ -204,13 +201,13 @@ namespace Hmwd {
 			switch (str) {
 				case "vertical":
 				case "VERTICAL":
-					return Hmwd.Mirror.VERTICAL;
+					return rpg.Mirror.VERTICAL;
 				case "horizontal":
 				case "HORIZONTAL":
-					return Hmwd.Mirror.HORIZONTAL;
+					return rpg.Mirror.HORIZONTAL;
 				case "none":
 				case "NONE":
-					return Hmwd.Mirror.NONE;
+					return rpg.Mirror.NONE;
 				default:
 					assert_not_reached();
 			}
@@ -224,9 +221,9 @@ namespace Hmwd {
 		RGBA;
 		// public GLenum to_opengl () {
 		// 	switch (this) {
-		// 		case Hmwd.Colorspace.RGB:
+		// 		case rpg.Colorspace.RGB:
 		// 			return GL.GL_RGB;
-		// 		case  Hmwd.Colorspace.RGBA:
+		// 		case  rpg.Colorspace.RGBA:
 		// 			return GL.GL_RGBA;
 		// 		default:
 		// 			assert_not_reached();
@@ -234,20 +231,20 @@ namespace Hmwd {
 		// }
 		public string to_string() {
 			switch (this) {
-				case Hmwd.Colorspace.RGB:
+				case rpg.Colorspace.RGB:
 					return "rgb";
-				case  Hmwd.Colorspace.RGBA:
+				case  rpg.Colorspace.RGBA:
 					return "rgba";
 				default:
 					assert_not_reached();
 			}
 		}
-		public static Hmwd.Colorspace fromGdkPixbuf (Gdk.Pixbuf pixbuf) {
+		public static rpg.Colorspace fromGdkPixbuf (Gdk.Pixbuf pixbuf) {
 			if(pixbuf.colorspace == Gdk.Colorspace.RGB) {
 				if (pixbuf.has_alpha) {
-					return Hmwd.Colorspace.RGBA;
+					return rpg.Colorspace.RGBA;
 				} else {
-					return Hmwd.Colorspace.RGB;
+					return rpg.Colorspace.RGB;
 				}
 			} else {
 				assert_not_reached();
@@ -255,9 +252,9 @@ namespace Hmwd {
 		}
 		public int to_channel () {
 			switch (this) {
-				case Hmwd.Colorspace.RGB:
+				case rpg.Colorspace.RGB:
 					return 3;
-				case  Hmwd.Colorspace.RGBA:
+				case  rpg.Colorspace.RGBA:
 					return 4;
 				default:
 					assert_not_reached();
@@ -265,9 +262,9 @@ namespace Hmwd {
 		}
 		public bool has_alpha () {
 			switch (this) {
-				case Hmwd.Colorspace.RGB:
+				case rpg.Colorspace.RGB:
 					return false;
-				case  Hmwd.Colorspace.RGBA:
+				case  rpg.Colorspace.RGBA:
 					return true;
 				default:
 					assert_not_reached();
@@ -298,15 +295,15 @@ namespace Hmwd {
 				case "none":
 				case "None":
 				case "NONE":
-					return Hmwd.DrawLevel.NONE;
+					return rpg.DrawLevel.NONE;
 				case "over":
 				case "Over":
 				case "OVER":
-					return Hmwd.DrawLevel.OVER;
+					return rpg.DrawLevel.OVER;
 				case "under":
 				case "Under":
 				case "UNDER":
-					return Hmwd.DrawLevel.UNDER;
+					return rpg.DrawLevel.UNDER;
 				default:
 					assert_not_reached();
 			}

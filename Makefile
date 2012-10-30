@@ -5,13 +5,13 @@ export GI_TYPELIB_PATH := $(shell pwd)/lib
 
 # Variablen und Flags
 # Version des Pakets
-VERSION        = 0.2
+VERSION        = 0.3
 
 # Name des Pakets
-PKG_NAME       = Hmwd
+PKG_NAME       = rpg
 
 # Name der Library
-LIB_NAME       = libhmwd
+LIB_NAME       = librpg
 
 
 # Quelldateien nur fuer das Spiel

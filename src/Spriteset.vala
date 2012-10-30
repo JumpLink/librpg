@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,13 +8,11 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
 using Gdk;	
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer Spritesets
 	 */
@@ -116,13 +112,13 @@ namespace Hmwd {
 			}
 		}
 		public void set_animation_from_string(string name, string direction) {
-			set_animation(name, Hmwd.Direction.parse(direction));
+			set_animation(name, rpg.Direction.parse(direction));
 		}
 
 		public SpriteLayer get_base_layer()
 		{
 			foreach (SpriteLayer sl in sprite_layers) {
-				if (sl.sprite_layer_type == Hmwd.SpriteLayerType.BASE)
+				if (sl.sprite_layer_type == rpg.SpriteLayerType.BASE)
 					return sl;
 			}
 			error("no base layer found!");

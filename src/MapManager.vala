@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,21 +8,19 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
 using GLib;
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer den MapManager, mit dieser Klasse werden alle Maps im Spiel verwaltet.
 	 * Sie kann beispielsweise alle Maps aus einem angegebenen Verzeichnis Laden.
 	 */
 	public class MapManager : GLib.Object {
-		Gee.List<Hmwd.Map> map;
+		Gee.List<rpg.Map> map;
 		public string folder { get; construct set; }
-		public Hmwd.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
+		public rpg.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
 		public int length {
 			get { return map.size; }
 		}
@@ -35,13 +31,13 @@ namespace Hmwd {
 		 * Konstruktor mit uebergebenem Ordner fuer das Map-Verzeichnis.
 		 * @param folder Verzeichnis der Maps, default ist: "./data/map/".
 		 */
-		public MapManager(string folder,  Hmwd.TilesetManager tilesetmanager )
+		public MapManager(string folder,  rpg.TilesetManager tilesetmanager )
 		//requires (tilesetmanager != null)
 		{
 			GLib.Object(folder: folder, tilesetmanager : tilesetmanager);
 		}
 		construct {
-			map = new Gee.ArrayList<Hmwd.Map>();
+			map = new Gee.ArrayList<rpg.Map>();
 			load_all_from_folder(folder, tilesetmanager);
 		}
 
@@ -54,16 +50,16 @@ namespace Hmwd {
 		 *
 		 * @param folder der Ordnername aus dem gelesen werden soll.
 		 */
-		private void load_all_from_folder(string folder, Hmwd.TilesetManager tilesetmanager) {
+		private void load_all_from_folder(string folder, rpg.TilesetManager tilesetmanager) {
 			//print("Fuehre MapManager.loadAllFromPath mit folder %s aus.\n", folder);
-			Gee.List<string> files = Hmwd.File.load_all_from_folder(folder, ".tmx");
+			Gee.List<string> files = rpg.File.load_all_from_folder(folder, ".tmx");
 			MapReader mapreader = new MapReader(folder, tilesetmanager);
 			foreach (string filename in files) {
 
 				map.add(mapreader.parse(filename));
 			}
 		}
-		public Hmwd.Map get_map_from_index(int index) {
+		public rpg.Map get_map_from_index(int index) {
 			return map[index];
 		}
 		public string get_map_filename_from_index(int index) {
@@ -75,8 +71,8 @@ namespace Hmwd {
 		 * @param filename Dateiname der gesuchten Map
 		 * @return Bei Erfolg die gefundene Map, sonst ein neues Objekt Map
 		 */
-		public Hmwd.Map get_from_filename(string filename) {
-			foreach (Hmwd.Map m in map) if (m.filename == filename) { return m;}
+		public rpg.Map get_from_filename(string filename) {
+			foreach (rpg.Map m in map) if (m.filename == filename) { return m;}
 			error("Map %s nicht gefunden", filename);
 		}
 		/**
@@ -84,7 +80,7 @@ namespace Hmwd {
 		 */
 		public void print_all() {
 			print("=====ALL MAPS====\n");
-			foreach (Hmwd.Map m in map) {
+			foreach (rpg.Map m in map) {
 					m.print_all();
 	   		}
 		}

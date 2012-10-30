@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,14 +8,12 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
 using GLib;
 
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer SpritesetManager
 	 */
@@ -48,7 +44,7 @@ namespace Hmwd {
 		 * @param folder Ordnername aus dem gelesen werden soll.
 		 */
 		public void load_all_from_folder(string folder) {
-			Gee.List<string> files = Hmwd.File.load_all_from_folder(folder, ".ssx");
+			Gee.List<string> files = rpg.File.load_all_from_folder(folder, ".ssx");
 			SpritesetReader spritesetreader = new SpritesetReader(folder);
 			foreach (string filename in files) {
 				spriteset.add(spritesetreader.parse(filename));

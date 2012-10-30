@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,11 +8,9 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Klasse fuer logische Eigenschaften eines Tiles.
 	 */
@@ -23,7 +19,7 @@ namespace Hmwd {
 		/**
 		 * Eigenschaften.
 		 */
-		public Hmwd.TileType tile_type { get; set; }
+		public rpg.TileType tile_type { get; set; }
 
 		/**
 		 * Pflanze.

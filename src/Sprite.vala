@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,13 +8,11 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
 using Gee;
 using Gdk;
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 	/**
 	 * Allgemeine Klasse fuer Sprites
 	 */
@@ -33,7 +29,7 @@ namespace Hmwd {
 		 * @param pixbuf Pixelbufer der in das Tile uebernommen werden soll.
 		 */
 		public Sprite (Pixbuf pixbuf) {
-			Object(tex: new Hmwd.GdkTexture.from_pixbuf(pixbuf));
+			Object(tex: new rpg.GdkTexture.from_pixbuf(pixbuf));
 		}
 		construct {
 

@@ -1,6 +1,4 @@
 /* Copyright (C) 2012  Pascal Garber
- * Copyright (C) 2012  Ole Lorenzen
- * Copyright (C) 2012  Patrick König
  *
  * This software is free software; you can redistribute it and/or
  * modify it under the terms of the Creative Commons licenses CC BY-SA 3.0.
@@ -10,27 +8,25 @@
  *
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
- *	Ole Lorenzen <ole.lorenzen@gmx.net>
- *	Patrick König <knuffi@gmail.com>
  */
-using Hmwd;
-namespace Hmwd {
+using rpg;
+namespace rpg {
 
 	public class ResourceManager : Object {
-		public Hmwd.TilesetManager tilesetmanager { get; set; }
-		public Hmwd.MapManager mapmanager { get; set; }
-		public Hmwd.SpritesetManager spritesetmanager { get; set; }
+		public rpg.TilesetManager tilesetmanager { get; set; }
+		public rpg.MapManager mapmanager { get; set; }
+		public rpg.SpritesetManager spritesetmanager { get; set; }
 
 		public void load_tileset_manager(string folder) {
-			tilesetmanager = new Hmwd.TilesetManager(folder);
+			tilesetmanager = new rpg.TilesetManager(folder);
 		}
 
 		public void load_map_manager(string folder) {
-			mapmanager = new Hmwd.MapManager(folder, tilesetmanager);
+			mapmanager = new rpg.MapManager(folder, tilesetmanager);
 		}
 
 		public void load_spriteset_manager(string folder) {
-			spritesetmanager = new Hmwd.SpritesetManager(folder);
+			spritesetmanager = new rpg.SpritesetManager(folder);
 		}
 
 		public void print_all() {
