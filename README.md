@@ -48,5 +48,5 @@ class Main : Object {
 
 Compile
 
-	valac sample.vala --pkg Hmwd-0.2 --pkg gee-1.0 --pkg gio-2.0 --pkg gdk-pixbuf-2.0 --pkg Sxml-0.1
+	valac sample.vala --pkg rpg-0.3 --pkg gee-1.0 --pkg gio-2.0 --pkg gdk-pixbuf-2.0 --pkg Sxml-0.1
 	./sample
