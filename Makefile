@@ -10,6 +10,9 @@ VERSION        = 0.3
 # Name des Pakets
 PKG_NAME       = rpg
 
+# Name des Pakets
+NAMESPACE       = rpg
+
 # Name der Library
 LIB_NAME       = librpg
 
@@ -26,13 +29,13 @@ TSRCS          = main.vala
 # ausfuehrbares Ziel
 TARGET                   = $(LIBRARY).o
 
-SHARED_LIBRARY_TARGET    = $(LIB_NAME)-$(VERSION).so
+SHARED_LIBRARY_TARGET    = $(LIB_NAME).so.$(VERSION)
 
 STATIC_LIBRARY_TARGET    = $(LIB_NAME)-$(VERSION).a
 
-TYPELIB_TARGET           = $(LIBRARY).typelib
+TYPELIB_TARGET           = $(NAMESPACE)-$(VERSION).typelib
 
-GIR_TARGET               = $(LIBRARY).gir
+GIR_TARGET               = $(NAMESPACE)-$(VERSION).gir
 
 VAPI_TARGET              = $(LIBRARY).vapi
 
@@ -83,7 +86,7 @@ VDD           = 0.15.3
 
 
 # Allgemeine Quelldateien mit Pfad
-ASRC_FILES                 = $(wildcard src/*.vala) $(wildcard src/Clutter/*.vala) $(wildcard src/OpenGL/*.vala) $(wildcard src/Gdk/*.vala) $(wildcard src/XML/*.vala)
+ASRC_FILES                 = $(wildcard src/*.vala) $(wildcard src/Gdk/*.vala) $(wildcard src/XML/*.vala)
 # Quelldateien mit Pfad
 SRC_FILES                  = $(ASRC_FILES)
 # Test-Quelldateien mit Pfad

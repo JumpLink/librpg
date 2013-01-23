@@ -11,5 +11,5 @@ Description: The RPG-Library
 Version: 0.2
 Requires: gee-1.0 gdk-pixbuf-2.0 gio-2.0 Sxml-0.1
 Libs: -L${libdir} -lrpg-0.3
-Cflags: -I${includedir}/rpg-0.2
+Cflags: -I${includedir}/rpg-0.3
 ~                                             

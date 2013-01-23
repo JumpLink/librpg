@@ -4,7 +4,7 @@
 
 var Gir = require('gir');
 //Gir.init();
-var Hmwd = module.exports = Gir.load('Hmwd');
+var Hmwd = module.exports = Gir.load('rpg');
 var hexy = require('hexy');
 
 
