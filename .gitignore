@@ -28,3 +28,4 @@ node_modules
 
 # others
 core
+test/main
