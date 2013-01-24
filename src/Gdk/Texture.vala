@@ -77,6 +77,12 @@ namespace rpg {
 
 		}
 
+		// Pixbuf callback to destroy the pixel buffer
+        public static void PixbufDestroyNotify (uint8* pixels) {
+                print("delete pixel buffer\n");
+                delete pixels;
+        }
+
 		public static Pixbuf blit(Pixbuf dst, Pixbuf src) {
 			// uint8[] dst_pixel_data = dst.get_pixels_with_length();
 			uint8[] dst_pixel_data = GdkTexture.copy_pixels(dst);
@@ -94,7 +100,7 @@ namespace rpg {
 				dst_pixel_data[i+3] = (uint8) ((int)src_pixel_data[i+3] + dst_pixel_data[i+3]);
 			}
 
-			return new Pixbuf.from_data (dst_pixel_data, dst.colorspace, dst.has_alpha, dst.bits_per_sample, dst.width, dst.height, dst.rowstride);
+			return new Pixbuf.from_data (dst_pixel_data, dst.colorspace, dst.has_alpha, dst.bits_per_sample, dst.width, dst.height, dst.rowstride, rpg.GdkTexture.PixbufDestroyNotify);
 
 		}
 
