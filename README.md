@@ -20,22 +20,25 @@ Debian
 Documentation
 -------------
 
- * [Hmwd-0.2 Reference Manual](http://dl.dropbox.com/u/55722973/hmw/doc/Hmwd-0.2/index.htm)
+ * [librpg Reference Manual](http://doc.hmworld.eu)
         
 Example
 -------
 
 ```vala
-using Hmwd;
+using rpg;
 class Main : Object {
 	public static int main (string[] args) {
-		var data = new Hmwd.ResourceManager();
+		var data = new rpg.ResourceManager();
 		data.load_spriteset_manager("./data/spriteset/");
 		data.load_tileset_manager("./data/tileset/");
 		data.load_map_manager("./data/map/");
 		var map = data.mapmanager.get_from_filename("testmap.tmx");
 		var layer = map.get_layer_from_index(0);
 		var tile = layer.tiles[0,0]; //get tile x y
+		layer.merge(16,16);
+		layer.tex.save("test.png");
+		map.merge();
 
 		print("layers_same(index:0) -> name:%s, width:%u, height:%u, zoff:%f\n", layer.name, layer.width, layer.height, layer.zoff);
 		print("tile(x:0,y:0) -> gid:%i, width:%f, height:%f\n", tile.gid, tile.width, tile.height);
@@ -44,6 +47,7 @@ class Main : Object {
 		return 0;
 	}
 }
+
 ```
 
 Compile
