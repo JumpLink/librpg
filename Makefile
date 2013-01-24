@@ -1,14 +1,10 @@
 ## Makefile fuers HMWorld:
 
-export LD_LIBRARY_PATH := $(shell pwd)/lib
-export GI_TYPELIB_PATH := $(shell pwd)/lib
+
 
 # Variablen und Flags
 # Version des Pakets
 VERSION        = 0.3
-
-# Name des Pakets
-PKG_NAME       = rpg
 
 # Name des Pakets
 NAMESPACE       = rpg
@@ -20,7 +16,7 @@ LIB_NAME       = librpg
 # Quelldateien nur fuer das Spiel
 SRCS           = main.vala
 
-LIBRARY        = $(PKG_NAME)-$(VERSION)
+LIBRARY        = $(NAMESPACE)-$(VERSION)
 
 # Quelltestdateien nur fuer Tests
 TSRCS          = main.vala
@@ -31,7 +27,7 @@ TARGET                   = $(LIBRARY).o
 
 SHARED_LIBRARY_TARGET    = $(LIB_NAME).so.$(VERSION)
 
-STATIC_LIBRARY_TARGET    = $(LIB_NAME)-$(VERSION).a
+STATIC_LIBRARY_TARGET    = $(LIB_NAME).a.$(VERSION)
 
 TYPELIB_TARGET           = $(NAMESPACE)-$(VERSION).typelib
 
@@ -41,11 +37,13 @@ VAPI_TARGET              = $(LIBRARY).vapi
 
 HEADER_TARGET            = $(LIBRARY).h
 
+PKGCONFIG_TARGET         = $(LIBRARY).pc
+
+
 # Pakete
 PACKAGES      = Sxml-0.1 gee-1.0 gio-2.0 posix gdk-pixbuf-2.0 #clutter-1.0 clutter-gtk-1.0 gl glu glut sdl sdl-image cairo 
 # C-Compileranweisungen
 CFLAGS        = -lm # -lglut -lSDL_image
-
 
 # Quellverzeichnis
 SRC_DIR              = src/
@@ -81,8 +79,6 @@ VC            = valac
 GC            = g-ir-compiler
 # Valadoc
 VD            = valadoc
-# Valadoc Driver
-VDD           = 0.15.3
 
 
 # Allgemeine Quelldateien mit Pfad
@@ -184,7 +180,7 @@ install:
 	@sudo cp -u ./$(VAPI_TARGET_FILE) /usr/share/vala/vapi/$(VAPI_TARGET)				# .vapi
 	@sudo cp -u ./$(GIR_TARGET_FILE) /usr/share/gir-1.0/$(GIR_TARGET)					# .gir
 	@sudo cp -u ./$(TYPELIB_TARGET_FILE) /usr/lib/girepository-1.0/$(TYPELIB_TARGET)	# .typelib
-	@sudo cp -u ./$(LIBRARY).pc /usr/lib/pkgconfig/$(LIBRARY).pc	                    # .pc //TODO fixme for debian
+	@sudo cp -u ./$(PKGCONFIG_TARGET) /usr/lib/pkgconfig/$(LIBRARY).pc	                    # .pc //TODO fixme for debian
 ## * make unstall: Programm deinstallieren
 unstall:
 	@sudo rm -f /usr/lib/$(SHARED_LIBRARY_TARGET)
@@ -241,7 +237,7 @@ doc: $(SRC_FILES)
 ## * make doc-internal: Dokumentation generieren, inkl. nicht oeffentlicher Bereiche
 doc-internal: $(SRC_FILES)
 	@echo "Generating internal Documentation"
-	@$(VD) --driver $(VDD) -o $(DOC_DIR) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(SRC_FILES) --package-name $(PKG_NAME) --package-version=$(VERSION) --private --internal --importdir=$(TST_DOC_DIR) #fix importdir
+	@$(VD) -o $(DOC_DIR) --vapidir=$(VAPI_DIR) $(PKG_FLAGS) $(CC_FLAGS) $(SRC_FILES) --package-name $(NAMESPACE) --package-version=$(VERSION) --private --internal --importdir=$(TST_DOC_DIR) #fix importdir
 	@gnome-open ./doc/index.html
 
 ## * make clean: Raeumt die erzeugten Dateien auf
