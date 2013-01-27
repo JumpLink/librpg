@@ -11,29 +11,77 @@
  */
 using Gee;
 using GLib;
+using Json;
 using rpg;
+
 namespace rpg {
 	/**
 	 * Klasse fuer den MapManager, mit dieser Klasse werden alle Maps im Spiel verwaltet.
 	 * Sie kann beispielsweise alle Maps aus einem angegebenen Verzeichnis Laden.
 	 */
 	public class MapManager : GLib.Object {
+		/**
+		 * List of Maps to store Maps in the MapManager
+		 */
 		Gee.List<rpg.Map> map;
+
+		/**
+		 * Get list of maps as json
+		 */
+		public string json {
+			owned get {
+
+				size_t length;
+				string json;
+
+				var gen = new Generator();
+				var root = new Json.Node(NodeType.OBJECT);
+				var object = new Json.Object();
+
+				root.set_object(object);
+				gen.set_root(root);
+
+				var maps = new Json.Object();
+
+				object.set_object_member("maps", maps);
+				object.set_string_member("folder", folder);
+				object.set_int_member("map_length", map_length);
+
+				var fields = new Json.Array();
+
+				foreach (rpg.Map m in map) {
+					fields.add_string_element(m.filename);
+				}
+				maps.set_array_member("fields", fields);
+
+				json = gen.to_data(out length);
+				return json;
+			}
+
+		}
+
+		/**
+		 * String of folder that was set wit the createn-method.
+		 */
 		public string folder { get; construct set; }
+
+		/**
+		 * TilesetManager that is used from the MapReader
+		 */
 		public rpg.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
-		public int length {
+
+		/**
+		 * Length of List of Maps
+		 */
+		public int map_length {
 			get { return map.size; }
 		}
-		public int size {
-			get { return map.size; }
-		}
+
 		/**
 		 * Konstruktor mit uebergebenem Ordner fuer das Map-Verzeichnis.
 		 * @param folder Verzeichnis der Maps, default ist: "./data/map/".
 		 */
-		public MapManager(string folder,  rpg.TilesetManager tilesetmanager )
-		//requires (tilesetmanager != null)
-		{
+		public MapManager(string folder,  rpg.TilesetManager tilesetmanager ) {
 			GLib.Object(folder: folder, tilesetmanager : tilesetmanager);
 		}
 		construct {
@@ -65,6 +113,7 @@ namespace rpg {
 		public string get_map_filename_from_index(int index) {
 			return map[index].filename;
 		}
+
 		/**
 		 * Gibt die Map mit dem Dateinamen "filename" zurueck
 		 *
@@ -82,7 +131,7 @@ namespace rpg {
 			print("=====ALL MAPS====\n");
 			foreach (rpg.Map m in map) {
 					m.print_all();
-	   		}
+			}
 		}
 	}
 }

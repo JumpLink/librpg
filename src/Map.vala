@@ -91,8 +91,8 @@ namespace rpg {
 				return layers_same.size+layers_under.size+layers_over.size;
 			}
 		}
-		public GdkTexture over = new GdkTexture();
-		public GdkTexture under = new GdkTexture();
+		public GdkTexture over { get; set; default=new GdkTexture();}
+		public GdkTexture under { get; set; default=new GdkTexture();}
 		/** 
 		 * Entities auf der Map
 		 */
@@ -231,6 +231,12 @@ namespace rpg {
 			error("Layer %s nicht gefunden!", name);
 		}
 
+		/**
+		 * Fügt jeweils Layer "under" und "over" zu einem Gesamtpixelarray zusammen.
+		 *
+		 * @param name Gesichter Layername
+		 * @return Index aus der Layerliste
+		 */
 		public void merge () {
 			int i = 0;
 

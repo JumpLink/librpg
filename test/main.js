@@ -3,30 +3,30 @@
 // process.env.GI_TYPELIB_PATH = __dirname+"../gir";
 
 var Gir = require('gir');
-//Gir.init();
-var Hmwd = module.exports = Gir.load('rpg');
+Gir.init();
+var rpg = module.exports = Gir.load('rpg');
 var hexy = require('hexy');
 
 
 
-//console.log(Hmwd);
+//console.log(rpg);
 
-// Hmwd.TileSetManager.init("./data/tileset/");
-// Hmwd.MapManager.init("./data/map/");
-// Hmwd.SpriteSetManager.init("./data/spriteset/");
-// Hmwd.MAPMANAGER.printAll();
-var data = new Hmwd.Data();
+// rpg.TileSetManager.init("./data/tileset/");
+// rpg.MapManager.init("./data/map/");
+// rpg.SpriteSetManager.init("./data/spriteset/");
+// rpg.MAPMANAGER.printAll();
+var data = new rpg.Data();
 data.loadTileSetManager("./data/tileset/");
 data.loadMapManager("./data/map/");
 //data.loadSpriteSetManager("./data/spriteset/");
 //var mapmanager = data.mapmanager;
-// console.log(Hmwd.TileType.no_tile);
-// console.log(Hmwd.TileType);
+// console.log(rpg.TileType.no_tile);
+// console.log(rpg.TileType);
 // var layer = data.mapmanager.getFromFilename("testmap.tmx").getLayerFromName("under hero 1");
 
 // for (var y=0;y<layer.height;y++) {
 // 	for (var x=0;x<layer.width;x++) {
-// 		if(layer.getTileXY(x,y).tile_type != Hmwd.TileType.NO_TILE) {
+// 		if(layer.getTileXY(x,y).tile_type != rpg.TileType.NO_TILE) {
 // 			//print("x: %i y: %i\n", x,y);
 // 			var tex = layer.getTileXY(x,y).tex;
 // 			console.log(tex.width + " + " + tex.height);
@@ -57,12 +57,12 @@ console.log(hexy.hexy(buf));
 //console.log(tile_png);
 //console.log(tiletype);
 //console.log(data.mapmanager.getFromFilename("testmap.tmx").getLayerFromName("under hero 1").getTileXY(0,0).type);
-//console.log(Hmwd.Data);
-//console.log(Hmwd.MapManager);
-// Hmwd.MAPMANAGER
+//console.log(rpg.Data);
+//console.log(rpg.MapManager);
+// rpg.MAPMANAGER
 //console.log(data);
 //data.printAll();
 // SPRITESETMANAGER.SpriteSetManager();
-// Hmwd.Main.init();
+// rpg.Main.init();
 // SPRITESETMANAGER.printAll();
-// console.log(Hmwd.Animation);
+// console.log(rpg.Animation);

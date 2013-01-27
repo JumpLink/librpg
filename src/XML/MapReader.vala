@@ -257,21 +257,7 @@ public class rpg.MapReader : Sxml.DataReader, Object {
 	}
 	// Decompress zlib compressed inbuf
 	protected uint8[] inflate(uint8[] inbuf, ZlibCompressorFormat format) {
-		uint8[] outbuf = new uint8[map.width*map.height*4];
-
-		size_t bytes_read = 0;
-		size_t bytes_written = 0;
-
-		ConverterResult res;
-		ZlibDecompressor decompressor = new ZlibDecompressor(format);
-		try {
-			res = decompressor.convert (inbuf, outbuf, ConverterFlags.INPUT_AT_END, out bytes_read, out bytes_written);
-		} catch (Error e) {
-			error ("can not convert data: %s".printf(e.message));
-		}
-		if (res != ConverterResult.FINISHED)
-			error ("wrong converter result: %s".printf(res.to_string()));
-		return outbuf;
+		return decompress_buffer(inbuf, format, map.width*map.height*4);
 	}
 
 	protected rpg.Tile[,] parse_binary(uchar[] data) {

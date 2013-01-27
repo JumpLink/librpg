@@ -24,6 +24,36 @@ namespace rpg {
 		 * @see Gdk.Pixbuf
 		 */
 		public Pixbuf pixbuf { get; set construct; }
+		/**
+		 * Pixbuf der Textur als base64-string
+		 */
+		public string base64 {
+			owned get {
+				uchar[] png_buffer;
+				pixbuf.save_to_buffer(out png_buffer, "png");
+				string base64png;
+				base64png = GLib.Base64.encode(png_buffer);
+				return base64png;
+			}
+			// TODO
+			// set {
+			// 		uint8[] png_buffer = GLib.Base64.decode(value);
+			// 		pixbuf = new Pixbuf.from_data (png_buffer, Gdk.Colorspace.RGB, ...)
+			// }
+		}
+		/**
+		 * Pixbuf der Textur mit zlib komprimiert und als base64-string
+		 */
+		public string compressed {
+			owned get {
+				uchar[] png_buffer;
+				pixbuf.save_to_buffer(out png_buffer, "png");
+				return GLib.Base64.encode(compress_buffer(png_buffer, GLib.ZlibCompressorFormat.ZLIB));
+			}
+			// TODO
+			// set { }
+		}
+
 		public string path { get; set construct; }
 		public int width {
 			get { return pixbuf.get_width(); }
@@ -50,6 +80,7 @@ namespace rpg {
 		public int png_length {
 			get { return png_buffer.length; }
 		}
+
 		/**
 		 * Liefert ein Zeiger auf ein Array uint8[] mit den Pixelwerten,
 		 * der hier vorgegebene Rueckgabetyp ist hier void* damit dieser mit OpenGL
@@ -77,12 +108,19 @@ namespace rpg {
 
 		}
 
-		// Pixbuf callback to destroy the pixel buffer
+		// Pixbuf callback to destroy the pixel buffers
         public static void PixbufDestroyNotify (uint8* pixels) {
                 print("delete pixel buffer\n");
                 delete pixels;
         }
 
+        /**
+         * blittet zwei pixelbuffer.
+		 *
+		 * @param dst Zielbuffer (wird überlagert)
+		 * @param src Quellbuffer (überlagert dst)
+		 * @return Resultat aus dst und src geblitteten Pixbufs  
+		 */
 		public static Pixbuf blit(Pixbuf dst, Pixbuf src) {
 			// uint8[] dst_pixel_data = dst.get_pixels_with_length();
 			uint8[] dst_pixel_data = GdkTexture.copy_pixels(dst);
@@ -101,7 +139,6 @@ namespace rpg {
 			}
 
 			return new Pixbuf.from_data (dst_pixel_data, dst.colorspace, dst.has_alpha, dst.bits_per_sample, dst.width, dst.height, dst.rowstride, rpg.GdkTexture.PixbufDestroyNotify);
-
 		}
 
 		public static uint8[] copy_pixels(Pixbuf pixbuf) {
@@ -133,9 +170,16 @@ namespace rpg {
 			}
 		}
 
+        /**
+         * Alternative für png_buffer[index].
+		 *
+		 * @param index index in png_buffer[index]
+		 * @return png-wert vom public
+		 */
 		public uint8 get_png_buffer_from_index(int index) {
 			return png_buffer[index];
 		}
+
 		/**
 		 * Liefert Information darueber ob die Textur einen Alphakanal enthaelt.
 		 * @see Gdk.Pixbuf.get_has_alpha
@@ -143,6 +187,7 @@ namespace rpg {
 		public bool has_alpha {
 			get { return this.pixbuf.get_has_alpha(); }
 		}
+
 		/**
 		 * Ladet eine Textur aus einer Datei.
 		 * @param path Pfadangabe der zu ladenden Grafikdatei.
@@ -177,13 +222,18 @@ namespace rpg {
 				error ("Error! Konnte Tile nicht Speichern: %s\n", e.message);
 			}
 		}
+
 		public void print_png_as_hex() {
 			uint8[] hex = save_to_buffer("png");
 			foreach (uint8 h in hex) { stdout.printf("%02X ",h); }
 		}
 
+		public void print_base64() {
+			print(@"data:image/png;base64,$(base64)\n");
+		}
+
 		/**
-		 * Gibt die Werte der Textur auf der Konsole aus.
+		 * Gibt die Wsave_to_buffererte der Textur auf der Konsole aus.
 		 */
 		public void print_values() {
 			print("=Tex=\n");
