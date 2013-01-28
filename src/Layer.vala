@@ -9,12 +9,13 @@
  * Author:
  *	Pascal Garber <pascal.garber@gmail.com>
  */
+using Json;
 using rpg;
 namespace rpg {
 	/**
 	 * Klasse fuer Maplayer.
 	 */
-	public class Layer : Object {
+	public class Layer : GLib.Object {
 		/**
 		 * Name des Layers
 		 */
@@ -22,7 +23,7 @@ namespace rpg {
 		/**
 		 * z-offset zum Zeichnen dieses Layers
 		 */
-		public double zoff { get; set; }
+		public double zoff { get; set; } //TODO as list of properties?
 		/**
 		 * Breite des Layers
 		 */
@@ -38,11 +39,49 @@ namespace rpg {
 		/**
 		 * Zur ueberpruefung ob dieser Layer Kollision erzeugt.
 		 */
-		public bool collision { get; set; }
+		public bool collision { get; set; } //TODO as list of properties?
 		/**
 		 * Layertextur, die Pixel der zusammen gesetzten Tiles für eine Layer
 		 */
 		public GdkTexture tex { get; construct set; }
+
+		/**
+		 * Get layer as json
+		 */
+		public Json.Node json {
+			owned get {
+				
+				var root = new Json.Node(NodeType.OBJECT);
+				var object = new Json.Object();
+
+				root.set_object(object);
+				
+				object.set_string_member("name", name);
+				object.set_double_member("zoff", zoff);
+				object.set_int_member("width", width);
+				object.set_int_member("height", height);
+				object.set_boolean_member("collision", collision);
+
+				var data = new Json.Array();
+
+				for (int y=0;y<height;y++) {
+					for (int x=0;x<width;x++) {
+						data.add_int_element (tiles[x,y].gid);
+					}
+				}
+
+				object.set_array_member ("data", data);
+
+				return root;
+			}
+		}
+
+		/**
+		 * Get layer as json string
+		 */
+		public string json_str {
+			owned get {return json_to_string(json);}
+		}
 
 		/**
 		 * Konstruktor
@@ -54,14 +93,14 @@ namespace rpg {
 		 * Konstruktor mit Groessenangaben
 		 */
 		public Layer.sized(int width, int height) {
-			Object(name:"new Layer", width:width, height:height, zoff:0);
+			GLib.Object(name:"new Layer", width:width, height:height, zoff:0);
 		}
 		/**
 		 * Konstruktor mit allen Werten non-default
 		 */
 		public Layer.all(string name, double zoff, bool collision, int width, int height) {
 			//this.tiles = tiles; //TODO make this work in node-gir
-			Object(name:name, zoff:zoff, width:width, height:height, collision:collision);
+			GLib.Object(name:name, zoff:zoff, width:width, height:height, collision:collision);
 		}
 		public rpg.Tile get_tile_from_coordinate(uint x, uint y) {
 			return tiles[x,y];

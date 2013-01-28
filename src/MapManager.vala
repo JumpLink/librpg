@@ -28,36 +28,33 @@ namespace rpg {
 		/**
 		 * Get list of maps as json
 		 */
-		public string json {
+		public Json.Node json {
 			owned get {
-
-				size_t length;
-				string json;
-
-				var gen = new Generator();
+				
 				var root = new Json.Node(NodeType.OBJECT);
 				var object = new Json.Object();
 
 				root.set_object(object);
-				gen.set_root(root);
-
-				var maps = new Json.Object();
-
-				object.set_object_member("maps", maps);
+				
 				object.set_string_member("folder", folder);
-				object.set_int_member("map_length", map_length);
 
-				var fields = new Json.Array();
+				var maps = new Json.Array();
 
 				foreach (rpg.Map m in map) {
-					fields.add_string_element(m.filename);
+					maps.add_object_element(m.json.get_object() );
 				}
-				maps.set_array_member("fields", fields);
 
-				json = gen.to_data(out length);
-				return json;
+				object.set_array_member("maps", maps);
+
+				return root;
 			}
+		}
 
+		/**
+		 * Get list of maps as json string
+		 */
+		public string json_str {
+			owned get {return json_to_string(json);}
 		}
 
 		/**

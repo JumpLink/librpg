@@ -11,13 +11,14 @@
  */
 using Gee;
 using Gdk;
+using Json;
 namespace rpg {
 	/**
 	 * Klasse fuer Maps.
 	 * Diese Klasse dient zur Speicherung von Mapinformationen.
 	 * Sie kann zudem die Maps auf der Konsole ausgeben und eine Map-Datei laden.
 	 */
-	public class Map : Object {
+	public class Map : GLib.Object {
 		/**
 		 * properties der Map.
 		 */
@@ -98,15 +99,68 @@ namespace rpg {
 		 */
 		public Gee.List<Entity> entities { get; set; default=new Gee.ArrayList<Entity>();}
 
+		/** 
+		 * Note: this are not tiles like tiles in layers
+		 */
 		public LogicalTile [,] tiles { get; set; }
 
-		public rpg.TilesetManager tilesetmanager { get; construct set; } //TODO remove?
+		/**
+		 * Get map as json
+		 */
+		public Json.Node json {
+			owned get {
+				
+				var root = new Json.Node(NodeType.OBJECT);
+				var object = new Json.Object();
+
+				root.set_object(object);
+				
+				object.set_string_member("filename", filename);
+				object.set_string_member("orientation", orientation);
+				object.set_string_member("version", version);
+				object.set_int_member("width", width);
+				object.set_int_member("height", height);
+				object.set_int_member("tilewidth", tile_width);
+				object.set_int_member("tileheight", tile_height);
+
+				var props = new Json.Object();
+
+				var props_iter = properties.map_iterator();
+				if( props_iter.first() )
+					do {
+						string k = props_iter.get_key ();
+						string v = props_iter.get_value ();
+
+						props.set_string_member(k, v);
+
+					} while( props_iter.next() );
+
+				object.set_object_member("properties", props);
+
+				var layers_json_array = new Json.Array();
+				
+				for (var i = 0;i<all_layer_size;i++) {
+					layers_json_array.add_object_element( get_layer_from_index(i).json.get_object() );
+				}
+
+				object.set_array_member("layers", layers_json_array);
+
+				return root;
+			}
+		}
+
+		/**
+		 * Get map as json string
+		 */
+		public string json_str {
+			owned get {return json_to_string(json);}
+		}
 
 		/**
 		 * Konstruktor fuer eine leere Map
 		 */
-		public Map(string filename, rpg.TilesetManager tilesetmanager) {
-			Object(filename:filename, tilesetmanager:tilesetmanager);
+		public Map(string filename) {
+			GLib.Object(filename:filename);
 		}
 		/**
 		 * Gibt das zur gid passende TilesetReference zurueck.

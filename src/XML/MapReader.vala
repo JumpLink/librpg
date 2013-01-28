@@ -54,7 +54,7 @@ public class rpg.MapReader : Sxml.DataReader, Object {
 	}
 
 	public rpg.Map parse(string filename) {
-		map = new rpg.Map(filename, tilesetmanager);
+		map = new rpg.Map(filename);
 		reader = new XmlStreamReader (path+filename);
 		next ();
 		while(!is_start_element("map")){next ();}
@@ -107,7 +107,7 @@ public class rpg.MapReader : Sxml.DataReader, Object {
 		while(!is_end_element("properties")) {
 			string prop_value;
 			string prop_name;
-			parse_property(out prop_value, out prop_name);
+			parse_property(out prop_name, out prop_value);
 			map.properties.set(prop_name, prop_value);
 		}
 		end_element("properties");

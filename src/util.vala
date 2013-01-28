@@ -13,6 +13,9 @@
 /**
  * Library zur Verwaltung von Ressourcen eines 2D-Spiels basierend auf [[http://www.mapeditor.org/|Tiled]].
  */
+
+using Json;
+
 namespace rpg {
 	public static int Round(double num) {
 		(num > 0) ? (num+= 0.5) : (num+= (-0.5));
@@ -97,4 +100,20 @@ namespace rpg {
 			error ("wrong converter result: %s".printf(res.to_string()));
 		return outbuf;
 	}
+
+	/**
+	 * generates a json string from Json.Node
+	 * @param json The Json.Node to parse
+	 * @return new json string
+	 */
+	public static string json_to_string(Json.Node json) {
+		size_t length;
+		string json_str;
+
+		var gen = new Generator();
+		gen.set_root(json);
+		json_str = gen.to_data(out length);
+		return json_str;
+	}
+
 }
