@@ -1,21 +1,8 @@
 librpg
 =========
 
-This Libary is used by [HMWworld](https://github.com/JumpLink/HMWorld) and [HMWorld-Website](https://github.com/JumpLink/HMWorld-Website) to handle the Game Data, but can also be used generally for orthogonally tiled based maps.
-This library can also load tiled based tilesets and spritesets (in my own format).
-
-If you want to use OpenGL you could use the OpenGL Extension [librpggl](https://github.com/JumpLink/librpggl).
-
-Install
--------
-
-First you need to install [Sxml](https://github.com/JumpLink/simple-xml-reader-vala).
-
-Debian
-
-        apt-get install libgirepository1.0-dev libgee-dev gobject-introspection libgtk2.0-dev gir1.2-glib-2.0
-        make
-        make install
+Librpg is a library to handel maps from [Tiled](https://github.com/bjorn/tiled/) to use it in your own Game, also librpg can handel sprties, tilesets and more!
+Librpg is written in Vala and you can use it in with Vala, JavaScript, Python, Java, Lua, .NET any other language which has [GObject Introspection](https://live.gnome.org/GObjectIntrospection) bindings.
         
 Documentation
 -------------
@@ -51,6 +38,28 @@ class Main : Object {
 ```
 
 Compile
+```
+valac sample.vala --pkg rpg-0.3 --pkg gee-1.0 --pkg gio-2.0 --pkg gdk-pixbuf-2.0 --pkg Sxml-0.1
+./sample
+```	
+Practical Examples
+------------------
 
-	valac sample.vala --pkg rpg-0.3 --pkg gee-1.0 --pkg gio-2.0 --pkg gdk-pixbuf-2.0 --pkg Sxml-0.1
-	./sample
+This Libary is used by [HMWworld](https://github.com/JumpLink/HMWorld) and [HMWorld-Website](https://github.com/JumpLink/HMWorld-Website).
+
+
+Extensions
+----------
+If you want to use OpenGL you could use the OpenGL Extension [librpggl](https://github.com/JumpLink/librpggl).
+
+
+Install
+-------
+
+First you need to install [Sxml](https://github.com/JumpLink/simple-xml-reader-vala).
+
+Debian
+
+        apt-get install libgirepository1.0-dev libgee-dev gobject-introspection libgtk2.0-dev gir1.2-glib-2.0
+        make
+        make install
