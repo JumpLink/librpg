@@ -115,11 +115,12 @@ namespace rpg {
 		 * Gibt die Map mit dem Dateinamen "filename" zurueck
 		 *
 		 * @param filename Dateiname der gesuchten Map
-		 * @return Bei Erfolg die gefundene Map, sonst ein neues Objekt Map
+		 * @return Bei Erfolg die gefundene Map, sonst null
 		 */
-		public rpg.Map get_from_filename(string filename) {
+		public rpg.Map? get_from_filename(string filename) {
 			foreach (rpg.Map m in map) if (m.filename == filename) { return m;}
-			error("Map %s nicht gefunden", filename);
+			//error("Map %s nicht gefunden", filename);
+			return null;
 		}
 		/**
 		 * Gibt die Werte aller Maps in der Liste aus.

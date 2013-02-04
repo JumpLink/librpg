@@ -23,50 +23,62 @@ namespace rpg {
 		 * properties der Map.
 		 */
 		public Gee.Map<string, string> properties = new HashMap<string, string> (str_hash, str_equal);
+
 		/**
 		 * orientation der Map.
 		 */
 		public string orientation { get; set; }
+
 		/**
 		 * Version des Kartenformats, fuer gewoehnloch 1.0
 		 */
 		public string version { get; set; }
+
 		/**
 		 * Gesamtbreite der Map in Tiles
 		 */
 		public int width { get; set; }
+
 		/**
 		 * Gesamthoehe der Map in Tiles
 		 */
 		public int height { get; set; }
+
 		/**
 		 * Gesamtbreite der Map in Pixel
 		 */
 		public int pixel_width {
 			get {return width*tile_width;}
 		}
+
 		/**
 		 * Gesamthoehe der Map in Pixel
 		 */
 		public int pixel_height {
 			get {return height*tile_height;}
+
 		}
+
 		/**
 		 * Breite eines Tiles
 		 */
 		public int tile_width { get; set; }
+
 		/**
 		 * Höhe eines Tiles
 		 */
 		public int tile_height { get; set; }
+
 		/**
 		 * Dateiname der Map
 		 */
 		public string filename { get; construct set; }
+
 		// /**
 		//  * Path der Mapdateien
 		//  */
 		// public string path { get; construct; }
+
 		/**
 		 * Tilesets die für auf der Map verwendet werden
 		 */
@@ -74,19 +86,25 @@ namespace rpg {
 		public int tileset_size {
 			get { return tileset.size; }
 		}
+
 		/**
 		 * Layer der Map ueber dem Helden
 		 */
 		public Gee.List<Layer> layers_over { get; set; default=new Gee.ArrayList<Layer>();}
+
 		/**
 		 * Layer der Map gleich dem Helden
 		 */
 		public Gee.List<Layer> layers_same { get; set; default=new Gee.ArrayList<Layer>();} 
+
 		/**
 		 * Layer der Map unter dem Helden
 		 */
 		public Gee.List<Layer> layers_under { get; set; default=new Gee.ArrayList<Layer>();} 
 
+		/**
+		 * Sum of sizes of all layers.
+		 */
 		public int all_layer_size {
 			get {
 				return layers_same.size+layers_under.size+layers_over.size;
@@ -94,6 +112,7 @@ namespace rpg {
 		}
 		public GdkTexture over { get; set; default=new GdkTexture();}
 		public GdkTexture under { get; set; default=new GdkTexture();}
+
 		/** 
 		 * Entities auf der Map
 		 */
@@ -105,23 +124,76 @@ namespace rpg {
 		public LogicalTile [,] tiles { get; set; }
 
 		/**
-		 * Get map as json
+		 * Get map as json. If you wish a smaller json please use ''get_json_indi ()''.
+		 * <<BR>><<BR>>
+		 * Node: This is only a wrapper to ''get_json_indi ()''.
+		 *
+		 * @see get_json_indi
 		 */
 		public Json.Node json {
-			owned get {
-				
-				var root = new Json.Node(NodeType.OBJECT);
-				var object = new Json.Object();
+			owned get { return get_json_indi(); }
+		}
 
-				root.set_object(object);
-				
+		/**
+		 * Get map as json ''string''. If you wish a smaller json string please use get_json_indi.
+		 * <<BR>><<BR>>
+		 * Node: This is only a wrapper to get_json_indi_as_str.
+		 *
+		 * @see get_json_indi_as_str
+		 */
+		public string json_str {
+			owned get { return get_json_indi_as_str(); }
+		}
+
+		/**
+		 * Konstruktor fuer eine leere Map.
+		 *
+		 * @param filename filename of Map.
+		 */
+		public Map(string filename) {
+			GLib.Object(filename:filename);
+		}
+
+		/**
+		 * Get map as individually json. You can define which properties should be included.
+		 *
+		 * @param with_filename if true json includes filename.
+		 * @param with_orientation if true json includes orientation.
+		 * @param with_version if true json includes verion of format.
+		 * @param with_size if true json includes width and height.
+		 * @param with_tilesize if true json includes tilewidth and tileheight.
+		 * @param with_property if true json includes properties.
+		 * @param with_layer if true json includes layers.
+		 * @param with_merged_layer_pixbuf if true json includes the texture of the under- and overlayer as a png base64 string (empty if texture is unset, use merge() to set the texture).
+		 * @return The new generated json node.
+		 */
+		public Json.Node get_json_indi(bool with_filename = true, bool with_orientation = true, bool with_version = true, bool with_size = true, bool with_tilesize = true,  bool with_property = true, bool with_layer = true, bool with_merged_layer_pixbuf = false) {
+
+			var root = new Json.Node(NodeType.OBJECT);
+			var object = new Json.Object();
+
+			root.set_object(object);
+			
+			if(with_filename)
 				object.set_string_member("filename", filename);
+
+			if(with_orientation)
 				object.set_string_member("orientation", orientation);
+
+			if(with_version)
 				object.set_string_member("version", version);
+
+			if(with_size) {
 				object.set_int_member("width", width);
 				object.set_int_member("height", height);
+			}
+
+			if(with_tilesize) {
 				object.set_int_member("tilewidth", tile_width);
 				object.set_int_member("tileheight", tile_height);
+			}
+
+			if(with_property) {
 
 				var props = new Json.Object();
 
@@ -136,6 +208,9 @@ namespace rpg {
 					} while( props_iter.next() );
 
 				object.set_object_member("properties", props);
+			}
+
+			if(with_layer) {
 
 				var layers_json_array = new Json.Array();
 				
@@ -144,28 +219,38 @@ namespace rpg {
 				}
 
 				object.set_array_member("layers", layers_json_array);
-
-				return root;
 			}
+
+			if(with_merged_layer_pixbuf) {
+				if(under.width > 0)
+					object.set_string_member("layer_pixbuf_under", under.base64);
+				else
+					object.set_string_member("layer_pixbuf_under", "unset");
+				if(over.width > 0)
+					object.set_string_member("layer_pixbuf_over", over.base64);
+				else
+					object.set_string_member("layer_pixbuf_over", "unset");
+			}
+
+			return root;
 		}
 
 		/**
-		 * Get map as json string
+		 * Like ''get_json_indi ()'' but returns the json string using ''rpg.json_to_string ()'', please see ''get_json_indi ()'' for parameter information.
+		 *
+		 * @return The new generated json string.
+		 *
+		 * @see rpg.json_to_string
+		 * @see get_json_indi
 		 */
-		public string json_str {
-			owned get {return json_to_string(json);}
+		public string get_json_indi_as_str(bool with_filename = true, bool with_orientation = true, bool with_version = true, bool with_size = true, bool with_tilesize = true,  bool with_property = true, bool with_layer = true, bool with_merged_layer_pixbuf = false) {
+			return json_to_string(get_json_indi(with_filename, with_orientation, with_version, with_size, with_tilesize, with_property, with_layer, with_merged_layer_pixbuf));
 		}
 
-		/**
-		 * Konstruktor fuer eine leere Map
-		 */
-		public Map(string filename) {
-			GLib.Object(filename:filename);
-		}
 		/**
 		 * Gibt das zur gid passende TilesetReference zurueck.
 		 * Dabei wird nach der firstgid gesucht die kleiner ist als die gid
-		 * aber groesser ist als alle anderen firstgids
+		 * aber groesser ist als alle anderen firstgids.
 		 * @param gid Die zu der das passende Tileset gesucht werden soll.
 		 * @return Das gefundene TilesetReference.
 		 */
@@ -205,6 +290,7 @@ namespace rpg {
 			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			return (int) tile.gid - (int) (tref.firstgid-1);
 		}
+
 		/**
 		 * Tile-X-Coord of the tilesetimage
 		 */
@@ -216,6 +302,7 @@ namespace rpg {
 			int res = (id%tref.source.count_x)*tile_width;
 			return res == 0 && id != 0 ? tref.source.count_x*tile_width : res;
 		}
+
 		/**
 		 * Tile-Y-Coord of the tilesetimage
 		 */
@@ -230,6 +317,7 @@ namespace rpg {
 		public int get_tilegid_from_position(int x, int y, int layer_index) {
 			return get_layer_from_index(layer_index).get_tile_from_coordinate(x,y).gid;
 		}
+
 		/**
 		 * Gibt den Layer eines gesuchten Layers mit dem Namen name zurueck.
 		 *
@@ -273,6 +361,7 @@ namespace rpg {
 			}
 			error("keinen Layer mit dem Index %i gefunden\n",index);
 		}
+
 		/**
 		 * Gibt den Index eines gesuchten Layers mit dem Namen name zurueck.
 		 *
@@ -286,10 +375,12 @@ namespace rpg {
 		}
 
 		/**
-		 * Fügt jeweils Layer "under" und "over" zu einem Gesamtpixelarray zusammen.
+		 * Generiert aus Layer ''layer_over''/''layer_under'' ein Pixbuf und speichert es in ''over''/''under''.
 		 *
-		 * @param name Gesichter Layername
-		 * @return Index aus der Layerliste
+		 * @see rpg.Map.over
+		 * @see rpg.Map.under
+		 * @see rpg.Map.layers_over
+		 * @see rpg.Map.layers_under
 		 */
 		public void merge () {
 			int i = 0;
@@ -329,6 +420,7 @@ namespace rpg {
 			}
 			return !obstacle;
 		}
+
 		/**
 		 * Gibt alle Werte (bis auf die Layer) der Map auf der Konsole aus
 		 */
@@ -343,6 +435,7 @@ namespace rpg {
 			print("tile_width: %u\n", tile_width);
 			print("tile_height: %u\n", tile_height);
 		}
+
 		/**
 		 * Gibt die Werte aller Layer der Map auf der Konsole aus
 		 */
@@ -365,6 +458,7 @@ namespace rpg {
 				l.print_tiles();
 			}
 		}
+
 		/**
 		 * Gibt die Werte aller Tilesets der Map auf der Konsole aus
 		 */
@@ -375,6 +469,7 @@ namespace rpg {
 				tsr.print_values();
 			}
 		}
+
 		/**
 		 * Gibt alle Werte und alle Layer der Map auf der Konsole aus
 		 */

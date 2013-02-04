@@ -23,7 +23,7 @@ namespace rpg {
 	}
 	/**
 	 * Switch boolean from true to false or from false to true.
-	 * @param boolean to switch
+	 * @param b boolean to switch
 	 * @return switched boolean
 	 */
 	public static bool toggle(bool b) {
@@ -54,8 +54,6 @@ namespace rpg {
 	 */
 	public static uint8[] compress_buffer(uint8[] inbuf, ZlibCompressorFormat format) {
 		uint8[] outbuf = new uint8[inbuf.length];
-
-		int new_buffer_length = 0;
 
 		size_t bytes_read = 0;
 		size_t bytes_written = 0;
