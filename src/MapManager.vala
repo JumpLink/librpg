@@ -15,6 +15,18 @@ using Json;
 using rpg;
 
 namespace rpg {
+
+	// public struct MapManagerJsonParam {
+	// 	/**
+	// 	 * If true json includes folder.
+	// 	 */
+	// 	public bool with_folder;
+	// 	/**
+	// 	 * If true the maps saved in MapManager are included in the Json
+	// 	 */
+	// 	public bool with_map;
+	// }
+
 	/**
 	 * Klasse fuer den MapManager, mit dieser Klasse werden alle Maps im Spiel verwaltet.
 	 * Sie kann beispielsweise alle Maps aus einem angegebenen Verzeichnis Laden.
@@ -30,23 +42,7 @@ namespace rpg {
 		 */
 		public Json.Node json {
 			owned get {
-				
-				var root = new Json.Node(NodeType.OBJECT);
-				var object = new Json.Object();
-
-				root.set_object(object);
-				
-				object.set_string_member("folder", folder);
-
-				var maps = new Json.Array();
-
-				foreach (rpg.Map m in map) {
-					maps.add_object_element(m.json.get_object() );
-				}
-
-				object.set_array_member("maps", maps);
-
-				return root;
+				return get_json_indi(true, null);
 			}
 		}
 
@@ -54,7 +50,9 @@ namespace rpg {
 		 * Get list of maps as json string
 		 */
 		public string json_str {
-			owned get {return json_to_string(json);}
+			owned get {
+				return get_json_indi_as_str(true, null);
+			}
 		}
 
 		/**
@@ -81,6 +79,7 @@ namespace rpg {
 		public MapManager(string folder,  rpg.TilesetManager tilesetmanager ) {
 			GLib.Object(folder: folder, tilesetmanager : tilesetmanager);
 		}
+
 		construct {
 			map = new Gee.ArrayList<rpg.Map>();
 			load_all_from_folder(folder, tilesetmanager);
@@ -104,9 +103,48 @@ namespace rpg {
 				map.add(mapreader.parse(filename));
 			}
 		}
+
+		/**
+		 * Get all maps as individually json. You can define which properties should be included.
+		 */
+		public Json.Node get_json_indi(bool with_folder = true, MapJsonParam? mp) {
+			var root = new Json.Node(NodeType.OBJECT);
+			var object = new Json.Object();
+
+			root.set_object(object);
+	
+			if(with_folder)
+				object.set_string_member("folder", folder);
+
+			if(mp != null) {
+				var maps = new Json.Array();
+
+				foreach (rpg.Map m in map) {
+					maps.add_object_element(m.get_json_indi((!) mp).get_object() );
+				}
+
+				object.set_array_member("maps", maps);
+			}
+
+			return root;
+		}
+
+		/**
+		 * Like ''get_json_indi ()'' but returns the json string using ''rpg.json_to_string ()'', please see ''get_json_indi ()'' for parameter information.
+		 *
+		 * @return The new generated json string.
+		 *
+		 * @see rpg.json_to_string
+		 * @see get_json_indi
+		 */
+		public string get_json_indi_as_str(bool with_folder = true, MapJsonParam? mp) {
+			return json_to_string(get_json_indi(true, mp));
+		}
+
 		public rpg.Map get_map_from_index(int index) {
 			return map[index];
 		}
+
 		public string get_map_filename_from_index(int index) {
 			return map[index].filename;
 		}
@@ -122,6 +160,7 @@ namespace rpg {
 			//error("Map %s nicht gefunden", filename);
 			return null;
 		}
+
 		/**
 		 * Gibt die Werte aller Maps in der Liste aus.
 		 */

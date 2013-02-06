@@ -114,4 +114,38 @@ namespace rpg {
 		return json_str;
 	}
 
+	public class MapJsonParam:GLib.Object {
+		/**
+		 * If true json includes filename.
+		 */
+		public bool with_filename { get; construct set; }
+		/**
+		 * If true json includes orientation.
+		 */
+		public bool with_orientation { get; construct set; }
+		/**
+		 * If true json includes verion of format.
+		 */
+		public bool with_version { get; construct set; }
+		/**
+		 * If true json includes width and height.
+		 */
+		public bool with_size { get; construct set; }
+		/**
+		 * If true json includes tilewidth and tileheight.
+		 */
+		public bool with_tilesize { get; construct set; }
+		/**
+		 * If true json includes properties.
+		 */
+		public bool with_property { get; construct set; }
+		/**
+		 * If true json includes layers.
+		 */
+		public bool with_layer { get; construct set; }
+		/**
+		 * If true json includes the texture of the under- and overlayer as a png base64 string (empty if texture is unset, use merge() to set the texture).
+		 */
+		public bool with_merged_layer_pixbuf { get; construct set; }
+	}
 }

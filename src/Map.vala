@@ -13,42 +13,6 @@ using Gee;
 using Gdk;
 using Json;
 namespace rpg {
-
-	public struct MapJsonParam {
-		/**
-		 * If true json includes filename.
-		 */
-		public bool with_filename;
-		/**
-		 * If true json includes orientation.
-		 */
-		public bool with_orientation;
-		/**
-		 * If true json includes verion of format.
-		 */
-		public bool with_version;
-		/**
-		 * If true json includes width and height.
-		 */
-		public bool with_size;
-		/**
-		 * If true json includes tilewidth and tileheight.
-		 */
-		public bool with_tilesize;
-		/**
-		 * If true json includes properties.
-		 */
-		public bool with_property;
-		/**
-		 * If true json includes layers.
-		 */
-		public bool with_layer;
-		/**
-		 * If true json includes the texture of the under- and overlayer as a png base64 string (empty if texture is unset, use merge() to set the texture).
-		 */
-		public bool with_merged_layer_pixbuf;
-	}
-
 	/**
 	 * Klasse fuer Maps.
 	 * Diese Klasse dient zur Speicherung von Mapinformationen.
@@ -160,7 +124,7 @@ namespace rpg {
 		public LogicalTile [,] tiles { get; set; }
 
 		/**
-		 * Get map as json. If you wish a smaller json please use ''get_json_indi ()''.
+		 * Get map as json. If you wish a individual json please use ''get_json_indi ()''.
 		 * <<BR>><<BR>>
 		 * Node: This is only a wrapper to ''get_json_indi ()''.
 		 *
@@ -168,7 +132,7 @@ namespace rpg {
 		 */
 		public Json.Node json {
 			owned get {
-				MapJsonParam p = MapJsonParam() {
+				MapJsonParam p = new MapJsonParam() {
 					with_filename = true,
 					with_orientation = true,
 					with_version = true,
@@ -183,7 +147,7 @@ namespace rpg {
 		}
 
 		/**
-		 * Get map as json ''string''. If you wish a smaller json string please use get_json_indi.
+		 * Get map as json ''string''. If you wish a individual json string please use get_json_indi.
 		 * <<BR>><<BR>>
 		 * Node: This is only a wrapper to get_json_indi_as_str.
 		 *
@@ -204,15 +168,6 @@ namespace rpg {
 
 		/**
 		 * Get map as individually json. You can define which properties should be included.
-		 *
-		 * @param with_filename if true json includes filename.
-		 * @param with_orientation if true json includes orientation.
-		 * @param with_version if true json includes verion of format.
-		 * @param with_size if true json includes width and height.
-		 * @param with_tilesize if true json includes tilewidth and tileheight.
-		 * @param with_property if true json includes properties.
-		 * @param with_layer if true json includes layers.
-		 * @param with_merged_layer_pixbuf if true json includes the texture of the under- and overlayer as a png base64 string (empty if texture is unset, use merge() to set the texture).
 		 * @return The new generated json node.
 		 */
 		public Json.Node get_json_indi(MapJsonParam p) {
