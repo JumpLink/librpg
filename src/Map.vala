@@ -13,6 +13,42 @@ using Gee;
 using Gdk;
 using Json;
 namespace rpg {
+
+	public struct MapJsonParam {
+		/**
+		 * If true json includes filename.
+		 */
+		public bool with_filename;
+		/**
+		 * If true json includes orientation.
+		 */
+		public bool with_orientation;
+		/**
+		 * If true json includes verion of format.
+		 */
+		public bool with_version;
+		/**
+		 * If true json includes width and height.
+		 */
+		public bool with_size;
+		/**
+		 * If true json includes tilewidth and tileheight.
+		 */
+		public bool with_tilesize;
+		/**
+		 * If true json includes properties.
+		 */
+		public bool with_property;
+		/**
+		 * If true json includes layers.
+		 */
+		public bool with_layer;
+		/**
+		 * If true json includes the texture of the under- and overlayer as a png base64 string (empty if texture is unset, use merge() to set the texture).
+		 */
+		public bool with_merged_layer_pixbuf;
+	}
+
 	/**
 	 * Klasse fuer Maps.
 	 * Diese Klasse dient zur Speicherung von Mapinformationen.
@@ -83,9 +119,9 @@ namespace rpg {
 		 * Tilesets die für auf der Map verwendet werden
 		 */
 		public Gee.List<rpg.TilesetReference> tileset  { get; set; default=new Gee.ArrayList<TilesetReference>();}
-		public int tileset_size {
-			get { return tileset.size; }
-		}
+		// public int tileset_size {
+		// 	get { return tileset.size; }
+		// }
 
 		/**
 		 * Layer der Map ueber dem Helden
@@ -131,7 +167,19 @@ namespace rpg {
 		 * @see get_json_indi
 		 */
 		public Json.Node json {
-			owned get { return get_json_indi(); }
+			owned get {
+				MapJsonParam p = MapJsonParam() {
+					with_filename = true,
+					with_orientation = true,
+					with_version = true,
+					with_size = true,
+					with_tilesize = true,
+					with_property = true,
+					with_layer = true,
+					with_merged_layer_pixbuf = false
+				};
+				return get_json_indi(p);
+			}
 		}
 
 		/**
@@ -142,7 +190,7 @@ namespace rpg {
 		 * @see get_json_indi_as_str
 		 */
 		public string json_str {
-			owned get { return get_json_indi_as_str(); }
+			owned get { return json_to_string(json); }
 		}
 
 		/**
@@ -167,33 +215,33 @@ namespace rpg {
 		 * @param with_merged_layer_pixbuf if true json includes the texture of the under- and overlayer as a png base64 string (empty if texture is unset, use merge() to set the texture).
 		 * @return The new generated json node.
 		 */
-		public Json.Node get_json_indi(bool with_filename = true, bool with_orientation = true, bool with_version = true, bool with_size = true, bool with_tilesize = true,  bool with_property = true, bool with_layer = true, bool with_merged_layer_pixbuf = false) {
+		public Json.Node get_json_indi(MapJsonParam p) {
 
 			var root = new Json.Node(NodeType.OBJECT);
 			var object = new Json.Object();
 
 			root.set_object(object);
 			
-			if(with_filename)
+			if(p.with_filename)
 				object.set_string_member("filename", filename);
 
-			if(with_orientation)
+			if(p.with_orientation)
 				object.set_string_member("orientation", orientation);
 
-			if(with_version)
+			if(p.with_version)
 				object.set_string_member("version", version);
 
-			if(with_size) {
+			if(p.with_size) {
 				object.set_int_member("width", width);
 				object.set_int_member("height", height);
 			}
 
-			if(with_tilesize) {
+			if(p.with_tilesize) {
 				object.set_int_member("tilewidth", tile_width);
 				object.set_int_member("tileheight", tile_height);
 			}
 
-			if(with_property) {
+			if(p.with_property) {
 
 				var props = new Json.Object();
 
@@ -210,7 +258,7 @@ namespace rpg {
 				object.set_object_member("properties", props);
 			}
 
-			if(with_layer) {
+			if(p.with_layer) {
 
 				var layers_json_array = new Json.Array();
 				
@@ -221,7 +269,7 @@ namespace rpg {
 				object.set_array_member("layers", layers_json_array);
 			}
 
-			if(with_merged_layer_pixbuf) {
+			if(p.with_merged_layer_pixbuf) {
 				if(under.width > 0)
 					object.set_string_member("layer_pixbuf_under", under.base64);
 				else
@@ -243,8 +291,8 @@ namespace rpg {
 		 * @see rpg.json_to_string
 		 * @see get_json_indi
 		 */
-		public string get_json_indi_as_str(bool with_filename = true, bool with_orientation = true, bool with_version = true, bool with_size = true, bool with_tilesize = true,  bool with_property = true, bool with_layer = true, bool with_merged_layer_pixbuf = false) {
-			return json_to_string(get_json_indi(with_filename, with_orientation, with_version, with_size, with_tilesize, with_property, with_layer, with_merged_layer_pixbuf));
+		public string get_json_indi_as_str(MapJsonParam p) {
+			return json_to_string(get_json_indi(p));
 		}
 
 		/**
