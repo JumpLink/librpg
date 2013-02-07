@@ -16,17 +16,6 @@ using rpg;
 
 namespace rpg {
 
-	// public struct MapManagerJsonParam {
-	// 	/**
-	// 	 * If true json includes folder.
-	// 	 */
-	// 	public bool with_folder;
-	// 	/**
-	// 	 * If true the maps saved in MapManager are included in the Json
-	// 	 */
-	// 	public bool with_map;
-	// }
-
 	/**
 	 * Klasse fuer den MapManager, mit dieser Klasse werden alle Maps im Spiel verwaltet.
 	 * Sie kann beispielsweise alle Maps aus einem angegebenen Verzeichnis Laden.
@@ -42,7 +31,9 @@ namespace rpg {
 		 */
 		public Json.Node json {
 			owned get {
-				return get_json_indi(true, null);
+				MapJsonParam map_params = new MapJsonParam(true, false, false, false, false, false, false, false);
+				MapManagerJsonParam map_manager_params = new MapManagerJsonParam(true, map_params);
+				return get_json_indi(map_manager_params);
 			}
 		}
 
@@ -50,9 +41,7 @@ namespace rpg {
 		 * Get list of maps as json string
 		 */
 		public string json_str {
-			owned get {
-				return get_json_indi_as_str(true, null);
-			}
+			owned get { return json_to_string(json); }
 		}
 
 		/**
@@ -107,20 +96,20 @@ namespace rpg {
 		/**
 		 * Get all maps as individually json. You can define which properties should be included.
 		 */
-		public Json.Node get_json_indi(bool with_folder = true, MapJsonParam? mp) {
+		public Json.Node get_json_indi(MapManagerJsonParam map_manager_params) {
 			var root = new Json.Node(NodeType.OBJECT);
 			var object = new Json.Object();
 
 			root.set_object(object);
 	
-			if(with_folder)
+			if(map_manager_params.with_folder)
 				object.set_string_member("folder", folder);
 
-			if(mp != null) {
+			if(map_manager_params.map_params != null) {
 				var maps = new Json.Array();
 
 				foreach (rpg.Map m in map) {
-					maps.add_object_element(m.get_json_indi((!) mp).get_object() );
+					maps.add_object_element(m.get_json_indi((!) map_manager_params.map_params).get_object() );
 				}
 
 				object.set_array_member("maps", maps);
@@ -137,8 +126,8 @@ namespace rpg {
 		 * @see rpg.json_to_string
 		 * @see get_json_indi
 		 */
-		public string get_json_indi_as_str(bool with_folder = true, MapJsonParam? mp) {
-			return json_to_string(get_json_indi(true, mp));
+		public string get_json_indi_as_str(MapManagerJsonParam map_manager_params) {
+			return json_to_string(get_json_indi(map_manager_params));
 		}
 
 		public rpg.Map get_map_from_index(int index) {
@@ -169,6 +158,22 @@ namespace rpg {
 			foreach (rpg.Map m in map) {
 					m.print_all();
 			}
+		}
+	}
+
+	public class MapManagerJsonParam:GLib.Object {
+		/**
+		 * If true json includes folder.
+		 */
+		public bool with_folder;
+		/**
+		 * If not null the maps saved in MapManager are included in the Json. 
+		 */
+		public MapJsonParam? map_params;
+
+		public MapManagerJsonParam(bool with_folder = false, MapJsonParam? map_params = null) {
+			this.with_folder = with_folder;
+			this.map_params = map_params;
 		}
 	}
 }
