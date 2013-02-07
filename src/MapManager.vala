@@ -165,11 +165,11 @@ namespace rpg {
 		/**
 		 * If true json includes folder.
 		 */
-		public bool with_folder;
+		public bool with_folder { get; construct set; }
 		/**
 		 * If not null the maps saved in MapManager are included in the Json. 
 		 */
-		public MapJsonParam? map_params;
+		public MapJsonParam? map_params { get; construct set; }
 
 		public MapManagerJsonParam(bool with_folder = false, MapJsonParam? map_params = null) {
 			this.with_folder = with_folder;
