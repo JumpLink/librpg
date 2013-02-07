@@ -110,8 +110,16 @@ namespace rpg {
 				return layers_same.size+layers_under.size+layers_over.size;
 			}
 		}
-		public GdkTexture over { get; set; default=new GdkTexture();}
-		public GdkTexture under { get; set; default=new GdkTexture();}
+		public GdkTexture over {
+			owned get {
+				return merge_layer(layers_over);
+			}
+		}
+		public GdkTexture under {
+			owned get{
+				return merge_layer(layers_under);
+			}
+		}
 
 		/** 
 		 * Entities auf der Map
@@ -376,29 +384,21 @@ namespace rpg {
 		 * @see rpg.Map.layers_over
 		 * @see rpg.Map.layers_under
 		 */
-		public void merge () {
+		public GdkTexture merge_layer (Gee.List<Layer> layers) {
 			int i = 0;
+			GdkTexture tex = new GdkTexture();
 
-			layers_over.get(0).merge(tile_width, tile_height);
-			over.load_from_pixbuf(layers_over.get(0).tex.pixbuf.copy());
-			layers_under.get(0).merge(tile_width, tile_height);
-			under.load_from_pixbuf(layers_under.get(0).tex.pixbuf.copy());
+			layers.get(0).merge(tile_width, tile_height);
+			tex.load_from_pixbuf(layers.get(0).tex.pixbuf.copy());
 
-			foreach (Layer layer in layers_over) {
+			foreach (Layer layer in layers) {
 				if(i!=0) {
 					layer.merge(tile_width, tile_height);
-					over.pixbuf = GdkTexture.blit(over.pixbuf, layer.tex.pixbuf);
+					tex.pixbuf = GdkTexture.blit(tex.pixbuf, layer.tex.pixbuf);
 				}
 				++i;
 			}
-			i = 0;
-			foreach (Layer layer in layers_under) {
-				if(i!=0) {
-					layer.merge(tile_width, tile_height);
-					under.pixbuf = GdkTexture.blit(under.pixbuf, layer.tex.pixbuf);
-				}
-				++i;
-			}
+			return tex;
 		}
 
 		/**
