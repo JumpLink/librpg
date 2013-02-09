@@ -74,7 +74,7 @@ namespace rpg {
 		}
 
 		/**
-		 * Get map as individually json. You can define which properties should be included.
+		 * Get tileset as individually json. You can define which properties should be included.
 		 * @return The new generated json node.
 		 */
 		public Json.Node get_json_indi(TilesetJsonParam tileset_params) {
@@ -292,6 +292,9 @@ namespace rpg {
 			this.tile = tile;
 		}
 
+		/*
+		 * @return true if any properity of this object is true, false if all properities false
+		 */
 		public bool or_gate() {
 			return ( name || filename || tile_size || source || transparency || size || tile.or_gate());
 		}
