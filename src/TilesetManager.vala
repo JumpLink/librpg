@@ -25,6 +25,7 @@ namespace rpg {
 				return tileset.size;
 			} 
 		}
+
 		/**
 		 * Konstruktor
 		 */
@@ -54,6 +55,7 @@ namespace rpg {
 				tileset.add(tmp_tileset);
 			}
 		}
+
 		/**
 		 * Gibt das Tileset mit dem Namen "name" zurück
 		 *
@@ -64,6 +66,7 @@ namespace rpg {
 			foreach (Tileset ts in tileset) if (ts.name == name) return ts;
 			error("Kein TileSet %s gefunden",name);
 		}
+
 		/**
 		 * Gibt das Tileset mit dem Dateiname "filename" zurück
 		 *
@@ -76,6 +79,7 @@ namespace rpg {
 			foreach (Tileset ts in tileset) if (ts.filename == filename) return ts;
 			error("Kein TileSet %s gefunden",filename);
 		}
+
 		/**
 		 * Gibt das Tileset mit dem Dateiname "source" zurück
 		 *
@@ -90,6 +94,7 @@ namespace rpg {
 		public string get_sources_from_index(int index) {
 			return tileset[index].source;
 		}
+		
 		public Tileset get_from_index(int index) {
 			return tileset[index];
 		}

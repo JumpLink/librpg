@@ -24,6 +24,7 @@ namespace rpg {
 		 * @see Gdk.Pixbuf
 		 */
 		public Pixbuf pixbuf { get; set construct; }
+
 		/**
 		 * Pixbuf der Textur als base64-string
 		 */
@@ -41,6 +42,7 @@ namespace rpg {
 			// 		pixbuf = new Pixbuf.from_data (png_buffer, Gdk.Colorspace.RGB, ...)
 			// }
 		}
+
 		/**
 		 * Pixbuf der Textur mit zlib komprimiert und als base64-string
 		 */
@@ -55,14 +57,13 @@ namespace rpg {
 		}
 
 		public string path { get; set construct; }
+
 		public int width {
 			get { return pixbuf.get_width(); }
-			//set { width = value;}
 		}
 		
 		public int height {
 			get { return pixbuf.get_height(); }
-			//set { height = value;}
 		}
 
 		public rpg.Colorspace colorspace {
@@ -89,6 +90,7 @@ namespace rpg {
 		public uint8[] pixels {
 			get { return pixbuf.get_pixels(); }
 		}
+
 		public uint8[] png_buffer { get; private set; }	//WORKAROUND for nodejs
 
 
@@ -101,6 +103,7 @@ namespace rpg {
 			GLib.Object(pixbuf:pixbuf);
 			load_from_pixbuf(pixbuf);
 		}
+
 		public GdkTexture.empty(int width, int height) {
 			//GLib.Object(width:width, height:height);
 			//load_from_pixbuf(pixbuf);
@@ -212,6 +215,7 @@ namespace rpg {
 			this.pixbuf = pixbuf;
 			png_buffer = save_to_buffer("png");
 		}
+
 		/**
 		 *
 		 */
