@@ -1,7 +1,7 @@
 librpg
 =========
 
-Librpg is a library to handle maps from [Tiled](https://github.com/bjorn/tiled/) to use it in your own Game, also librpg can handel sprties, tilesets and more!
+Librpg is a library to handle maps from [Tiled](https://github.com/bjorn/tiled/) to use it in your own Game, also librpg can handle sprites, tilesets and more!
 Librpg is written in Vala and you can use it in with Vala, JavaScript, Python, Java, Lua, .NET any other language which has [GObject Introspection](https://live.gnome.org/GObjectIntrospection) bindings.
         
 Documentation
