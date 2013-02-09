@@ -27,24 +27,6 @@ namespace rpg {
 		Gee.List<rpg.Map> map;
 
 		/**
-		 * Get list of maps as json
-		 */
-		public Json.Node json {
-			owned get {
-				MapJsonParam map_params = new MapJsonParam(true, false, false, false, false, false, false, false);
-				MapManagerJsonParam map_manager_params = new MapManagerJsonParam(true, map_params);
-				return get_json_indi(map_manager_params);
-			}
-		}
-
-		/**
-		 * Get list of maps as json string
-		 */
-		public string json_str {
-			owned get { return json_to_string(json); }
-		}
-
-		/**
 		 * String of folder that was set wit the createn-method.
 		 */
 		public string folder { get; construct set; }
@@ -105,7 +87,7 @@ namespace rpg {
 			if(map_manager_params.with_folder)
 				object.set_string_member("folder", folder);
 
-			if(map_manager_params.map_params != null) {
+			if(map_manager_params.map_params.or_gate()) {
 				var maps = new Json.Array();
 
 				foreach (rpg.Map m in map) {
@@ -146,7 +128,7 @@ namespace rpg {
 		 */
 		public rpg.Map? get_from_filename(string filename) {
 			foreach (rpg.Map m in map) if (m.filename == filename) { return m;}
-			//error("Map %s nicht gefunden", filename);
+			debug("Map %s nicht gefunden", filename);
 			return null;
 		}
 
@@ -165,15 +147,19 @@ namespace rpg {
 		/**
 		 * If true json includes folder.
 		 */
-		public bool with_folder { get; construct set; }
+		public bool with_folder { get; construct set; default=false; }
 		/**
 		 * If not null the maps saved in MapManager are included in the Json. 
 		 */
-		public MapJsonParam? map_params { get; construct set; }
+		public MapJsonParam map_params { get; construct set; default=new MapJsonParam(); }
 
-		public MapManagerJsonParam(bool with_folder = false, MapJsonParam? map_params = null) {
+		public MapManagerJsonParam(bool with_folder = false, MapJsonParam map_params = new MapJsonParam()) {
 			this.with_folder = with_folder;
 			this.map_params = map_params;
+		}
+
+		public bool or_gate() {
+			return ( with_folder || map_params.or_gate() );
 		}
 	}
 }
