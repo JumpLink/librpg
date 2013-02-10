@@ -47,13 +47,17 @@ namespace rpg {
 		 */
 		public bool collision { get; set; } //TODO as list of properties?
 
-		/**
+		/** TODO not as properity?
 		 * Layertextur, die Pixel der zusammen gesetzten Tiles für eine Layer.
 		 * Erst gesetzt nachdem ''merge ()'' ausgeführt wurde.
 		 * 
 		 * @see merge
 		 */
-		public GdkTexture tex { get; set; }	
+		public GdkTexture tex {
+			owned get {
+				return merge (16, 16); //WORKAROUND
+			}
+		}
 
 		/**
 		 * Konstruktor
@@ -154,8 +158,8 @@ namespace rpg {
 		 * @param tile_width width of one tile
 		 * @param tile_height height of one tile
 		 */
-		public void merge (int tile_width, int tile_height) {
-			tex = new GdkTexture.empty(width*tile_width, height*tile_height);
+		public GdkTexture merge (int tile_width, int tile_height) {
+			var tex = new GdkTexture.empty(width*tile_width, height*tile_height);
 
 			for(int x=0; x<width; ++x) {
 				for(int y=0; y<height; ++y) {
@@ -163,7 +167,7 @@ namespace rpg {
 						tiles[x,y].tex.pixbuf.copy_area(0, 0, tile_width, tile_height, tex.pixbuf, x*tile_width, y*tile_height);
 				}
 			}
-
+			return tex;
 		}
 
 		/**
@@ -197,6 +201,7 @@ namespace rpg {
 			print_tiles();
 		}
 	}
+
 	public class MapLayerJsonParam : GLib.Object {
 		/*
 		 * if true json includes name.
