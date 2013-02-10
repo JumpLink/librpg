@@ -78,10 +78,6 @@ namespace rpg {
 			get { return pixbuf.rowstride*pixbuf.height; }
 		}
 
-		public int png_length {
-			get { return png_buffer.length; }
-		}
-
 		/**
 		 * Liefert ein Zeiger auf ein Array uint8[] mit den Pixelwerten,
 		 * der hier vorgegebene Rueckgabetyp ist hier void* damit dieser mit OpenGL
@@ -90,9 +86,6 @@ namespace rpg {
 		public uint8[] pixels {
 			get { return pixbuf.get_pixels(); }
 		}
-
-		public uint8[] png_buffer { get; private set; }	//WORKAROUND for nodejs
-
 
 		public GdkTexture.from_file(string path) {
 			GLib.Object(path:path);
@@ -108,6 +101,7 @@ namespace rpg {
 			//GLib.Object(width:width, height:height);
 			//load_from_pixbuf(pixbuf);
 			pixbuf = new Pixbuf(Gdk.Colorspace.RGB, true, 8, width, height);
+			pixbuf.fill(0x00000000); // makes pixbuf transparent black, necessary for unsetted regions
 
 		}
 
@@ -173,16 +167,6 @@ namespace rpg {
 			}
 		}
 
-        /**
-         * Alternative für png_buffer[index].
-		 *
-		 * @param index index in png_buffer[index]
-		 * @return png-wert vom public
-		 */
-		public uint8 get_png_buffer_from_index(int index) {
-			return png_buffer[index];
-		}
-
 		/**
 		 * Liefert Information darueber ob die Textur einen Alphakanal enthaelt.
 		 * @see Gdk.Pixbuf.get_has_alpha
@@ -213,7 +197,6 @@ namespace rpg {
 		public void load_from_pixbuf(Gdk.Pixbuf pixbuf)
 		{
 			this.pixbuf = pixbuf;
-			png_buffer = save_to_buffer("png");
 		}
 
 		/**
