@@ -12,13 +12,13 @@
 using Gee;
 using Gdk;
 //using GLib; //Fuer assertions
-
+using Json;
 using rpg;
 namespace rpg {
 	/**
 	 * Klasse fuer Tilesets
 	 */
-	public class Tileset : Object {
+	public class Tileset : GLib.Object {
 		/**
 		 * Name des Tilesets.
 		 */
@@ -38,7 +38,7 @@ namespace rpg {
 		/**
 		 * Dateiname des Tileset-Bildes
 		 */
-		public string source { get; set; } //TODO gibt es mehrere sources?
+		public string source { get; set; }
 		/**
 		 * transparencyparente Farbe im Tileset
 		 */
@@ -70,8 +70,83 @@ namespace rpg {
 		 * Konstruktor
 		 */
 		public Tileset(string filename) {
-			Object(filename:filename);
+			GLib.Object(filename:filename);
 		}
+
+		/**
+		 * Get tileset as individually json. You can define which properties should be included.
+		 * @return The new generated json node.
+		 */
+		public Json.Node get_json_indi(TilesetJsonParam tileset_params) {
+
+			var root = new Json.Node(NodeType.OBJECT);
+			var object = new Json.Object();
+
+			root.set_object(object);
+			
+			if(tileset_params.name)
+				object.set_string_member("name", name);
+
+			if(tileset_params.filename)
+				object.set_string_member("filename", filename);
+
+			if(tileset_params.tile_size) {
+				object.set_int_member("tile_width", tile_width);
+				object.set_int_member("tile_height", tile_height);
+			}
+
+			if(tileset_params.source) {
+				object.set_string_member("source", source);
+			}
+
+			if(tileset_params.transparency) {
+				object.set_string_member("transparency", transparency);
+			}
+
+			if(tileset_params.size) {
+				object.set_int_member("width", width);
+				object.set_int_member("height", height);
+			}
+
+			if(tileset_params.count) {
+				object.set_int_member("count_y", count_y);
+				object.set_int_member("count_x", count_x);
+			}
+
+			if(tileset_params.tex)
+				object.set_string_member("texture", tex.base64);
+
+			if(tileset_params.tile.or_gate()) {
+
+				var first_dimension = new Json.Array();
+				
+				for (int y=0;(y<count_y);y++) {
+
+					var secound_dimension = new Json.Array();
+					for (int x=0;(x<count_x);x++) {
+						secound_dimension.add_object_element( tile[x,y].get_json_indi(tileset_params.tile).get_object() );
+					}
+					first_dimension.add_array_element(secound_dimension);
+				}
+
+				object.set_array_member("tiles", first_dimension);
+			}
+
+			return root;
+		}
+
+		/**
+		 * Like ''get_json_indi ()'' but returns the json string using ''rpg.json_to_string ()'', please see ''get_json_indi ()'' for parameter information.
+		 *
+		 * @return The new generated json string.
+		 *
+		 * @see rpg.json_to_string
+		 * @see get_json_indi
+		 */
+		public string get_json_indi_as_str(TilesetJsonParam tileset_params) {
+			return json_to_string(get_json_indi(tileset_params));
+		}
+
 		/**
 		 * Gibt ein gesuchtes Tile anhand seines Index zurueck.
 		 *
@@ -91,6 +166,7 @@ namespace rpg {
 			}
 			error("Tile mit index %i nicht gefunden!", index);
 		}
+
 		/**
 		 * Ladet die Pixel fuer die Tiles.
 		 * Zur Zeit alle noch als RegularTile.
@@ -109,6 +185,7 @@ namespace rpg {
 				}
 			}
 		}
+
 		/**
 		 * Speichert alle Tiles als Datei.
 		 * @param folder Ordner in dem die Bilder gespeichert werden sollen.
@@ -120,6 +197,7 @@ namespace rpg {
 				}
 			}
 		}
+
 		/**
 		 * Gibt alle Werte Tiles auf der Konsole aus
 		 */
@@ -154,4 +232,72 @@ namespace rpg {
 			print_tiles();
 		}
 	}
+
+	public class TilesetJsonParam:GLib.Object {
+
+		/**
+		 * If true json includes name.
+		 */
+		public bool name { get; construct set; default=false; }
+
+		/**
+		 * If true json includes filename.
+		 */
+		public bool filename { get; construct set; default=false; }
+
+		/**
+		 * If true json includes tilewidth and tileheight.
+		 */
+		public bool tile_size { get; construct set; default=false; }
+
+		/**
+		 * If true json includes image-source.
+		 */
+		public bool source { get; construct set; default=false; }
+
+		/**
+		 * If true json includes transparency
+		 */
+		public bool transparency { get; construct set; default=false; }
+
+		/**
+		 * If true json includes width and height.
+		 */
+		public bool size { get; construct set; default=false; }
+
+		/**
+		 * If true json includes count_y and count_x.
+		 */
+		public bool count { get; construct set; default=false; }
+
+		/**
+		 * If true json includes pixbuf.
+		 */
+		public bool tex { get; construct set; default=false; }
+
+		/**
+		 * If true json includes array of tiles
+		 */
+		public TileJsonParam tile { get; construct set; default=new TileJsonParam(); }
+
+		public TilesetJsonParam(bool name = false, bool filename = false, bool tile_size = false, bool source = false, bool transparency = false, bool size = false, bool count = false, bool tex = false, TileJsonParam tile = new TileJsonParam()) {
+			this.name = name;
+			this.filename = filename;
+			this.tile_size = tile_size;
+			this.source = source;
+			this.transparency = transparency;
+			this.size = size;
+			this.count = count;
+			this.tex = tex;
+			this.tile = tile;
+		}
+
+		/*
+		 * @return true if any properity of this object is true, false if all properities false
+		 */
+		public bool or_gate() {
+			return ( name || filename || tile_size || source || transparency || size || tile.or_gate());
+		}
+	}
+
 }

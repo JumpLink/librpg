@@ -154,6 +154,9 @@ namespace rpg {
 			this.tile_type = tile_type;
 		}
 
+		/*
+		 * @return true if any properity of this object is true, false if all properities false
+		 */
 		public bool or_gate() {
 			return ( tex || gid || size || tile_type );
 		}

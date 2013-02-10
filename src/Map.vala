@@ -192,7 +192,8 @@ namespace rpg {
 				var layers_json_array = new Json.Array();
 				
 				for (var i = 0;i<all_layer_size;i++) {
-					layers_json_array.add_object_element( get_layer_from_index(i).get_json_indi(map_params.map_layer_params).get_object() );
+					if(get_layer_from_index(i) != null)
+						layers_json_array.add_object_element( ( (!) get_layer_from_index(i) ).get_json_indi(map_params.map_layer_params).get_object() );
 				}
 
 				object.set_array_member("layers", layers_json_array);
@@ -270,8 +271,8 @@ namespace rpg {
 		}
 
 		public int get_tileid_from_position(int x, int y, int layer_index) {
-			rpg.Layer layer = get_layer_from_index(layer_index);
-			rpg.Tile tile = layer.get_tile_from_coordinate(x,y);
+			rpg.Layer layer = (!) get_layer_from_index(layer_index);
+			rpg.Tile tile = (!) layer.get_tile_from_coordinate(x,y);
 			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			return (int) tile.gid - (int) (tref.firstgid-1);
 		}
@@ -280,8 +281,8 @@ namespace rpg {
 		 * Tile-X-Coord of the tilesetimage
 		 */
 		public uint get_tile_image_x_from_position(int x, int y, int layer_index) {
-			rpg.Layer layer = get_layer_from_index(layer_index);
-			rpg.Tile tile = layer.get_tile_from_coordinate(x,y);
+			rpg.Layer layer = (!) get_layer_from_index(layer_index);
+			rpg.Tile tile = (!) layer.get_tile_from_coordinate(x,y);
 			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
 			int res = (id%tref.source.count_x)*tile_width;
@@ -292,23 +293,31 @@ namespace rpg {
 		 * Tile-Y-Coord of the tilesetimage
 		 */
 		public int get_tile_image_y_from_position(int x, int y, int layer_index) {
-			rpg.Layer layer = get_layer_from_index(layer_index);
-			rpg.Tile tile = layer.get_tile_from_coordinate(x,y);
+			rpg.Layer layer = (!) get_layer_from_index(layer_index);
+			rpg.Tile tile = (!) layer.get_tile_from_coordinate(x,y);
 			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = tile.gid - (tref.firstgid-1);
 			int res = (id/tref.source.count_x)*tile_height;
 			return id%tref.source.count_x == 0 && id != 0 ? res-1*tile_height : res;
 		}
 
+		/*
+		 * @return -1 on error.
+		 */
 		public int get_tilegid_from_position(int x, int y, int layer_index) {
-			return get_layer_from_index(layer_index).get_tile_from_coordinate(x,y).gid;
+			Layer? layer = get_layer_from_index(layer_index);
+
+			if (layer != null)
+				return ((!)layer).get_tile_from_coordinate(x,y).gid;
+			else
+				return -1;
 		}
 
 		/**
 		 * Gibt den Layer eines gesuchten Layers mit dem Namen name zurueck.
 		 *
 		 * @param name Gesichter Layername
-		 * @return Layer aus der Layerliste
+		 * @return Layer aus der Layerliste, null on error
 		 */
 		public Layer? get_layer_from_name(string name){
 			foreach (Layer i in layers_under) if (name == i.name) return i;
@@ -318,7 +327,10 @@ namespace rpg {
 			return null;
 		}
 
-		public Layer get_layer_from_index(int index){
+		/**
+		 * @return null on error
+		 */
+		public Layer? get_layer_from_index(int index){
 			int count = 0;
 			foreach (Layer i in layers_over) {
 				if (count == index) return i;
@@ -332,10 +344,14 @@ namespace rpg {
 				if (count == index) return i;
 				count++;
 			}
-			error("keinen Layer mit dem Index %i gefunden\n",index);
+			print("keinen Layer mit dem Index %i gefunden\n",index);
+			return null;
 		}
 
-		public Layer get_layer_from_index_inverse(int index){
+		/**
+		 * @return null on error
+		 */
+		public Layer? get_layer_from_index_inverse(int index){
 			int count = 0;
 			for(int i=layers_under.size-1;i>=0;i++,count++) {
 				if (count == index) return layers_under[i];
@@ -346,19 +362,21 @@ namespace rpg {
 			for(int i=layers_over.size-1;i>=0;i++,count++) {
 				if (count == index) return layers_over[i];
 			}
-			error("keinen Layer mit dem Index %i gefunden\n",index);
+			print("keinen Layer mit dem Index %i gefunden\n",index);
+			return null;
 		}
 
 		/**
 		 * Gibt den Index eines gesuchten Layers mit dem Namen name zurueck.
 		 *
 		 * @param name Gesichter Layername
-		 * @return Index aus der Layerliste
+		 * @return Index aus der Layerliste, -1 on error
 		 */
 		public int get_index_of_layer_name(string name){
 			foreach (Layer i in layers_same) if (name == i.name) return layers_same.index_of(i);
 			foreach (Layer i in layers_over) if (name == i.name) return layers_over.index_of(i);
-			error("Layer %s nicht gefunden!", name);
+			print("Layer %s nicht gefunden!", name);
+			return -1;
 		}
 
 		/**

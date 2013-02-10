@@ -11,20 +11,17 @@
  */
 using Gee;
 using GLib;
-
+using Json;
 using rpg;
 namespace rpg {
 	/**
 	 * Klasse fuer TilesetManager
 	 */
 	public class TilesetManager : GLib.Object {
-		Gee.List<Tileset> tileset;
+
 		public string folder { get; construct set; }
-		public int size {
-			get {
-				return tileset.size;
-			} 
-		}
+
+		Gee.List<Tileset> tileset;
 
 		/**
 		 * Konstruktor
@@ -35,6 +32,45 @@ namespace rpg {
 		construct{
 			tileset = new Gee.ArrayList<Tileset>();
 			load_all_from_folder(folder);
+		}
+
+		/**
+		 * Get TilesetManager as individually json. You can define which properties should be included.
+		 * @return The new generated json node.
+		 */
+		public Json.Node get_json_indi(TilesetManagerJsonParam tileset_manager_params) {
+
+			var root = new Json.Node(NodeType.OBJECT);
+			var object = new Json.Object();
+
+			root.set_object(object);
+			
+			if(tileset_manager_params.folder)
+				object.set_string_member("folder", folder);
+
+			if( tileset_manager_params.tileset.or_gate() ) {
+				var tilesets = new Json.Array();
+
+				foreach (Tileset ts in tileset) {
+					tilesets.add_object_element(ts.get_json_indi(tileset_manager_params.tileset).get_object() );
+				}
+
+				object.set_array_member("tilesets", tilesets);
+			}
+
+			return root;
+		}
+
+		/**
+		 * Like ''get_json_indi ()'' but returns the json string using ''rpg.json_to_string ()'', please see ''get_json_indi ()'' for parameter information.
+		 *
+		 * @return The new generated json string.
+		 *
+		 * @see rpg.json_to_string
+		 * @see get_json_indi
+		 */
+		public string get_json_indi_as_str(TilesetManagerJsonParam tileset_manager_params) {
+			return json_to_string(get_json_indi(tileset_manager_params));
 		}
 
 		/**
@@ -94,7 +130,7 @@ namespace rpg {
 		public string get_sources_from_index(int index) {
 			return tileset[index].source;
 		}
-		
+
 		public Tileset get_from_index(int index) {
 			return tileset[index];
 		}
@@ -106,6 +142,30 @@ namespace rpg {
 			foreach (Tileset ts in tileset) {
 					ts.print_values ();
 	    	}
+		}
+	}
+
+	public class TilesetManagerJsonParam:GLib.Object {
+
+		/**
+		 * If true json includes folder.
+		 */
+		public bool folder { get; construct set; default=false; }
+
+		/**
+		 * If true json includes array of all tilesets
+		 */
+		public TilesetJsonParam tileset { get; construct set; default=new TilesetJsonParam(); }
+
+		public TilesetManagerJsonParam(bool folder = false, TilesetJsonParam tileset = new TilesetJsonParam()) {
+			GLib.Object(folder:folder, tileset:tileset);
+		}
+
+		/*
+		 * @return true if any properity of this object is true, false if all properities false
+		 */
+		public bool or_gate() {
+			return ( folder || tileset.or_gate());
 		}
 	}
 }
