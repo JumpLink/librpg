@@ -87,6 +87,12 @@ namespace rpg {
 			get { return pixbuf.get_pixels(); }
 		}
 
+		public GdkTexture.empty(int width, int height) {
+			//GLib.Object(width:width, height:height);
+			pixbuf = new Pixbuf(Gdk.Colorspace.RGB, true, 8, width, height);
+			pixbuf.fill(0x00000000); // makes pixbuf transparent black, necessary for unsetted regions
+		}
+
 		public GdkTexture.from_file(string path) {
 			GLib.Object(path:path);
 			load_from_file(path);
@@ -95,14 +101,6 @@ namespace rpg {
 		public GdkTexture.from_pixbuf(Gdk.Pixbuf pixbuf) {
 			GLib.Object(pixbuf:pixbuf);
 			load_from_pixbuf(pixbuf);
-		}
-
-		public GdkTexture.empty(int width, int height) {
-			//GLib.Object(width:width, height:height);
-			//load_from_pixbuf(pixbuf);
-			pixbuf = new Pixbuf(Gdk.Colorspace.RGB, true, 8, width, height);
-			pixbuf.fill(0x00000000); // makes pixbuf transparent black, necessary for unsetted regions
-
 		}
 
 		// Pixbuf callback to destroy the pixel buffers

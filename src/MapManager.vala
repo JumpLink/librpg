@@ -116,10 +116,6 @@ namespace rpg {
 			return map[index];
 		}
 
-		public string get_map_filename_from_index(int index) {
-			return map[index].filename;
-		}
-
 		/**
 		 * Gibt die Map mit dem Dateinamen "filename" zurueck
 		 *
@@ -130,16 +126,6 @@ namespace rpg {
 			foreach (rpg.Map m in map) if (m.filename == filename) { return m;}
 			debug("Map %s nicht gefunden", filename);
 			return null;
-		}
-
-		/**
-		 * Gibt die Werte aller Maps in der Liste aus.
-		 */
-		public void print_all() {
-			print("=====ALL MAPS====\n");
-			foreach (rpg.Map m in map) {
-					m.print_all();
-			}
 		}
 	}
 
@@ -154,12 +140,11 @@ namespace rpg {
 		public MapJsonParam map_params { get; construct set; default=new MapJsonParam(); }
 
 		public MapManagerJsonParam(bool with_folder = false, MapJsonParam map_params = new MapJsonParam()) {
-			this.with_folder = with_folder;
-			this.map_params = map_params;
+			GLib.Object(with_folder:with_folder, map_params:map_params);
 		}
 
 		public bool or_gate() {
-			return ( with_folder || map_params.or_gate() );
+			return with_folder || map_params.or_gate();
 		}
 	}
 }

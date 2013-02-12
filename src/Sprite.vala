@@ -37,17 +37,6 @@ namespace rpg {
 		/**
 		 * 
 		 */
-		public void print_values ()
-		{
-			print("ich bin ein Sprite: ");
-			tex.print_values();
-		}
-		public void print_all (){
-			print_values();
-		}
-		/**
-		 * 
-		 */
 		public void save (string filename) {
 			tex.save(filename);
 		}

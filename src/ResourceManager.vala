@@ -28,11 +28,5 @@ namespace rpg {
 		public void load_spriteset_manager(string folder) {
 			spritesetmanager = new rpg.SpritesetManager(folder);
 		}
-
-		public void print_all() {
-			tilesetmanager.print_all();
-			mapmanager.print_all();
-			spritesetmanager.print_all();
-		}
 	}
 }

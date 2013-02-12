@@ -152,7 +152,7 @@ public class rpg.MapReader : Sxml.DataReader, Object {
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		bool collision;
 		DrawLevel drawlayer;
-		rpg.Layer new_layer = new Layer();
+		rpg.MapLayer new_layer = new MapLayer();
 
 		foreach (var key in attributes.keys) {
 			switch (key) {

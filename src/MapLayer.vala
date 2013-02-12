@@ -15,7 +15,7 @@ namespace rpg {
 	/**
 	 * Klasse fuer Maplayer.
 	 */
-	public class Layer : GLib.Object {
+	public class MapLayer : GLib.Object {
 
 		/**
 		 * Name des Layers
@@ -62,21 +62,21 @@ namespace rpg {
 		/**
 		 * Konstruktor
 		 */
-		public Layer() {
+		public MapLayer() {
 
 		}
 
 		/**
 		 * Konstruktor mit Groessenangaben
 		 */
-		public Layer.sized (int width, int height) {
-			GLib.Object(name:"new Layer", width:width, height:height, zoff:0);
+		public MapLayer.sized (int width, int height) {
+			GLib.Object(name:"new MapLayer", width:width, height:height, zoff:0);
 		}
 
 		/**
 		 * Konstruktor mit allen Werten non-default
 		 */
-		public Layer.all (string name, double zoff, bool collision, int width, int height) {
+		public MapLayer.all (string name, double zoff, bool collision, int width, int height) {
 			//this.tiles = tiles; //TODO make this work in node-gir
 			GLib.Object(name:name, zoff:zoff, width:width, height:height, collision:collision);
 		}
@@ -169,37 +169,6 @@ namespace rpg {
 			}
 			return tex;
 		}
-
-		/**
-		 * Gibt alle Werte des Layers (bis auf die Tiles) auf der Konsole aus
-		 */
-		public void print_values() {
-			print("==Layer==\n");
-			print("name: %s\n", name);
-			print("zoff: %f\n", zoff);
-			print("width: %u\n", width);
-			print("height: %u\n", height);
-			print("collision: %s\n", collision.to_string());
-		}
-		/**
-		 * Gibt die Tiles des Layers auf der Konsole aus
-		 */
-		public void print_tiles() {
-			print("==Tiles==\n");
-			for (int y=0;y<height;y++) {
-				for (int x=0;x<width;x++) {
-					print("%u ", tiles[x,y].tile_type);
-				}
-				print("\n");
-			}
-		}
-		/**
-		 * Gibt alle Werte des Layers und dessen Tiles auf der Konsole aus
-		 */
-		public void print_all() {
-			print_values();
-			print_tiles();
-		}
 	}
 
 	public class MapLayerJsonParam : GLib.Object {
@@ -229,12 +198,7 @@ namespace rpg {
 		public bool with_texture { get; construct set; default=false; }
 
 		public MapLayerJsonParam (bool with_name = false, bool with_zoff = false, bool with_size = false, bool with_collision = false, bool with_data = false, bool with_texture = false) {
-			this.with_name = with_name;
-			this.with_zoff = with_zoff;
-			this.with_size = with_size;
-			this.with_collision = with_collision;
-			this.with_data = with_data;
-			this.with_texture = with_texture;
+			GLib.Object(with_name:with_name, with_zoff:with_zoff, with_size:with_size, with_collision:with_collision, with_data:with_data, with_texture:with_texture);
 		}
 
 		public bool or_gate() {

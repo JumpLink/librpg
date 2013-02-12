@@ -18,12 +18,15 @@ namespace rpg {
 	 * Klasse fuer SpritesetManager
 	 */
 	public class SpritesetManager : GLib.Object {
+		
 		public Gee.List<Spriteset> spriteset;
 
 		public int length { get{return spriteset.size;} }
+
 		public int size { get{return length;} }
 
 		public string folder { get; construct set; }
+
 		/**
 		 * Konstruktor
 		 */
@@ -50,6 +53,7 @@ namespace rpg {
 				spriteset.add(spritesetreader.parse(filename));
 			}
 		}
+
 		/**
 		 * Gibt das Spriteset mit dem Namen "name" zurück
 		 *
@@ -63,9 +67,11 @@ namespace rpg {
 				}
 			error("Spriteset %s nicht gefunden!", name);
 		}
+
 		public Spriteset get_from_index(int index) {
 			return spriteset[index];
 		}
+
 		/**
 		 * Gibt das Spriteset mit dem Dateiname "filename" zurück
 		 *
@@ -80,18 +86,6 @@ namespace rpg {
 					return ss;
 				}		
 			error("Spriteset %s nicht gefunden!", filename);
-		}
-		/**
-		 * Gibt die Werte aller Spritesets in der Liste aus.
-		 */
-		public void print_all() {
-			print("==Print All Spritesets==\n");
-			int count = 0;
-			foreach (Spriteset ss in spriteset) {
-					print("Nr. %i: ", count);
-					ss.print_all();
-					count++;
-	    	}
 		}
 	}
 }

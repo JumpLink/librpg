@@ -121,14 +121,16 @@ public class rpg.SpritesetReader : Sxml.DataReader, Object {
 		next();
 		parse_image(ref spritelayer);
 		
-		spritelayer.folder = spriteset.folder; //TODO workaround
-		spritelayer.split();
+		spritelayer.folder = spriteset.folder; //WORKAROUND
+
+		spritelayer.load_tex();
+		// spritelayer.split();
 		spriteset.sprite_layers.add(spritelayer);
 		end_element("layer");
 	}
-	protected rpg.Animation parse_animation() {
+	protected rpg.SpriteAnimation parse_animation() {
 		start_element("animation");
-		rpg.Animation ani = new rpg.Animation();
+		rpg.SpriteAnimation ani = new rpg.SpriteAnimation();
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		foreach (var key in attributes.keys) {
 			switch (key) {
@@ -147,7 +149,7 @@ public class rpg.SpritesetReader : Sxml.DataReader, Object {
 		}
 		
 		next();
-		ani.Frame = parse_data();
+		ani.frame = parse_data();
 		end_element("animation");
 		return ani;
 	}
@@ -175,9 +177,9 @@ public class rpg.SpritesetReader : Sxml.DataReader, Object {
 		next();
 		end_element("image");
 	}
-	protected Gee.List<Frame> parse_data() {
+	protected Gee.List<SpriteFrame> parse_data() {
 		start_element("data");
-		Gee.List<Frame> datas = new Gee.ArrayList<Frame>();
+		Gee.List<SpriteFrame> datas = new Gee.ArrayList<SpriteFrame>();
 		next();
 		while(is_start_element("sprite")) {
 			datas.add(parse_sprite());
@@ -185,9 +187,9 @@ public class rpg.SpritesetReader : Sxml.DataReader, Object {
 		end_element("data");
 		return datas;
 	}
-	protected Frame parse_sprite() {
+	protected SpriteFrame parse_sprite() {
 		start_element("sprite");
-		Frame sprite = new Frame();
+		SpriteFrame sprite = new SpriteFrame();
 		Gee.Map<string,string> attributes = reader.get_attributes();
 		foreach (var key in attributes.keys) {
 			switch (key) {

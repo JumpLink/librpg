@@ -14,7 +14,7 @@ namespace rpg {
 	/**
 	 * Verwaltet die Frames einer Animation.
 	 */
-	public class Frame:GLib.Object {
+	public class SpriteFrame:GLib.Object {
 		public Coordinate2D coord { public get; private set; }
 		construct {
 			coord = new Coordinate2D();

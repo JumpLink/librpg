@@ -88,19 +88,19 @@ namespace rpg {
 		// }
 
 		/**
-		 * Layer der Map ueber dem Helden
+		 * MapLayer der Map ueber dem Helden
 		 */
-		public Gee.List<Layer> layers_over { get; set; default=new Gee.ArrayList<Layer>();}
+		public Gee.List<MapLayer> layers_over { get; set; default=new Gee.ArrayList<MapLayer>();}
 
 		/**
-		 * Layer der Map gleich dem Helden
+		 * MapLayer der Map gleich dem Helden
 		 */
-		public Gee.List<Layer> layers_same { get; set; default=new Gee.ArrayList<Layer>();} 
+		public Gee.List<MapLayer> layers_same { get; set; default=new Gee.ArrayList<MapLayer>();} 
 
 		/**
-		 * Layer der Map unter dem Helden
+		 * MapLayer der Map unter dem Helden
 		 */
-		public Gee.List<Layer> layers_under { get; set; default=new Gee.ArrayList<Layer>();} 
+		public Gee.List<MapLayer> layers_under { get; set; default=new Gee.ArrayList<MapLayer>();} 
 
 		/**
 		 * Sum of sizes of all layers.
@@ -199,15 +199,18 @@ namespace rpg {
 				object.set_array_member("layers", layers_json_array);
 			}
 
-			if(map_params.with_merged_layer_pixbuf) {
+			if(map_params.layer_under_pixbuf) {
 				if(under.width > 0)
-					object.set_string_member("layer_pixbuf_under", under.base64);
+					object.set_string_member("layer_under_pixbuf", under.base64);
 				else
-					object.set_string_member("layer_pixbuf_under", "unset");
+					object.set_string_member("layer_under_pixbuf", "unset");
+			}
+
+			if(map_params.layer_over_pixbuf) {
 				if(over.width > 0)
-					object.set_string_member("layer_pixbuf_over", over.base64);
+					object.set_string_member("layer_over_pixbuf", over.base64);
 				else
-					object.set_string_member("layer_pixbuf_over", "unset");
+					object.set_string_member("layer_over_pixbuf", "unset");
 			}
 
 			return root;
@@ -271,7 +274,7 @@ namespace rpg {
 		}
 
 		public int get_tileid_from_position(int x, int y, int layer_index) {
-			rpg.Layer layer = (!) get_layer_from_index(layer_index);
+			rpg.MapLayer layer = (!) get_layer_from_index(layer_index);
 			rpg.Tile tile = (!) layer.get_tile_from_coordinate(x,y);
 			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			return (int) tile.gid - (int) (tref.firstgid-1);
@@ -281,7 +284,7 @@ namespace rpg {
 		 * Tile-X-Coord of the tilesetimage
 		 */
 		public uint get_tile_image_x_from_position(int x, int y, int layer_index) {
-			rpg.Layer layer = (!) get_layer_from_index(layer_index);
+			rpg.MapLayer layer = (!) get_layer_from_index(layer_index);
 			rpg.Tile tile = (!) layer.get_tile_from_coordinate(x,y);
 			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = (int) tile.gid - (int) (tref.firstgid-1);
@@ -293,7 +296,7 @@ namespace rpg {
 		 * Tile-Y-Coord of the tilesetimage
 		 */
 		public int get_tile_image_y_from_position(int x, int y, int layer_index) {
-			rpg.Layer layer = (!) get_layer_from_index(layer_index);
+			rpg.MapLayer layer = (!) get_layer_from_index(layer_index);
 			rpg.Tile tile = (!) layer.get_tile_from_coordinate(x,y);
 			rpg.TilesetReference tref = get_tilesetref_from_gid(tile.gid);
 			int id = tile.gid - (tref.firstgid-1);
@@ -305,7 +308,7 @@ namespace rpg {
 		 * @return -1 on error.
 		 */
 		public int get_tilegid_from_position(int x, int y, int layer_index) {
-			Layer? layer = get_layer_from_index(layer_index);
+			MapLayer? layer = get_layer_from_index(layer_index);
 
 			if (layer != null)
 				return ((!)layer).get_tile_from_coordinate(x,y).gid;
@@ -314,44 +317,44 @@ namespace rpg {
 		}
 
 		/**
-		 * Gibt den Layer eines gesuchten Layers mit dem Namen name zurueck.
+		 * Gibt den MapLayer eines gesuchten MapLayers mit dem Namen name zurueck.
 		 *
-		 * @param name Gesichter Layername
-		 * @return Layer aus der Layerliste, null on error
+		 * @param name Gesichter MapLayername
+		 * @return MapLayer aus der MapLayerliste, null on error
 		 */
-		public Layer? get_layer_from_name(string name){
-			foreach (Layer i in layers_under) if (name == i.name) return i;
-			foreach (Layer i in layers_same) if (name == i.name) return i;
-			foreach (Layer i in layers_over) if (name == i.name) return i;
-			print("keinen Layer mit diesem Namen gefunden\n");
+		public MapLayer? get_layer_from_name(string name){
+			foreach (MapLayer i in layers_under) if (name == i.name) return i;
+			foreach (MapLayer i in layers_same) if (name == i.name) return i;
+			foreach (MapLayer i in layers_over) if (name == i.name) return i;
+			print("keinen MapLayer mit diesem Namen gefunden\n");
 			return null;
 		}
 
 		/**
 		 * @return null on error
 		 */
-		public Layer? get_layer_from_index(int index){
+		public MapLayer? get_layer_from_index(int index){
 			int count = 0;
-			foreach (Layer i in layers_over) {
+			foreach (MapLayer i in layers_over) {
 				if (count == index) return i;
 				count++;
 			}
-			foreach (Layer i in layers_same) {
+			foreach (MapLayer i in layers_same) {
 				if (count == index) return i;
 				count++;
 			}
-			foreach (Layer i in layers_under) {
+			foreach (MapLayer i in layers_under) {
 				if (count == index) return i;
 				count++;
 			}
-			print("keinen Layer mit dem Index %i gefunden\n",index);
+			print("keinen MapLayer mit dem Index %i gefunden\n",index);
 			return null;
 		}
 
 		/**
 		 * @return null on error
 		 */
-		public Layer? get_layer_from_index_inverse(int index){
+		public MapLayer? get_layer_from_index_inverse(int index){
 			int count = 0;
 			for(int i=layers_under.size-1;i>=0;i++,count++) {
 				if (count == index) return layers_under[i];
@@ -362,39 +365,37 @@ namespace rpg {
 			for(int i=layers_over.size-1;i>=0;i++,count++) {
 				if (count == index) return layers_over[i];
 			}
-			print("keinen Layer mit dem Index %i gefunden\n",index);
+			print("keinen MapLayer mit dem Index %i gefunden\n",index);
 			return null;
 		}
 
 		/**
-		 * Gibt den Index eines gesuchten Layers mit dem Namen name zurueck.
+		 * Gibt den Index eines gesuchten MapLayers mit dem Namen name zurueck.
 		 *
-		 * @param name Gesichter Layername
-		 * @return Index aus der Layerliste, -1 on error
+		 * @param name Gesichter MapLayername
+		 * @return Index aus der MapLayerliste, -1 on error
 		 */
 		public int get_index_of_layer_name(string name){
-			foreach (Layer i in layers_same) if (name == i.name) return layers_same.index_of(i);
-			foreach (Layer i in layers_over) if (name == i.name) return layers_over.index_of(i);
-			print("Layer %s nicht gefunden!", name);
+			foreach (MapLayer i in layers_same) if (name == i.name) return layers_same.index_of(i);
+			foreach (MapLayer i in layers_over) if (name == i.name) return layers_over.index_of(i);
+			print("MapLayer %s nicht gefunden!", name);
 			return -1;
 		}
 
 		/**
-		 * Generiert aus Layer ''layer_over''/''layer_under'' ein Pixbuf und speichert es in ''over''/''under''.
+		 * Generiert aus MapLayer ''layer_over''/''layer_under'' ein Pixbuf und speichert es in ''over''/''under''.
 		 *
 		 * @see rpg.Map.over
 		 * @see rpg.Map.under
 		 * @see rpg.Map.layers_over
 		 * @see rpg.Map.layers_under
 		 */
-		public GdkTexture merge_layer (Gee.List<Layer> layers) {
+		public GdkTexture merge_layer (Gee.List<MapLayer> layers) {
 			int i = 0;
-			GdkTexture tex = new GdkTexture();
-
 			layers.get(0).merge(tile_width, tile_height);
-			tex.load_from_pixbuf(layers.get(0).tex.pixbuf.copy());
+			GdkTexture tex = new GdkTexture.from_pixbuf( layers.get(0).tex.pixbuf.copy() );
 
-			foreach (Layer layer in layers) {
+			foreach (MapLayer layer in layers) {
 				if(i!=0) {
 					layer.merge(tile_width, tile_height);
 					tex.pixbuf = GdkTexture.blit(tex.pixbuf, layer.tex.pixbuf);
@@ -412,68 +413,10 @@ namespace rpg {
 		public bool walkable (int x, int y) {
 			if (x >= width || y >= height) return false;
 			bool obstacle = false;
-			foreach (Layer l in layers_same) {
+			foreach (MapLayer l in layers_same) {
 				obstacle = obstacle || (l.collision && l.tiles[x, y].tile_type != TileType.NO_TILE);
 			}
 			return !obstacle;
-		}
-
-		/**
-		 * Gibt alle Werte (bis auf die Layer) der Map auf der Konsole aus
-		 */
-		public void print_values()
-		{
-			print("==MAP==\n");
-			print("filename: %s\n", filename);
-			print("orientation: %s\n", orientation);
-			print("version: %s\n", version);
-			print("width: %u\n", width);
-			print("height: %u\n", height);
-			print("tile_width: %u\n", tile_width);
-			print("tile_height: %u\n", tile_height);
-		}
-
-		/**
-		 * Gibt die Werte aller Layer der Map auf der Konsole aus
-		 */
-		public void print_layers()
-		{
-			print("====ALL LAYERS FROM MAP %s====\n", filename);
-			print("under ");
-			foreach (rpg.Layer l in layers_under) {
-				l.print_values();
-				l.print_tiles();
-			}
-			print("same ");
-			foreach (rpg.Layer l in layers_same) {
-				l.print_values();
-				l.print_tiles();
-			}
-			print("over ");
-			foreach (rpg.Layer l in layers_over) {
-				l.print_values();
-				l.print_tiles();
-			}
-		}
-
-		/**
-		 * Gibt die Werte aller Tilesets der Map auf der Konsole aus
-		 */
-		public void print_tilesets()
-		{
-			print("====ALL TILESETS FROM MAP %s====\n", filename);
-			foreach (rpg.TilesetReference tsr in tileset) {
-				tsr.print_values();
-			}
-		}
-
-		/**
-		 * Gibt alle Werte und alle Layer der Map auf der Konsole aus
-		 */
-		public void print_all() {
-			print_values();
-			print_layers();
-			print_tilesets();
 		}
 	}
 
@@ -502,26 +445,23 @@ namespace rpg {
 		 * If true json includes properties.
 		 */
 		public bool with_property { get; construct set; default=false; }
-		/**,
-		 * If true json includes the texture of the under- and overlayer as a png base64 string (empty if texture is unset, use merge() to set the texture).
+		/**
+		 * If true json includes the texture of the under-layer as a png base64 string (empty if texture is unset).
 		 */
-		public bool with_merged_layer_pixbuf { get; construct set; default=false; }
+		public bool layer_under_pixbuf { get; construct set; default=false; }
+		/**
+		 * If true json includes the texture of the over-layer as a png base64 string (empty if texture is unset).
+		 */
+		public bool layer_over_pixbuf { get; construct set; default=false; }
 
 		public MapLayerJsonParam map_layer_params { get; construct set; default=new MapLayerJsonParam(); }
 
-		public MapJsonParam(bool with_filename = false, bool with_orientation = false, bool with_version = false, bool with_size = false, bool with_tilesize = false, bool with_property = false, bool with_merged_layer_pixbuf = false, MapLayerJsonParam map_layer_params = new MapLayerJsonParam()) {
-			this.with_filename = with_filename;
-			this.with_orientation = with_orientation;
-			this.with_version = with_version;
-			this.with_size = with_size;
-			this.with_tilesize = with_tilesize;
-			this.with_property = with_property;
-			this.with_merged_layer_pixbuf = with_merged_layer_pixbuf;
-			this.map_layer_params = map_layer_params;
+		public MapJsonParam(bool with_filename = false, bool with_orientation = false, bool with_version = false, bool with_size = false, bool with_tilesize = false, bool with_property = false, bool layer_under_pixbuf = false, bool layer_over_pixbuf = false, MapLayerJsonParam map_layer_params = new MapLayerJsonParam()) {
+			GLib.Object(with_filename:with_filename,with_orientation:with_orientation, with_version:with_version, with_size:with_size, with_tilesize:with_tilesize, with_property:with_property, layer_under_pixbuf:layer_under_pixbuf, layer_over_pixbuf:layer_over_pixbuf, map_layer_params:map_layer_params);
 		}
 
 		public bool or_gate() {
-			return ( with_filename || with_orientation || with_version || with_size || with_tilesize || with_property || map_layer_params.or_gate() );
+			return with_filename || with_orientation || with_version || with_size || with_tilesize || with_property || layer_under_pixbuf || layer_over_pixbuf || map_layer_params.or_gate();
 		}
 	}
 }
