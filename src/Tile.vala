@@ -137,7 +137,7 @@ namespace rpg {
 		public bool gid { get; construct set; default=false; }
 
 		/**
-		 * If true json includes verion of format.
+		 * If true json includes width and height.
 		 */
 		public bool size { get; construct set; default=false; }
 
@@ -148,10 +148,7 @@ namespace rpg {
 
 
 		public TileJsonParam(bool tex = false, bool gid = false, bool size = false, bool tile_type = false) {
-			this.tex = tex;
-			this.gid = gid;
-			this.size = size;
-			this.tile_type = tile_type;
+			GLib.Object(tex:tex, gid:gid, size:size, tile_type:tile_type);
 		}
 
 		/*

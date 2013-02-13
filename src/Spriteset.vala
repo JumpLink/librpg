@@ -10,13 +10,14 @@
  *	Pascal Garber <pascal.garber@gmail.com>
  */
 using Gee;
-using Gdk;	
+using Gdk;
+using Json;
 using rpg;
 namespace rpg {
 	/**
 	 * Klasse fuer Spritesets
 	 */
-	public class Spriteset : Object {
+	public class Spriteset : GLib.Object {
 
 		/**
 		 * Dateiname des Spritesets.
@@ -33,35 +34,35 @@ namespace rpg {
 		/**
 		 * Breite eines Sprites
 		 */
-		public uint sprite_width { get; set; }
+		public int sprite_width { get; set; }
 
 		/**
 		 * Hoehe eines Sprites
 		 */
-		public uint sprite_height { get; set; }
+		public int sprite_height { get; set; }
 
 		/**
 		 * Gesamtbreite des Spritesets in Sprites
 		 */
-		public uint width { get; set; }
+		public int width { get; set; }
 
 		/**
 		 * Gesamthoehe des Spritesets in Sprites
 		 */
-		public uint height { get; set; }
+		public int height { get; set; }
 
 		/**
 		 * Gesamtbreite des Spritesets in Pixel
 		 */
-		public uint pixel_width {
-			get {return (uint) (width * sprite_width);}
+		public int pixel_width {
+			get {return (width * sprite_width);}
 		}
 
 		/**
 		 * Gesamthoehe des Spritesets in Pixel
 		 */
-		public uint pixel_height {
-			get {return (uint) (height * sprite_height);}
+		public int pixel_height {
+			get {return (height * sprite_height);}
 		}
 
 		/**
@@ -96,7 +97,7 @@ namespace rpg {
 		 * @param filename Der Dateiname der gelesen werden soll
 		 */
 		public Spriteset.from_path (string folder, string filename) {
-			Object(folder:folder, filename:filename);
+			GLib.Object(folder:folder, filename:filename);
 		}
 
 		construct {
@@ -114,11 +115,11 @@ namespace rpg {
 			return null;
 		}
 
-		public GdkTexture merge_layer (Gee.List<SpriteLayer> layers) {
+		public GdkTexture merge_layer () {
 			int i = 0;
-			GdkTexture tex = new GdkTexture.from_pixbuf(layers.get(0).tex.pixbuf.copy());
+			GdkTexture tex = new GdkTexture.from_pixbuf(sprite_layers.get(0).tex.pixbuf.copy());
 
-			foreach (SpriteLayer layer in layers) {
+			foreach (SpriteLayer layer in sprite_layers) {
 				if(i!=0 && layer.active) {
 					tex.pixbuf = GdkTexture.blit(tex.pixbuf, layer.tex.pixbuf);
 				}

@@ -149,7 +149,7 @@ public class rpg.SpritesetReader : Sxml.DataReader, Object {
 		}
 		
 		next();
-		ani.frame = parse_data();
+		ani.frames = parse_data();
 		end_element("animation");
 		return ani;
 	}

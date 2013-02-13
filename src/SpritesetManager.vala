@@ -60,12 +60,13 @@ namespace rpg {
 		 * @param name name des gesuchten Spriteset
 		 * @return Bei Erfolg das gefundene Spriteset, sonst ein neues Objekt Spriteset
 		 */
-		public Spriteset get_from_name(string name) {
+		public Spriteset? get_from_name(string name) {
 			foreach (Spriteset ss in spriteset)
 				if (ss.name == name) {
 					return ss;
 				}
-			error("Spriteset %s nicht gefunden!", name);
+			debug("Spriteset %s nicht gefunden!", name);
+			return null;
 		}
 
 		public Spriteset get_from_index(int index) {
@@ -78,14 +79,13 @@ namespace rpg {
 		 * @param filename Dateiname des gesuchten Spritesets
 		 * @return Bei Erfolg das gefundene Spriteset, sonst ein neues Objekt Spriteset
 		 */
-		public Spriteset get_from_filename(string filename)
-		requires (filename.length > 0)
-		{
+		public Spriteset? get_from_filename(string filename) {
 			foreach (Spriteset ss in spriteset)
 				if (ss.filename == filename) {
 					return ss;
 				}		
-			error("Spriteset %s nicht gefunden!", filename);
+			debug("Spriteset %s nicht gefunden!", filename);
+			return null;
 		}
 	}
 }
