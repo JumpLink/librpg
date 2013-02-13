@@ -121,7 +121,7 @@ namespace rpg {
 			if(params.tex)
 				object.set_string_member("texture", tex.base64);
 
-			if(params.sprites.or_gate()) {
+			if(params.sprite.or_gate()) {
 
 				var first_dimension = new Json.Array();
 				
@@ -129,7 +129,7 @@ namespace rpg {
 
 					var secound_dimension = new Json.Array();
 					for (int x=0;(x<sprites.length[1]);x++) {
-						secound_dimension.add_object_element( sprites[x,y].get_json_indi(params.sprites).get_object() );
+						secound_dimension.add_object_element( sprites[x,y].get_json_indi(params.sprite).get_object() );
 					}
 					first_dimension.add_array_element(secound_dimension);
 				}
@@ -198,17 +198,17 @@ namespace rpg {
 
 		public bool tex { get; construct set; default=false; }
 
-		public SpriteJsonParam sprites { get; construct set; default = new SpriteJsonParam(); }
+		public SpriteJsonParam sprite { get; construct set; default = new SpriteJsonParam(); }
 
-		public SpriteLayerJsonParam ( bool sl_type = false, bool active = false, bool name = false, bool number = false, bool image_filename = false, bool image_size = false, bool folder = false, bool transparency = false, bool size = false, bool sprite_size = false, bool tex = false, SpriteJsonParam sprites = new SpriteJsonParam() ) {
-			GLib.Object( sl_type:sl_type, active:active, name:name, number:number, image_filename:image_filename, image_size:image_size, folder:folder, transparency:transparency, size:size, sprite_size:sprite_size, tex:tex, sprites:sprites );
+		public SpriteLayerJsonParam ( bool sl_type = false, bool active = false, bool name = false, bool number = false, bool image_filename = false, bool image_size = false, bool folder = false, bool transparency = false, bool size = false, bool sprite_size = false, bool tex = false, SpriteJsonParam sprite = new SpriteJsonParam() ) {
+			GLib.Object( sl_type:sl_type, active:active, name:name, number:number, image_filename:image_filename, image_size:image_size, folder:folder, transparency:transparency, size:size, sprite_size:sprite_size, tex:tex, sprite:sprite );
 		}
 
 		/*
 		 * @return true if any properity of this object is true, false if all properities false
 		 */
 		public bool or_gate() {
-			return sl_type || active || name || number || image_filename || image_size || folder || transparency || size || sprite_size || tex || sprites.or_gate();
+			return sl_type || active || name || number || image_filename || image_size || folder || transparency || size || sprite_size || tex || sprite.or_gate();
 		}	
 	}
 }
