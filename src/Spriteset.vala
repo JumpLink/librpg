@@ -184,6 +184,15 @@ namespace rpg {
 
 			return root;
 		}
+
+		/**
+		 * Like ''get_json_indi ()'' but returns the json string using ''rpg.json_to_string ()'', please see ''get_json_indi ()'' for parameter information.
+		 *
+		 * @return The new generated json string.
+		 */
+		public string get_json_indi_as_str(SpritesetJsonParam params) {
+			return json_to_string(get_json_indi(params));
+		}
 	}
 
 	public class SpritesetJsonParam:GLib.Object {
