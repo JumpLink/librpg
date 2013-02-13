@@ -78,12 +78,12 @@ namespace rpg {
 			if(params.frame_ps)
 				object.set_int_member("frame_ps", frame_ps);
 
-			if(params.frames.or_gate()) {
+			if(params.frame.or_gate()) {
 
 				var frames_json_array = new Json.Array();
 
 				foreach (rpg.SpriteFrame frame in frames) {
-					frames_json_array.add_object_element(frame.get_json_indi( params.frames ).get_object() );
+					frames_json_array.add_object_element(frame.get_json_indi( params.frame ).get_object() );
 				}
 
 				object.set_array_member("frames", frames_json_array);
@@ -115,17 +115,17 @@ namespace rpg {
 
 		public bool frame_ps { get; construct set; default=false; }
 
-		public SpriteFrameJsonParam frames { get; construct set; default = new SpriteFrameJsonParam(); }
+		public SpriteFrameJsonParam frame { get; construct set; default = new SpriteFrameJsonParam(); }
 
-		public SpriteAnimationJsonParam ( bool name = false, bool direction = false, bool repeat = false, bool number_of_frames = false, bool frame_ps = false, SpriteFrameJsonParam frames = new SpriteFrameJsonParam() ) {
-			GLib.Object( name:name, direction:direction, repeat:repeat, number_of_frames:number_of_frames, frame_ps:frame_ps, frames:frames );
+		public SpriteAnimationJsonParam ( bool name = false, bool direction = false, bool repeat = false, bool number_of_frames = false, bool frame_ps = false, SpriteFrameJsonParam frame = new SpriteFrameJsonParam() ) {
+			GLib.Object( name:name, direction:direction, repeat:repeat, number_of_frames:number_of_frames, frame_ps:frame_ps, frame:frame );
 		}
 
 		/*
 		 * @return true if any properity of this object is true, false if all properities false
 		 */
 		public bool or_gate() {
-			return name || direction || repeat || number_of_frames || frame_ps || frames.or_gate();
+			return name || direction || repeat || number_of_frames || frame_ps || frame.or_gate();
 		}	
 	}
 }

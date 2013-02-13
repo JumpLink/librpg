@@ -125,7 +125,7 @@ public class rpg.SpritesetReader : Sxml.DataReader, Object {
 
 		spritelayer.load_tex();
 		// spritelayer.split();
-		spriteset.sprite_layers.add(spritelayer);
+		spriteset.layers.add(spritelayer);
 		end_element("layer");
 	}
 	protected rpg.SpriteAnimation parse_animation() {
